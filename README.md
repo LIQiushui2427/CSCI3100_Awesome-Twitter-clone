@@ -10,6 +10,6 @@ This is the github repository for the CSCI3100 project. The project is a twitter
 * [SHI Juluan 1155160208](https://github.com/CarlosCUHK)
 * [ZHANG Xue 1155160250](https://github.com/c-beeper)
 * [LI Yuk Ting 1155159914](https://github.com/Angel-lyt)
-* ZHENG Xinhao 1155143819
+* ZHENG Xinhao 1155143819(https://github.com/jzxheremy)
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
