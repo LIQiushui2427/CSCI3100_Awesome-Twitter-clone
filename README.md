@@ -14,3 +14,6 @@ This is the github repository for the CSCI3100 project. The project is a twitter
 * [ZHENG Xinhao 1155143819](https://github.com/jzxheremy)
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+## Reference
+## Image sourse
+* [App icon](https://www.freeiconspng.com/uploads/cricle-twitter-emblem-png-clipart-8.png)
