@@ -4,14 +4,14 @@ const Home = () => {
   return (
     <div className="w-full flex flex-col justify-center items-center mt-16">
       <div className="w-full flex justify-center items-center mb-8">
-        <button className="text-lg text-gray-900 font-bold mr-4 py-2 px-6 bg-white rounded-md border border-gray-300 focus:outline-none">
+        <button className="text-lg text-white font-bold mr-4 py-2 px-6 bg-black rounded-md border border-black focus:outline-none">
           For You
         </button>
-        <button className="text-lg text-gray-600 font-bold py-2 px-6 bg-gray-200 rounded-md border border-gray-300 focus:outline-none">
+        <button className="text-lg text-white font-bold py-2 px-6 bg-black rounded-md border border-black focus:outline-none">
           Following
         </button>
       </div>
-      <div className="w-full bg-black rounded-md border border-gray-300 p-4">
+      <div className="w-full bg-black rounded-md border border-black p-4">
         <div className="flex items-center mb-4">
           <img
             src="https://randomuser.me/api/portraits/men/2.jpg"
@@ -19,11 +19,11 @@ const Home = () => {
             className="w-10 h-10 rounded-full mr-4"
           />
           <div>
-            <h2 className="text-gray-800 font-bold text-lg">Jane Doe</h2>
-            <p className="text-gray-600 text-sm">@janedoe</p>
+            <h2 className="text-white font-bold text-lg">Jane Doe</h2>
+            <p className="text-gray-500 text-sm">@janedoe</p>
           </div>
         </div>
-        <p className="text-gray-800 text-lg mb-4">
+        <p className="text-whitch text-lg mb-4">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
         <div className="flex justify-between items-center">
