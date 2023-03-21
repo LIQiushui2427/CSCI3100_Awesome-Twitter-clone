@@ -3,6 +3,27 @@
 This is the github repository for the CSCI3100 project. The project is a twitter clone app.
 ## Requirements
 ## Intallation
+### For Linux/MacOS/WSL users
+```
+sudo apt-get install nodejs
+npm i react-router-dom
+npm run build
+npm run start
+```
+### For Windows users
+First you should have installed [node.js](https://nodejs.org/dist/v18.15.0/node-v18.15.0-x64.msi) on your PC. Then in PowerShell/cmd, type
+```
+node -v
+npm -v
+```
+to check installation.
+Then type
+```
+npm i react-router-dom
+npm run build
+npm run start
+```
+Upon success, you can open [localhost](http://localhost:3000/) on your browser to enjoy our appllication.
 ## Roadmap
 * [x] High level documentation [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/CSCI3100_High_level_documentation.pdf)
 * [x] Data flow diagram [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/GroupC4_DFD_Specification_Document.pdf)
