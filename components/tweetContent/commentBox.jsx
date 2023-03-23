@@ -16,7 +16,7 @@ Avatar.propTypes = {
 
 
 
-const CommentBox = ({ authorname='test', authorid='someone_example',time='1h', content, picture,likes='0', retweets='0', onLike, onComment, onRetweet }) => (
+const CommentBox = ({ authorname='test'}) => (
   <div className="flex flex-col items-start p-4 border-y border-twitterBorder">
   <div className="ml-24">
       <span className="text-gray-500">Replying to </span>
@@ -49,11 +49,7 @@ const CommentBox = ({ authorname='test', authorid='someone_example',time='1h', c
 );
 
 CommentBox.propTypes = {
-  author: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  picture: PropTypes.string.isRequired,
-  onLike: PropTypes.func.isRequired,
-  onComment: PropTypes.func.isRequired,
+  authorname: PropTypes.string.isRequired,
 };
 
 export default CommentBox;
