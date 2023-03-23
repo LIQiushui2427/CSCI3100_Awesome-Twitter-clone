@@ -16,8 +16,8 @@ Avatar.propTypes = {
 
 
 
-const TweetText = ({ authorname='test', authorid='someone_example',time='1h', content, picture,likes='0', retweets='0', onLike, onComment, onRetweet }) => (
-  <div className="flex flex-col items-start p-4">
+const TweetText = ({ authorname='test', authorid='someone_example',time='1h', content, picture='https://ksbeeper.files.wordpress.com/2020/11/samplepic.png',likes='0', retweets='0', onLike, onComment, onRetweet }) => (
+  <div className="flex flex-col items-start p-4 border-y border-twitterBorder">
   <div className="flex items-start p-4">
     <Avatar src="https://www.w3schools.com/howto/img_avatar.png" alt="Test" />
     <div className="ml-4">
@@ -26,7 +26,7 @@ const TweetText = ({ authorname='test', authorid='someone_example',time='1h', co
       </div>
       <div className="flex items-center">
         <span className="text-gray-500">@{authorid}</span>
-        <span className="mx-2">&middot;</span>
+        <span className="text-gray-500 mx-2">&middot;</span>
         <span className="text-gray-500">{time}</span>
       </div>
     </div>
@@ -36,7 +36,7 @@ const TweetText = ({ authorname='test', authorid='someone_example',time='1h', co
       <p className="text-2xl">{content}</p>
       <img
         className="my-4 w-auto"
-        src="https://ksbeeper.files.wordpress.com/2020/11/samplepic.png"
+        src={picture}
         alt="Sample Picture"
       />
       <div className="text-gray-500 flex pt-2 pb-2">
@@ -66,11 +66,16 @@ const TweetText = ({ authorname='test', authorid='someone_example',time='1h', co
 );
 
 TweetText.propTypes = {
-  author: PropTypes.string.isRequired,
+  authorname: PropTypes.string.isRequired,
+  authorid: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   picture: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  likes: PropTypes.string.isRequired,
+  retweets: PropTypes.string.isRequired,
   onLike: PropTypes.func.isRequired,
   onComment: PropTypes.func.isRequired,
+  onRetweet: PropTypes.func.isRequired,
 };
 
 export default TweetText;
