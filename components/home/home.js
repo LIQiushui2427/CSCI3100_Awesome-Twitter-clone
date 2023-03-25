@@ -1,5 +1,6 @@
 import React from 'react';
-import Tweet from '../tweet/tweet';
+import TweetContent from '@/components/tweetContent/tweetContent';
+
 const Home = () => {
   return (
     <div className="w-full flex flex-col justify-center items-center mt-16">
@@ -11,8 +12,8 @@ const Home = () => {
           Following
         </button>
       </div>
-      <div className="w-full flex flex-col justify-center items-center">
-        <Tweet />
+      <div className=" w-1/2 flex flex-col justify-center items-center">
+        <TweetContent />
       </div>
     </div>
   );
