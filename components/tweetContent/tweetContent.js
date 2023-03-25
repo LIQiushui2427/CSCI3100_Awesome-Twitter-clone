@@ -19,13 +19,13 @@ export default function TweetContent(){
                     <CommentBox />
                 </div>
                 <div>
+                    <CommentText content="test1" picture="https://pbs.twimg.com/media/EKJt7R6XYAEzdvt.png" />
+                </div>
+                <div>
                     <CommentText />
                 </div>
                 <div>
-                    <CommentText content="test1" nopic="true" />
-                </div>
-                <div>
-                    <CommentText authorname="John Doe" authorid="johndoe" avatarpic="https://picsum.photos/id/1005/40/40" content="test2" picture="https://pbs.twimg.com/media/EKJt7R6XYAEzdvt.png" />
+                    <CommentText authorname="John Doe" authorid="johndoe" avatarpic="https://picsum.photos/id/1005/40/40" content="sample reply" nopic="true" />
                 </div>
                 <div>
                     <CommentText authorname="beeper" authorid="c_beeper" content="reply (unfinished)" avatarpic="https://1.gravatar.com/avatar/69119e7cc6b6fed2cbc852051081eda0" picture="https://ksbeeper.files.wordpress.com/2020/11/e5b18fe5b995e688aae59bbe-2021-02-23-163818.gif" />
