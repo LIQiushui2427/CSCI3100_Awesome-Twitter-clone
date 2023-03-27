@@ -51,19 +51,19 @@ const Tweet = ({ author, content, picture, onLike, onComment }) => (
         <span className="text-gray-500">1h</span>
       </div>
       <p className="mt-2">{content}</p>
-      <img
-        className="my-4 w-1/2"
-        src="https://cdn1.picuki.com/hosted-by-instagram/q/0exhNuNYnjBcaS3SYdxKjf8fx+9wWgxSZ60STLepjSVmIR1vLHOapZA0mpCj4yRwKwVlASuRYz5h7Y0iVl1UCD1yPEfaSbKPSD9R6aubVe7N1zxi8ZVjlL40Kn0eZ3as8MElVwmYdSgIGaYDG7uo+qhT5aGuO1lQpTaEW+oR9z5G7NCnV6xhz580r7uemhqousoyIDND%7C%7CHg1JU46o9CUqTUHGsv+MfF3pLUqF+dbzPgL6NDhkyblH2YELjxcPGC1j6bgp7c8oHL9XHM9%7C%7C2z6ZpkEGR1OpHealjcQ9I8titj1edgr1vZl4fDobWAlZ3Y58EJcprurlgLcey2T3E4E0WSLxKqGc9xy88DUBt+1Ddzh5BXneb7cA%7C%7C1DWCdZVK3wcHmIdrOJCctmhYJLQaxIhAng9Q==.jpeg"
-        alt="Sample Picture"
-      />
-      <content className="flex items-center">
-        Hello there
-        </content>
-    <LikeButton onClick={onLike} />
-    <CommentButton onClick={onComment} />
+      <div className="mt-4">
+        <img
+          className="h-48 w-full object-cover rounded-lg"
+          src = {picture}
+          alt="Test"
+        />
       </div>
+      <LikeButton onClick={onLike} />
+      <CommentButton onClick={onComment} />
     </div>
+  </div>
 );
+
 
 Tweet.propTypes = {
   author: PropTypes.string.isRequired,
@@ -71,6 +71,14 @@ Tweet.propTypes = {
   picture: PropTypes.string.isRequired,
   onLike: PropTypes.func.isRequired,
   onComment: PropTypes.func.isRequired,
+};
+
+Tweet.defaultProps = {
+  author: 'Test',
+  picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDFi9koI1_dNL4G-ln4LJgP4RXx6jgERift0PWrSr4w&usqp=CAU&ec=48665701://via.placeholder.com/150', // or any other default image URL
+  content: 'Hello world',
+  onLike: () => {},
+  onComment: () => {},
 };
 
 export default Tweet;

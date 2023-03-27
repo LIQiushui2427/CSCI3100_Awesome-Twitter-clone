@@ -3,7 +3,7 @@
 This is the github repository for the CSCI3100 project. The project is a twitter clone app.
 ## Requirements
 ## Intallation
-### For Linux/MacOS/WSL users
+### For Linux/WSL users
 ```
 sudo apt-get install nodejs
 npm i react-router-dom
@@ -25,8 +25,9 @@ npm run start
 ```
 Upon success, you can open [localhost](http://localhost:3000/) on your browser to enjoy our appllication.
 ## Roadmap
-* [x] High level documentation [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/CSCI3100_High_level_documentation.pdf)
-* [x] Data flow diagram [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/GroupC4_DFD_Specification_Document.pdf)
+* [x] High level documentation [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/CSCI3100_High_level_documentation.pdf)
+* [x] Data flow diagram [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/GroupC4_DFD_Specification_Document.pdf)
+* [x] UML specification and UI design ducument [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/GroupC4_UML_Specification_and_UI_Design_Document.pdf)
 ## Contributors
 * [YI Jian 1155157207](https://github.com/LIQiushui2427)
 * [SHI Juluan 1155160208](https://github.com/CarlosCUHK)
