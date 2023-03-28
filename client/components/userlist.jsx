@@ -1,5 +1,5 @@
 import React from "react";
-
+import Button from "./follow_button";
 const UserList = () => {
   const users = [
     {
@@ -21,10 +21,11 @@ const UserList = () => {
               alt={user.name}
             />
             <div>
-              <h3 className="font-bold text-blue-300">{user.name}</h3>
+              <h3 className="font-bold w-40 text-blue-300">{user.name}</h3>
               <button className="text-blue-500 hover:text-blue-700">
                 View Profile
               </button>
+              <Button text="Follow" />
             </div>
           </li>
         ))}

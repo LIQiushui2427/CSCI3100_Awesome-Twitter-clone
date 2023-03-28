@@ -2,18 +2,23 @@ import Layout from "../components/Layout";
 import Navigate from "../components/Navigate";
 import Cover from "../components/Cover";
 import {useEffect, useState} from "react";
+import LeftPane from "@/components/leftPane/leftPane";
+import RightPane from "@/components/rightPane/rightPane";
+import Button from "@/components/follow_button";
 
-export default function Profile(){
-    let user_name = "Developer"
-    const [isFollowing,setIsFollowing] = useState(false);
-    function ToggleFollow() {
-        setIsFollowing(prev => !prev);
-      }
+
+function Profile () {
+    "Carlos"
     return(
         <div className="max-w-2xl mx-auto border-l border-r border-twitterBorder min-h-screen ">
+            <div className="flex">
+                <div className="w-1/4">
+                    <LeftPane/>
+                </div>
+            </div>
             <div className="border-b border-twitterBorder pb-10">
             <div className="px-5 pt-2">
-                <Navigate title={user_name}/>
+                <Navigate title={"Carlos"}/>
             </div>
             <Cover src="http://5b0988e595225.cdn.sohucs.com/images/20190724/d89126445d4e423298f44cf672890fbc.jpeg"/>
             <div className="flex justify-between">
@@ -37,15 +42,13 @@ export default function Profile(){
                     </div>
 
                     <div className="pr-5">
-                        <button onClick={ToggleFollow}
-                        className={(isFollowing ? 'bg-twitterWhite text-black' : 'bg-twitterBlue text-white')+" py-2 px-6 rounded-full"}>                    {isFollowing ? 'Following' : 'Follow'}
-                        </button>
+                        <Button text="Follow" />
                     </div>
                 </div>
 
             </div>
                 <div className="mt-12 px-7 ">
-                    <h1 className="pl-5 font-bold text-xl leading-5">{user_name}</h1>
+                    <h1 className="pl-5 font-bold text-xl leading-5">{"Carlos"}</h1>
                 </div>
             <div>
             <div className="text-gray-500 pl-5 pt-2 flex items-center">
@@ -56,12 +59,6 @@ export default function Profile(){
                     Joined March 2023
                 </div>
             </div>
-            <div className="text-gray-500 flex pl-3">
-                <div className="text-white font-bold"> 0 </div>
-                <div className="pl-2">followers</div>
-                <div className="text-white font-bold pl-5"> 0 </div>
-                <div className="pl-2">following</div>
-            </div>
                 
             </div>
             </div>
@@ -70,6 +67,13 @@ export default function Profile(){
                 <div class="flex items-center justify-center text-lg hover:bg-gray-800 cursor-pointer"><p class="text-center">Replies</p></div>
                 <div class="flex items-center justify-center text-lg hover:bg-gray-800 cursor-pointer"><p class="text-center">Likes</p></div>
             </div>
+            <div className="flex">
+                <div className="w-1/4">
+                <RightPane />
+                </div>
+            </div>
         </div>
     );
 }
+
+export default Profile;
