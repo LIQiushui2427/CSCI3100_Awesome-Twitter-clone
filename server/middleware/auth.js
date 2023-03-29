@@ -12,7 +12,7 @@ export default async function Auth(req, res, next){
                 res.status(401).json({ error : "Authentication Failed!"})
             }
             req.user = user;
-            console.log(req.user.tokens);
+            console.log(req.user._id);
             next()
         } catch(error){
             res.status(401).json({ error : "Authentication Failed!"})

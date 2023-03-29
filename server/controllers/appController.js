@@ -196,8 +196,8 @@ export async function updateUser(req,res){
         console.log(userId);
         if(userId){
             const body = req.body;
-            console.log(body);
-            UserModel.updateOne({_id:userId},body,function(err,data){
+            //console.log(email);
+            await UserModel.updateOne({_id:userId},body,function(err,data){
                 if(err) throw err;
                 return res.status(201).send({msg:"Record Updated...!"});
             })
@@ -217,8 +217,17 @@ export async function logout(req,res){
             return res.status(401).send({msg:"Authorization fail!"});
         }
         const tokens = req.user.tokens;
-        const newTokens = tokens.filter(t => t.token !== tokens);
-        await UserModel.findByIdAndUpdate(req.user._id,{tokens:newTokens});
-        res.status(200).send({msg:"Log out successfully!"});
+        //const newTokens = tokens.filter(t => t.token !== tokens);
+        //await UserModel.findByIdAndUpdate(req.user._id,{tokens:newTokens});
+        const authHeader = req.headers.authorization;
+        jwt.sign(authHeader,"",{ expiresIn: 1 },(logout,err) => {
+            if(logout){
+                res.status(200).send({msg:"Log out successfully!"});
+            }
+            else{
+                res.status(404).send({msg:"error"});
+            }
+        });
+        
     }
 }
