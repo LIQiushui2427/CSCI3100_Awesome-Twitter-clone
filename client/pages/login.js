@@ -1,12 +1,76 @@
 import React from 'react';
-import {useState} from 'react';
-const Login = ({ username, password, email }) => {
+import {useState,useContext} from 'react';
+import {registerUser,verifyPassword} from '../helper/helper';
+import {registerValidation,loginValidation} from '../helper/validate';
+import {useFormik} from 'formik';
+import toast,{Toaster} from 'react-hot-toast';
+//import {Redirect} from 'react-router-dom';
+//import {useRedirect} from 'react-admin';
+const Login = () => {
     const [show_login, setShowLogin] = useState(true)
     const [show_signup, setShowSignup] = useState(false)
     const [show_reset, setShowReset] = useState(false)
 
+    /*temporary solution*/
+    const [isloggedin, setIsloggedin] = useState(true)
+
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [email, setEmail] = useState(null);
+    //const {login,logout,register} = useContext(AuthContext);
+
+    //useNavigate()
+    //const redirect = useRedirect();
+
+    const formik_register = useFormik({
+        initialValues : {
+            username: 'test',
+            password: '12345678',
+            email: 'test@abc.com'
+        },
+        validate : registerValidation,
+        validateOnBlur : false,
+        validateOnChange : false,
+        onSubmit : async values => {
+            let registerPromise = registerUser(values)
+            toast.promise(registerPromise,{
+                loading: 'Creating...',
+                success : 'Register Successfully!',
+                error: 'Could not register.'
+            });
+
+            registerPromise.then(function(){setShowLogin(true), setShowSignup(false), setShowReset(false)});
+            //registerPromise.then(function(){return redirect("/login")});
+        }
+    })
+
+    const formik_login = useFormik({
+        initialValues : {
+            username: 'test',
+            password: '12345678'
+        },
+        validate : loginValidation,
+        validateOnBlur : false,
+        validateOnChange : false,
+        onSubmit : async values => {
+            let loginPromise = verifyPassword(values)
+            toast.promise(loginPromise,{
+                loading: 'Logging in...',
+                success : 'Login Successfully!',
+                error: 'Could not login.'
+            });
+
+            loginPromise.then(function(){window.location.href = "http://localhost:3000/";});
+            //registerPromise.then(function(){return redirect("/login")});
+        }
+    })
+
     return (
+        //<AuthContext.Provider value={{isLoading,userInfo,splashLoading,error,register,login,logout,}}>
+        //{isloggedin ? <Redirect to = "/tweet" /> : null}
         <div style={{backgroundImage: `url('https://cdn.discordapp.com/attachments/1089880136037437460/1090532764060758016/background.jpg')`}} className="bg-bottom bg-cover h-screen justify-center items-center">
+            <Toaster position='top-center' reverseOrder={false}></Toaster>
+            
             <div className='flex py-10 items-center'>
                 <div className='ml-20 font-bold text-4xl'>Twitter</div>
                 <button className="ml-auto mr-20 bg-transparent border-white border-2 text-white px-10 py-3 rounded-lg hover:bg-white hover:text-gray-800 transition duration-300 ease-in-out" onClick={()=>{setShowLogin(true), setShowSignup(false), setShowReset(false)}}>
@@ -30,7 +94,7 @@ const Login = ({ username, password, email }) => {
                         </svg>
                     </div>
                     <hr className="mt-3"/>
-
+                    <form onSubmit = {formik_login.handleSubmit}>
                     <div className="mt-3">
                         <label htmlFor="username" className="flex justify-start items-center text-base text-black font-bold mb-3 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="mr-1 w-4 h-4">
@@ -38,7 +102,7 @@ const Login = ({ username, password, email }) => {
                             </svg>
                             Username
                         </label>
-                        <input type="username" id="username" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Username" value={username}/>
+                        <input {...formik_login.getFieldProps('username')} type="username" id="username" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Username" value={username} />
                     </div>
 
                     <div className="mt-3">
@@ -49,7 +113,7 @@ const Login = ({ username, password, email }) => {
                             </svg>
                             Password
                         </label>
-                        <input type="password" id="password" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Password" value={password}/>
+                        <input {...formik_login.getFieldProps('password')} type="password" id="password" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Password" value={password} />
                     </div>
 
                     <div className="mt-2 flex justify-end">
@@ -57,8 +121,9 @@ const Login = ({ username, password, email }) => {
                     </div>
 
                     <div className="mt-5 justify-center items-center">
-                        <button type="submit" className="border-3 bg-sky-500 text-white py-2 w-full rounded hover:bg-sky-300">Login</button>
+                        <button type="submit" className="border-3 bg-sky-500 text-white py-2 w-full rounded hover:bg-sky-300" >Login</button>
                     </div>
+                    </form>
 
                     <div className="mt-3 flex justify-center">
                         <span className="text-gray-500">Don&apos;t have an account yet?&nbsp;</span>
@@ -81,7 +146,7 @@ const Login = ({ username, password, email }) => {
                         </svg>
                     </div>
                     <hr className="mt-3"/>
-
+                    <form onSubmit = {formik_register.handleSubmit}>
                     <div className="mt-3">
                         <label htmlFor="username" className="flex justify-start items-center text-base text-black font-bold mb-3 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="mr-1 w-4 h-4">
@@ -89,7 +154,7 @@ const Login = ({ username, password, email }) => {
                             </svg>
                             Username
                         </label>
-                        <input type="username" id="username" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Username" value={username}/>
+                        <input {...formik_register.getFieldProps('username')} type="username" id="username" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Username" value={username}/>
                     </div>
 
                     <div className="mt-3">
@@ -100,7 +165,7 @@ const Login = ({ username, password, email }) => {
                             </svg>
                             Password
                         </label>
-                        <input type="password" id="password" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Password" value={password}/>
+                        <input {...formik_register.getFieldProps('password')} type="password" id="password" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Password" value={password}/>
                     </div>
                     <div className="mt-3">
                             <label htmlFor="email" className="flex justify-start items-center text-base text-black font-bold mb-3">
@@ -109,13 +174,14 @@ const Login = ({ username, password, email }) => {
                                 </svg>
                                 Email
                             </label>
-                            <input type="email" id="email" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter your email" value={email}/>
+                            <input {...formik_register.getFieldProps('email')} type="email" id="email" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter your email" value={email}/>
                         </div>
                 
 
                     <div className="mt-5 justify-center items-center">
-                        <button type="submit" className="border-3 bg-sky-500 text-white py-2 w-full rounded hover:bg-sky-300">Sign Up</button>
+                        <button type="submit" className="border-3 bg-sky-500 text-white py-2 w-full rounded hover:bg-sky-300" /*onClick = {formik_register.handleSubmit}*/>Sign Up</button>
                     </div>
+                    </form>
 
                     <div className="mt-3 flex justify-center">
                         <span className="text-gray-500">Already have an account! </span>
@@ -171,6 +237,7 @@ const Login = ({ username, password, email }) => {
                 }   
             </div>
         </div>
+        //</AuthContext.Provider>
     )
 }
 
