@@ -54,7 +54,7 @@ class Tweet extends React.Component {
     const { tweet } = this.state;
 
     return (
-      <div className="flex w-10 items-start p-4">
+      <div className="flex  w-1/4 items-start p-4">
         <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Test" />
         <div className="ml-4">
           <div className="flex items-center">
@@ -63,7 +63,7 @@ class Tweet extends React.Component {
             <span className="mx-2">&middot;</span>
             <span className="text-gray-500">1h</span>
           </div>
-          <p className="mt-2">{content}</p>
+          <p className="mt-4">{content}</p>
           <div className="mt-4">
             <img
               className="h-40 w-full object-cover rounded-lg"
