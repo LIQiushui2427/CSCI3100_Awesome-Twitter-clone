@@ -1,18 +1,7 @@
-import React from 'react';
+import React ,{Component} from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
-const Avatar = ({ src, alt }) => (
-  <img
-    className="h-10 w-10 rounded-full"
-    src={src}
-    alt={alt}
-  />
-);
-
-Avatar.propTypes = {
-  src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-};
 
 const LikeButton = ({ onClick }) => (
   <button
@@ -40,30 +29,57 @@ CommentButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-const Tweet = ({ author, content, picture, onLike, onComment }) => (
-  <div className="flex items-start p-4">
-    <Avatar src="https://www.w3schools.com/howto/img_avatar.png" alt="Test" />
-    <div className="ml-4">
-      <div className="flex items-center">
-        <span className="font-bold text-lg">{author}</span>
-        <span className="ml-2 text-gray-500">@{author}</span>
-        <span className="mx-2">&middot;</span>
-        <span className="text-gray-500">1h</span>
-      </div>
-      <p className="mt-2">{content}</p>
-      <div className="mt-4">
-        <img
-          className="h-48 w-full object-cover rounded-lg"
-          src = {picture}
-          alt="Test"
-        />
-      </div>
-      <LikeButton onClick={onLike} />
-      <CommentButton onClick={onComment} />
-    </div>
-  </div>
-);
+class Tweet extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tweet: ''
+    };
+  }
 
+  postTweet = () => {
+    const { author, content, picture } = this.props;
+    axios.post('/api/tweets', { author, content, picture })
+      .then((response) => {
+        console.log('Tweet posted:', response.data);
+        this.setState({ tweet: response.data });
+      })
+      .catch((error) => {
+        console.error('Error posting tweet:', error);
+      });
+  };
+
+  render() {
+    const { author, content, picture, onLike, onComment } = this.props;
+    const { tweet } = this.state;
+
+    return (
+      <div className="flex w-10 items-start p-4">
+        <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Test" />
+        <div className="ml-4">
+          <div className="flex items-center">
+            <span className="font-bold text-lg">{author}</span>
+            <span className="ml-2 text-gray-500">@{author}</span>
+            <span className="mx-2">&middot;</span>
+            <span className="text-gray-500">1h</span>
+          </div>
+          <p className="mt-2">{content}</p>
+          <div className="mt-4">
+            <img
+              className="h-40 w-full object-cover rounded-lg"
+              src={picture}
+              alt="Test"
+            />
+          </div>
+          <LikeButton onClick={onLike} />
+          <CommentButton onClick={onComment} />
+          <button onClick={this.postTweet}>Post Tweet</button>
+          {tweet && <p>Tweet posted: {tweet}</p>}
+        </div>
+      </div>
+    );
+  }
+}
 
 Tweet.propTypes = {
   author: PropTypes.string.isRequired,

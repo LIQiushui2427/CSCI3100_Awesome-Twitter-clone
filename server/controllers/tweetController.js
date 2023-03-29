@@ -1,6 +1,6 @@
 import Tweet from '../model/Tweet.model.js';
 
-async function createTweet (req, res) {
+export async function createTweet (req, res) {
     const body = req.body;
     
     if (!body) {
@@ -33,7 +33,7 @@ async function createTweet (req, res) {
         });
     }
 
-async function deleteTweet(req, res){
+export async function deleteTweet(req, res){
     await Tweet.findOneAndDelete({ _id: req.params.id }, (err, tweet) => {
         if (err) {
         return res.status(400).json({ success: false, error: err });
@@ -47,7 +47,7 @@ async function deleteTweet(req, res){
     }).catch((err) => console.log(err));
     }
 
-async function getTweetById (req, res){
+export async function getTweetById (req, res){
     await Tweet.findOne({ _id: req.params.id }, (err, tweet) => {
         if (err) {
         return res.status(400).json({ success: false, error: err });
@@ -60,7 +60,7 @@ async function getTweetById (req, res){
     }).catch((err) => console.log(err));
     }
 
-async function getTweets (req, res){
+export async function getTweets (req, res){
     await Tweet.find({}, (err, tweets) => {
         if (err) {
         return res.status(400).json({ success: false, error: err });
@@ -73,10 +73,3 @@ async function getTweets (req, res){
         return res.status(200).json({ success: true, data: tweets });
     }).catch((err) => console.log(err));
     }
-
-export default {
-    createTweet,
-    deleteTweet,
-    getTweets,
-    getTweetById
-}
