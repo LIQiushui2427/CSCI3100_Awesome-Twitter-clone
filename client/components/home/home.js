@@ -1,6 +1,6 @@
 import React from 'react';
 import Tweet from '../tweet/tweet';
-
+import PostButton from '../postButton';
 
 const Home = () => {
   return (
@@ -15,6 +15,9 @@ const Home = () => {
       </div>
       <div className=" w-1/2 flex flex-col justify-center items-center">
         <Tweet />
+      </div>
+      <div className="w-full flex justify-center items-center mt-8">
+        <PostButton />
       </div>
     </div>
   );
