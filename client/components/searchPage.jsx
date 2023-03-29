@@ -1,6 +1,6 @@
 import React from 'react';
 import Tweet from './tweet/tweet';
-import UserList from './home/userlist';
+import UserList from './userlist';
 function SearchPage() {
   return (
     <div className="w-1/2 mx-auto mt-10">
