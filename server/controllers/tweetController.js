@@ -1,6 +1,6 @@
-const Tweet = require("../models/Tweet.model");
+import Tweet from '../model/Tweet.model.js';
 
-createTweet = async (req, res) => {
+async function createTweet (req, res) {
     const body = req.body;
     
     if (!body) {
@@ -33,7 +33,7 @@ createTweet = async (req, res) => {
         });
     }
 
-deleteTweet = async (req, res) => {
+async function deleteTweet(req, res){
     await Tweet.findOneAndDelete({ _id: req.params.id }, (err, tweet) => {
         if (err) {
         return res.status(400).json({ success: false, error: err });
@@ -47,7 +47,7 @@ deleteTweet = async (req, res) => {
     }).catch((err) => console.log(err));
     }
 
-getTweetById = async (req, res) => {
+async function getTweetById (req, res){
     await Tweet.findOne({ _id: req.params.id }, (err, tweet) => {
         if (err) {
         return res.status(400).json({ success: false, error: err });
@@ -60,7 +60,7 @@ getTweetById = async (req, res) => {
     }).catch((err) => console.log(err));
     }
 
-getTweets = async (req, res) => {
+async function getTweets (req, res){
     await Tweet.find({}, (err, tweets) => {
         if (err) {
         return res.status(400).json({ success: false, error: err });
@@ -74,9 +74,9 @@ getTweets = async (req, res) => {
     }).catch((err) => console.log(err));
     }
 
-module.exports = {
+export default {
     createTweet,
     deleteTweet,
     getTweets,
-    getTweetById,
-    };
+    getTweetById
+}
