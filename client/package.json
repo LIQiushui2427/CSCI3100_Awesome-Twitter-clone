@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon",
-    "build": "next build",
+    "dev": "nodemon ../server/server.js",
+    "build:server": "tsc",
+    "build:next": "next build",
     "start": "next start",
     "lint": "next lint"
   },
