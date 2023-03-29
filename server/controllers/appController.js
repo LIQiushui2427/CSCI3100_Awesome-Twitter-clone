@@ -77,11 +77,22 @@ export async function login(req, res) {
       const token = jwt.sign(
         {
           userId: user._id,
-          username: user.username,
         },
         ENV.JWT_SECRET,
         { expiresIn: "24h" }
       );
+      let oldTokens = user.tokens || [];
+      if(oldTokens.length){
+        oldTokens = oldTokens.filter(t => {
+            const timeDiff = (Date.now() - parseInt(t.signedAt)) / 1000;
+            if(timeDiff < 86400){
+                return t;
+            }
+        });
+      }
+      await UserModel.findByIdAndUpdate(user._id, {
+        tokens: [...oldTokens,{token,signedAt: Date.now().toString()}],
+      });
   
       return res.status(200).send({
         msg: "Login Successful...!",
@@ -176,5 +187,38 @@ export async function resetPassword(req, res) {
         return res.status(201).send({ msg: "Record Updated...!" });
     } catch (error) {
         return res.status(500).send({ error: "Unable to update record" });
+    }
+}
+
+export async function updateUser(req,res){
+    try{
+        const userId = req.user._id;
+        console.log(userId);
+        if(userId){
+            const body = req.body;
+            console.log(body);
+            UserModel.updateOne({_id:userId},body,function(err,data){
+                if(err) throw err;
+                return res.status(201).send({msg:"Record Updated...!"});
+            })
+        }
+        else{
+            return res.status(401).send({msg:"Unauthorized access!"});
+        }
+    }catch(error){
+        return res.status(401).send({error});
+    }
+}
+
+export async function logout(req,res){
+    if(req.headers && req.headers.authorization){
+        const token = req.headers.authorization.split(' ')[1];
+        if(!token){
+            return res.status(401).send({msg:"Authorization fail!"});
+        }
+        const tokens = req.user.tokens;
+        const newTokens = tokens.filter(t => t.token !== tokens);
+        await UserModel.findByIdAndUpdate(req.user._id,{tokens:newTokens});
+        res.status(200).send({msg:"Log out successfully!"});
     }
 }
