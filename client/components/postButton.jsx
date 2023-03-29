@@ -1,6 +1,6 @@
 import react, { useState } from 'react'
 import axios from 'axios'
-import PostButton from '../postButton'
+
 const PostButton = ({ userID }) => {
   const [text, setText] = useState('')
 
