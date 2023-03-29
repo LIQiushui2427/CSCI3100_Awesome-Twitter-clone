@@ -1,17 +1,27 @@
 {
-    "name": "Awesome-twitter-clone-backend",
-    "version": "1.0.0",
-    "description": "Backend server for Awesome-twitter-clone-backend",
-    "main": "server.js",
-    "scripts": {
-      "start": "node server.js",
-      "dev": "nodemon server.js"
-    },
-    "dependencies": {
-      "express": "^4.18.2",
-      "mongoose": "^6.10.4"
-    },
-    "devDependencies": {
-      "nodemon": "^2.0.22"
-    }
+  "name": "csci3100_awesome-twitter-clone",
+  "version": "1.0.0",
+  "description": "This is the github repository for the CSCI3100 project. The project is a twitter clone app. ## Requirements ## Intallation ### For Linux/WSL users ``` sudo apt-get install nodejs npm i react-router-dom npm run build npm run start ``` ### For Windows users First you should have installed [node.js](https://nodejs.org/dist/v18.15.0/node-v18.15.0-x64.msi) on your PC. Then in PowerShell/cmd, type ``` node -v npm -v ``` to check installation. Then type ``` npm i react-router-dom npm run build npm run start ``` Upon success, you can open [localhost](http://localhost:3000/) on your browser to enjoy our appllication. ## Roadmap * [x] High level documentation [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/CSCI3100_High_level_documentation.pdf) * [x] Data flow diagram [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/GroupC4_DFD_Specification_Document.pdf) * [x] UML specification and UI design ducument [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/GroupC4_UML_Specification_and_UI_Design_Document.pdf) ## Contributors * [YI Jian 1155157207](https://github.com/LIQiushui2427) * [SHI Juluan 1155160208](https://github.com/CarlosCUHK) * [ZHANG Xue 1155160250](https://github.com/c-beeper) * [LI Yuk Ting 1155159914](https://github.com/Angel-lyt) * [ZHENG Xinhao 1155143819](https://github.com/jzxheremy) ## License [MIT](https://choosealicense.com/licenses/mit/) ## Reference ## Image sourse * [App icon](https://www.freeiconspng.com/uploads/cricle-twitter-emblem-png-clipart-8.png)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mailgen": "^2.0.27",
+    "mongodb-memory-server": "^8.12.1",
+    "mongoose": "^7.0.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.22",
+    "otp-generator": "^4.0.1"
   }
+}
