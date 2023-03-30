@@ -3,11 +3,11 @@ import ENV from '../config.js';
 import {MongoMemoryServer} from "mongodb-memory-server";
 
 async function connect(){
-    //const mongod = await MongoMemoryServer.create();
-    //const getUri = mongod.getUri();
-
+    const mongod = await MongoMemoryServer.create();
+    const getUri = mongod.getUri();
+    console.log(getUri);
     mongoose.set('strictQuery', true)
-    const db = await mongoose.connect(ENV.ATLAS_URI);
+    const db = await mongoose.connect(getUri);
     console.log("Database Connected")
     return db;
 }

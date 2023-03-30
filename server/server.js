@@ -3,7 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import connect from './database/connection.js';
 import router from './router/router.js';
-
+import tweetRouter from './router/tweetRouter.js';
 const app = express();
 
 
@@ -19,6 +19,8 @@ app.get('/', (req, res)=>{
 });
 
 app.use('/api', router)
+
+app.use('/api/tweet', tweetRouter)
 
 connect().then(() => {
     try {

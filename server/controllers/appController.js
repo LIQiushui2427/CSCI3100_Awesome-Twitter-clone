@@ -6,10 +6,9 @@ import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
 import UserModel from '../model/User.model.js'
 
-
 export async function verifyUser(req, res, next){
     try {
-        
+
         const { username } = req.method == "GET" ? req.query : req.body;
 
         const user = await UserModel.findOne({ username });
@@ -22,6 +21,7 @@ export async function verifyUser(req, res, next){
         return res.status(401).send({ error: "Authentication Error"});
     }
 }
+
 
 
 export async function signup(req,res){
@@ -62,7 +62,7 @@ export async function signup(req,res){
 
 export async function login(req, res) {
     const { username, password } = req.body;
-  
+    console.log(req.body);
     try {
       const user = await UserModel.findOne({ username });
       if (!user) {
@@ -93,15 +93,16 @@ export async function login(req, res) {
       await UserModel.findByIdAndUpdate(user._id, {
         tokens: [...oldTokens,{token,signedAt: Date.now().toString()}],
       });
-  
       return res.status(200).send({
         msg: "Login Successful...!",
         username: user.username,
         token,
       });
+
     } catch (error) {
       return res.status(500).send({ error });
     }
+    
 }
 
 export async function generateOTP(req, res) {
