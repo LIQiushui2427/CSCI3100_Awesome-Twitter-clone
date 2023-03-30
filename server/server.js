@@ -6,7 +6,7 @@ import router from './router/router.js';
 import tweetRouter from './router/tweetRouter.js';
 
 const app = express();
-const port = 8080;
+const port = 3000;
 
 app.use(express.json());
 app.use(cors());

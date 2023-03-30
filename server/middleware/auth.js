@@ -30,3 +30,11 @@ export function localVariables(req, res, next){
     }
     next()
 }
+
+export function protect(req, res, next){
+    if(req.user){
+        next()
+    } else {
+        res.status(401).json({ error : "Authentication Failed!"})
+    }
+}
