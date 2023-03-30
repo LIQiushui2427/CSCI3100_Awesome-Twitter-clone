@@ -7,7 +7,6 @@ import Home from '../components/home/home';
 import { getThings } from '@/helper/testService';
 
 class App extends React.Component {
-  test = getThings();
   render() {
     return (
       <div className="container">
