@@ -9,4 +9,7 @@ const userRouter = Router();
 userRouter.route('/createTweet').post(verifyUser, controller.createTweet);
 userRouter.route('/tweets').get(verifyUser, controller.loadTweets);
 userRouter.route('/deleteTweet').delete(verifyUser, controller.deleteTweet);
+userRouter.route('/likeTweet').post(verifyUser, controller.likeTweet);
+userRouter.route('/searchTweets').get(controller.searchTweets);
+userRouter.route('/getTweet').get(controller.getTweetById);
 export default userRouter;
