@@ -60,7 +60,7 @@ const Login = () => {
                 error: 'Could not login.'
             });
 
-            loginPromise.then(function(){window.location.href = "http://localhost:3000/";});
+            loginPromise.then(function(){window.location.href = "/";});
             //registerPromise.then(function(){return redirect("/login")});
         }
     })
