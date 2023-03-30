@@ -4,9 +4,10 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import LeftPane from '../components/leftPane/leftPane';
 import RightPane from '../components/rightPane/rightPane';
 import Home from '../components/home/home';
-
+import { getThings } from '@/helper/testService';
 
 class App extends React.Component {
+  test = getThings();
   render() {
     return (
       <div className="container">
