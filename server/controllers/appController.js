@@ -13,7 +13,7 @@ export async function verifyUser(req, res, next){
 
         const user = await UserModel.findOne({ username });
         if(!user) {
-            return res.status(404).send({ error : "Can't find User!"});
+            return res.status(404).send({ error : "verifyUser: Can't find User!"});
         }
         next();
 

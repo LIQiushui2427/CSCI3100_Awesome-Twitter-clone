@@ -6,6 +6,7 @@ server/node_modules
 server/config.js
 client/.env
 server/.env
+server/uploads
 
 /.pnp
 .pnp.js

@@ -4,7 +4,7 @@ import UserModel from '../model/User.model.js';
 
 export async function getTweetById(req, res) {
     const { tweetId } = req.query;
-  
+    //c("req.query: ", req.query)
     try {
       const tweet = await TweetModel.findOne({ tweetId });
   
@@ -21,7 +21,7 @@ export async function getTweetById(req, res) {
 
 export async function loadTweets(req, res){
     const {username} = req.query;
-    console.log("username: ", username)
+    //console.log("username: ", username)
     try {
         const user = await UserModel.findOne({ username });
         if(!user) {
@@ -34,23 +34,53 @@ export async function loadTweets(req, res){
     }
 }
 
-export async function createTweet(req, res){
+export async function loadAllTweets(req, res) {
     try {
-        const { username, content } = req.body;
-        if(!username){
-            return res.status(400).send({ error: "Username is required"});
-        }
-        if(!content){
-            return res.status(400).send({ error: "Content is required"});
-        }
-        const newTweet = new TweetModel({ tweetId: Math.random().toString(20), username, content, date: new Date(), likes: 0, retweets: 0 });
-        await newTweet.save();
-        
-        res.status(201).json({tweetId : newTweet.tweetId});
+      const tweets = await TweetModel.find({}, { tweetId: 1, _id: 0 }).sort({ date: "desc" }).exec();
+      res.status(200).json({ tweets });
     } catch (error) {
-        console.error("error in createTweet: ", error);
-        return res.status(500).send({ error: "Internal Server Error in createTweet"});
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
+  }
+
+
+export async function createTweet(req, res) {
+  try {
+    const { username, content } = req.body;
+
+    if (!username) {
+      return res.status(400).send({ error: "Username is required" });
+    }
+
+    if (!content) {
+      return res.status(400).send({ error: "Content is required" });
+    }
+
+    let images = [];
+    if (req.files && req.files.length > 0) {
+      images = req.files.map((file) => ({ path: file.path }));
+    }
+
+    const newTweet = new TweetModel({
+      tweetId: Math.random().toString(20),
+      username,
+      content,
+      images,
+      date: new Date(),
+      likes: 0,
+      retweets: 0,
+    });
+
+    await newTweet.save();
+
+    res.status(201).json({ tweetId: newTweet.tweetId });
+  } catch (error) {
+    console.error("error in createTweet: ", error);
+    return res
+      .status(500)
+      .send({ error: "Internal Server Error in createTweet" });
+  }
 }
 
 export async function deleteTweet(req, res){

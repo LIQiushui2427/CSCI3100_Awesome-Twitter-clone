@@ -45,6 +45,7 @@ export async function registerUser(credentials){
 
 /** login function */
 export async function verifyPassword({ username, password }){
+    console.log("verifyPassword called: ", username, password)
     try {
         if(username){
             const { data } = await client.post('/login', { username, password })
