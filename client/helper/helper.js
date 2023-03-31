@@ -7,13 +7,21 @@ import jwt_decode from 'jwt-decode';
 
 /** Make API Requests */
 
+export async function checkLoginStatus(){
+  const token = localStorage.getItem('token')
+  if(!token) return false;
+  console.log("logged in!");
+  return true;
+}
 
 /** To get username from Token */
 export async function getUsername(){
     const token = localStorage.getItem('token')
     if(!token) return Promise.reject("Cannot find Token");
+    console.log(token);
     let decode = jwt_decode(token)
-    return decode;
+    console.log(decode.username);
+    return decode.username;
 }
 
 
