@@ -1,16 +1,45 @@
 import React from 'react';
 import { Router, useRouter } from 'next/router';
+import {useState} from 'react';
+//import avatar from '../../public/default_avatar.png';
+import nologinavatar from '../../public/no_login_avatar.png';
+import {getUsername, checkLoginStatus} from '../../helper/helper';
 
 const LeftPane = () => {
   const router = useRouter();
+  const [isloggedin, setIsloggedin] = useState(false);
+  const [username, setUsername] = useState("Login");
+  //setIsloggedin(checkLoginStatus());
+  //let isloggedin = false;
+  //const isloggedin = checkLoginStatus();
+  checkLoginStatus().then(res => setIsloggedin(res));
+  getUsername().then(res=>setUsername(res));
+  let avatar = require('../../public/default_avatar.png');
+  let nologinavatar = require('../../public/no_login_avatar.png');
+  //const {username} = getUsername();
+  
+  function userLogout(){
+    localStorage.removeItem('token');
+    window.location.href = "/";
+  }
+
+  /*if(isloggedin){
+    {username} = getUsername();
+  }*/
+
   return (
     <div className="bg-black w-72 h-screen fixed left-0 top-0 p-4">
       <div className="p-4 flex items-center">
-        <img src="https://picsum.photos/id/1005/40/40" alt="User profile" className="w-8 h-8 rounded-full mr-2"/>
+        <img src={isloggedin? "https://picsum.photos/id/1005/40/40" : "https://www.w3schools.com/howto/img_avatar.png"} alt="User profile" className="w-8 h-8 rounded-full mr-2"/>
+        {isloggedin?
         <div>
-          <h2 className="font-bold">John Doe</h2>
-          <p className="text-gray-600">@johndoe</p>
-        </div>
+          <h2 className="font-bold cursor-pointer" onClick={() => router.push('/profile')}>{username}</h2>
+          <p className="text-gray-600 cursor-pointer" onClick={userLogout}>logout</p>
+        </div>:
+        <div>
+          <h2 className="font-bold cursor-pointer" onClick={() => router.push('/login')}>Login</h2>
+          <p className="text-gray-600"> </p>
+        </div>}
       </div>
       <button onClick={() => router.push('/')} className="p-4 flex items-center">
       <svg width="24" height="24" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="bi bi-twitter" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
