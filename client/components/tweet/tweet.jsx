@@ -1,6 +1,8 @@
 import React from 'react';
+import axios from '../../config'
 import PropTypes from 'prop-types';
-
+import { useState, useEffect } from "react";
+import baseUrl from '../../config'
 const Avatar = ({ src, alt }) => (
   <img
     className="h-10 w-10 rounded-full"
@@ -40,45 +42,56 @@ CommentButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-const Tweet = ({ author, content, picture, onLike, onComment }) => (
-  <div className="flex items-start p-4">
-    <Avatar src="https://www.w3schools.com/howto/img_avatar.png" alt="Test" />
-    <div className="ml-4">
-      <div className="flex items-center">
-        <span className="font-bold text-lg">{author}</span>
-        <span className="ml-2 text-gray-500">@{author}</span>
-        <span className="mx-2">&middot;</span>
-        <span className="text-gray-500">1h</span>
+const Tweet = ({ tweetId }) => {
+  const [tweetData, setTweetData] = useState(null);
+  //console.log(tweetId);
+  useEffect(() => {
+    const fetchTweetData = async () => {
+      try {
+        const response = await axios.get(`/tweet/getTweetById?tweetId=${tweetId}`);///tweet:tweetId
+        const data = response.data;
+        setTweetData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTweetData();
+  }, [tweetId]);
+
+  if (!tweetData) {
+    return <div>Loading tweet...</div>;
+  }
+  //console.log(tweetData);
+  const { username, content, images } = tweetData;
+
+  return (
+    <div className="flex items-start p-4">
+      <Avatar src="https://www.w3schools.com/howto/img_avatar.png" alt="Test" />
+      <div className="ml-4">
+        <div className="flex items-center">
+          <span className="font-bold text-lg">{username}</span>
+          <span className="ml-2 text-gray-500">@{username}</span>
+          <span className="mx-2">&middot;</span>
+          <span className="text-gray-500">1h</span>
+        </div>
+        <p className="mt-2">{content}</p>
+        <div className="mt-4">
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={`http://localhost:8080/${image.path}`} //`${baseUrl}/${image.path}`}, not elegant
+            alt={`Image ${index}`}
+            width="100"
+            height="100"
+          />
+        ))}
+
+        </div>
+        <LikeButton onClick={() => console.log("Liked tweet", tweetId)} />
+        <CommentButton onClick={() => console.log("Commented on tweet", tweetId)} />
       </div>
-      <p className="mt-2">{content}</p>
-      <div className="mt-4">
-        <img
-          className="h-48 w-full object-cover rounded-lg"
-          src = {picture}
-          alt="Test"
-        />
-      </div>
-      <LikeButton onClick={onLike} />
-      <CommentButton onClick={onComment} />
     </div>
-  </div>
-);
-
-
-Tweet.propTypes = {
-  author: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  picture: PropTypes.string.isRequired,
-  onLike: PropTypes.func.isRequired,
-  onComment: PropTypes.func.isRequired,
-};
-
-Tweet.defaultProps = {
-  author: 'Test',
-  picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDFi9koI1_dNL4G-ln4LJgP4RXx6jgERift0PWrSr4w&usqp=CAU&ec=48665701://via.placeholder.com/150', // or any other default image URL
-  content: 'Hello world',
-  onLike: () => {},
-  onComment: () => {},
+  );
 };
 
 export default Tweet;

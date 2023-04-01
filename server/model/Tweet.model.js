@@ -16,6 +16,7 @@ export const TweetSchema = new mongoose.Schema({
         required: [true, "Please provide a content"],
         unique : false,
     },
+    images: [{ path: String }],
     date: {
         type: Date,
     },
