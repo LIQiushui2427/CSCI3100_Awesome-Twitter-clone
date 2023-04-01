@@ -11,7 +11,7 @@ const RightPane = () => {
   ];
   
   return (
-    <div className="bg-black w-72 h-screen fixed right-0 top-0 p-4">
+    <div className="hidden lg:inline ml-8 xl:w-[450px] py-1 space-y-5">
       <h2 className="text-white font-bold text-lg mb-4">Developers to Follow</h2>
       <ul className="list-none">
         {developers.map((developer) => (
