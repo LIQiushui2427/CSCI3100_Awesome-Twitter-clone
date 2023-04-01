@@ -25,7 +25,7 @@ export async function getUsername(){
     console.log(token);
     let decode = jwt_decode(token)
     console.log(decode.username);
-    return decode;
+    return decode.username;
 }
 
 
