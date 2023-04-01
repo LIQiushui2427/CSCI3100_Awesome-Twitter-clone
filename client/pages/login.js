@@ -10,7 +10,6 @@ import {Router, useRouter} from 'next/router';
 //import {Redirect} from 'react-router-dom';
 //import {useRedirect} from 'react-admin';
 const Login = () => {
-    const setUsername = useAuthStore(state => state.setUsername);
     const router = useRouter();
     const [show_login, setShowLogin] = useState(true)
     const [show_signup, setShowSignup] = useState(false)
@@ -18,7 +17,7 @@ const Login = () => {
 
     /*temporary solution*/
     //const [isloggedin, setIsloggedin] = useState(true)
-
+    const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [email, setEmail] = useState(null);
     //const {login,logout,register} = useContext(AuthContext);
