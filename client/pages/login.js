@@ -102,7 +102,7 @@ const Login = () => {
                             </svg>
                             Username
                         </label>
-                        <input {...formik_login.getFieldProps('username')} type="username" id="username" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Username" value={username} />
+                        <input {...formik_login.getFieldProps('username')} type="username" id="username" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Username" />
                     </div>
 
                     <div className="mt-3">
@@ -154,7 +154,7 @@ const Login = () => {
                             </svg>
                             Username
                         </label>
-                        <input {...formik_register.getFieldProps('username')} type="username" id="username" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Username" value={username}/>
+                        <input {...formik_register.getFieldProps('username')} type="username" id="username" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter Username"/>
                     </div>
 
                     <div className="mt-3">
@@ -174,7 +174,7 @@ const Login = () => {
                                 </svg>
                                 Email
                             </label>
-                            <input {...formik_register.getFieldProps('email')} type="email" id="email" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter your email" value={email}/>
+                            <input {...formik_register.getFieldProps('email')} type="email" id="email" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter your email" />
                         </div>
                 
 
@@ -222,7 +222,7 @@ const Login = () => {
                                 </svg>
                                 Email
                             </label>
-                            <input type="email" id="email" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter your email" value={email}/>
+                            <input type="email" id="email" className="border rounded w-full text-base px-3 py-2 text-black leading-tight focus:border-black" placeholder="Enter your email" />
                     </div>
 
                     <div className="mt-5 justify-center items-center">
