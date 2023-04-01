@@ -6,15 +6,14 @@ import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
 import UserModel from '../model/User.model.js'
 
-
 export async function verifyUser(req, res, next){
     try {
-        
+
         const { username } = req.method == "GET" ? req.query : req.body;
 
         const user = await UserModel.findOne({ username });
         if(!user) {
-            return res.status(404).send({ error : "Can't find User!"});
+            return res.status(404).send({ error : "verifyUser: Can't find User!"});
         }
         next();
 
@@ -22,6 +21,7 @@ export async function verifyUser(req, res, next){
         return res.status(401).send({ error: "Authentication Error"});
     }
 }
+
 
 
 export async function signup(req,res){
@@ -62,7 +62,7 @@ export async function signup(req,res){
 
 export async function login(req, res) {
     const { username, password } = req.body;
-  
+    console.log(req.body);
     try {
       const user = await UserModel.findOne({ username });
       if (!user) {
@@ -77,6 +77,7 @@ export async function login(req, res) {
       const token = jwt.sign(
         {
           userId: user._id,
+          username: user.username
         },
         ENV.JWT_SECRET,
         { expiresIn: "24h" }
@@ -93,15 +94,16 @@ export async function login(req, res) {
       await UserModel.findByIdAndUpdate(user._id, {
         tokens: [...oldTokens,{token,signedAt: Date.now().toString()}],
       });
-  
       return res.status(200).send({
         msg: "Login Successful...!",
         username: user.username,
         token,
       });
+
     } catch (error) {
       return res.status(500).send({ error });
     }
+    
 }
 
 export async function generateOTP(req, res) {

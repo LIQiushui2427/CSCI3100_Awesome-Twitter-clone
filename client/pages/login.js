@@ -4,15 +4,17 @@ import {registerUser,verifyPassword} from '../helper/helper';
 import {registerValidation,loginValidation} from '../helper/validate';
 import {useFormik} from 'formik';
 import toast,{Toaster} from 'react-hot-toast';
+import {Router, useRouter} from 'next/router';
 //import {Redirect} from 'react-router-dom';
 //import {useRedirect} from 'react-admin';
 const Login = () => {
+    const router = useRouter();
     const [show_login, setShowLogin] = useState(true)
     const [show_signup, setShowSignup] = useState(false)
     const [show_reset, setShowReset] = useState(false)
 
     /*temporary solution*/
-    const [isloggedin, setIsloggedin] = useState(true)
+    //const [isloggedin, setIsloggedin] = useState(true)
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
@@ -60,7 +62,13 @@ const Login = () => {
                 error: 'Could not login.'
             });
 
-            loginPromise.then(function(){window.location.href = "http://localhost:3000/";});
+            loginPromise.then(res=>{
+                let {token} = res.data;
+                console.log(token);
+                localStorage.setItem('token',token);
+                //window.location.href = "/";
+                router.push('/');
+            });
             //registerPromise.then(function(){return redirect("/login")});
         }
     })
