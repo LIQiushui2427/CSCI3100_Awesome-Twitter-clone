@@ -3,6 +3,8 @@ import { HomeIcon } from '@heroicons/react/solid';
 import React from 'react';
 import { Router, useRouter } from 'next/router';
 import {useState} from 'react';
+import { useNavigate } from 'react-router-dom'
+import useFetch from '../../hooks/fetch.hook';
 //import avatar from '../../public/default_avatar.png';
 import nologinavatar from '../../public/no_login_avatar.png';
 import {getUsername, checkLoginStatus} from '../../helper/helper';
@@ -21,6 +23,8 @@ import SidebarLink from "./SidebarLink";
 
 const LeftPane = () => {
   const router = useRouter();
+
+  const [{ isLoading, apiData, serverError }] = useFetch();
   const [isloggedin, setIsloggedin] = useState(false);
   const [username, setUsername] = useState("Login");
   //setIsloggedin(checkLoginStatus());
@@ -41,6 +45,8 @@ const LeftPane = () => {
     {username} = getUsername();
   }*/
 
+  if(isLoading) return <h1 className='text-2xl font-bold text-white'>isLoading</h1>;
+  if(serverError) return <h1 className='text-xl text-red-500 text-white'>{serverError.message}</h1>
 
   return (
     <div className="hidden sm:flex flex-col items-center xl:items-start xl:w-[340px] p-2 fixed h-full">
@@ -66,7 +72,7 @@ const LeftPane = () => {
         <img src={isloggedin? "https://picsum.photos/id/1005/40/40" : "https://www.w3schools.com/howto/img_avatar.png"} alt="User profile" className="w-8 h-8 rounded-full mr-2"/>
         {isloggedin?
           <div className="hidden xl:inline leading-5">
-            <h2 className="font-bold cursor-pointer" onClick={() => router.push('/profile')}>{username}</h2>
+            <h2 className="font-bold cursor-pointer" onClick={() => router.push('/profile')}>apiData?.username || ""</h2>
             <p className="text-gray-600 cursor-pointer" onClick={userLogout}>logout</p>
           </div>:        
           <div className="hidden xl:inline leading-5">

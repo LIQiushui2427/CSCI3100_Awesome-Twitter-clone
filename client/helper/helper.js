@@ -2,7 +2,9 @@ import React, { createContext, useState,useEffect } from 'react';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 import client from '../config'
 import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
 
 /** Make API Requests */
@@ -14,6 +16,8 @@ export async function checkLoginStatus(){
   return true;
 }
 
+
+
 /** To get username from Token */
 export async function getUsername(){
     const token = localStorage.getItem('token')
@@ -21,7 +25,7 @@ export async function getUsername(){
     console.log(token);
     let decode = jwt_decode(token)
     console.log(decode.username);
-    return decode.username;
+    return decode;
 }
 
 
@@ -42,6 +46,18 @@ export async function registerUser(credentials){
         return Promise.reject({ error })
     }
 }
+
+
+/** get User details */
+export async function getUser({ username }){
+    try {
+        const { data } = await axios.get(`/api/user/${username}`);
+        return { data };
+    } catch (error) {
+        return { error : "Password doesn't Match...!"}
+    }
+}
+
 
 /** login function */
 export async function verifyPassword({ username, password }){

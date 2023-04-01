@@ -2,12 +2,15 @@ import React from 'react';
 import {useState,useContext} from 'react';
 import {registerUser,verifyPassword} from '../helper/helper';
 import {registerValidation,loginValidation} from '../helper/validate';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../store/store';
 import {useFormik} from 'formik';
 import toast,{Toaster} from 'react-hot-toast';
 import {Router, useRouter} from 'next/router';
 //import {Redirect} from 'react-router-dom';
 //import {useRedirect} from 'react-admin';
 const Login = () => {
+    const setUsername = useAuthStore(state => state.setUsername);
     const router = useRouter();
     const [show_login, setShowLogin] = useState(true)
     const [show_signup, setShowSignup] = useState(false)
@@ -16,7 +19,6 @@ const Login = () => {
     /*temporary solution*/
     //const [isloggedin, setIsloggedin] = useState(true)
 
-    const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [email, setEmail] = useState(null);
     //const {login,logout,register} = useContext(AuthContext);
@@ -40,9 +42,7 @@ const Login = () => {
                 success : 'Register Successfully!',
                 error: 'Could not register.'
             });
-
             registerPromise.then(function(){setShowLogin(true), setShowSignup(false), setShowReset(false)});
-            //registerPromise.then(function(){return redirect("/login")});
         }
     })
 
@@ -67,6 +67,7 @@ const Login = () => {
                 console.log(token);
                 localStorage.setItem('token',token);
                 //window.location.href = "/";
+                setUsername(values.username);
                 router.push('/');
             });
             //registerPromise.then(function(){return redirect("/login")});
