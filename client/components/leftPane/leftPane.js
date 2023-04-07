@@ -7,6 +7,8 @@ import {useState} from 'react';
 import nologinavatar from '../../public/no_login_avatar.png';
 import {getUsername, checkLoginStatus, checkIsAdmin} from '../../helper/helper';
 
+
+
 import {
   HashtagIcon,
   BellIcon,
@@ -50,10 +52,7 @@ const LeftPane = () => {
         <SidebarLink text="Messages" Icon={InboxIcon} />
         <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
         <SidebarLink text="Lists" Icon={ClipboardListIcon} />
-        <SidebarLink text="Profile" Icon={UserIcon} />
-        {isadmin?
-        <SidebarLink text="Admin" Icon={KeyIcon} routelink="/admin" />
-        :null}
+        <SidebarLink text="Profile" Icon={UserIcon} destination="/profile" />
       </div>
       <button className="hidden xl:inline ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
         Tweet
