@@ -9,13 +9,14 @@ export const TweetSchema = new mongoose.Schema({
     username : {
         type: String,
         required : [true, "Please provide unique Username"],
-        unique: [true, "Username Exist"]
+        unique: [false, "Username Exist"]
     },
     content: {
         type: String,
         required: [true, "Please provide a content"],
         unique : false,
     },
+    images: [{ path: String }],
     date: {
         type: Date,
     },

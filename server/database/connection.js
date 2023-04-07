@@ -5,10 +5,11 @@ import {MongoMemoryServer} from "mongodb-memory-server";
 async function connect(){
     const mongod = await MongoMemoryServer.create();
     const getUri = mongod.getUri();
-    console.log(getUri);
+
     mongoose.set('strictQuery', true)
     const db = await mongoose.connect(getUri);
     console.log("Database Connected")
+
     return db;
 }
 

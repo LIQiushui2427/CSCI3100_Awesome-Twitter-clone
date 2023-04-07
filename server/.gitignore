@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/uploads
 /.pnp
 .pnp.js
 
@@ -30,3 +31,5 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+/database/connection.js
