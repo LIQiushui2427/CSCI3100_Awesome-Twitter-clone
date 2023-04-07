@@ -6,7 +6,7 @@ import LeftPane from '../components/leftPane/leftPane';
 import RightPane from '../components/rightPane/rightPane';
 import TweetContent from '../components/tweetContent/tweetContent';
 
-class App extends React.Component {
+class Tweets extends React.Component {
   render() {
     return (
       <div className="container">
@@ -26,4 +26,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Tweets;

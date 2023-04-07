@@ -17,6 +17,11 @@ export const UserSchema = new mongoose.Schema({
         required : [true, "Please provide a unique email"],
         unique: [false, "Email Exist"]
     },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default:false,
+    },
 });
 
 export default mongoose.model.Users || mongoose.model('User', UserSchema);
