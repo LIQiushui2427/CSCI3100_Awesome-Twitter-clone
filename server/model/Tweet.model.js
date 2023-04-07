@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
 
+
+/*
 export const TweetSchema = new mongoose.Schema({
     tweetId : {
         type: String,
@@ -29,3 +30,91 @@ export const TweetSchema = new mongoose.Schema({
 });
 
 export default mongoose.model.Tweets || mongoose.model('Tweet', TweetSchema);
+
+
+*/
+
+import mongoose from "mongoose";
+
+const tweetSchema = new mongoose.Schema({
+  tweetId : {
+        type: String,
+        required : [true, "Please provide unique TweetId"],
+        unique: [true, "TweetId Exist"]
+    },
+  username : {
+        type: String,
+        required : [true, "Please provide unique Username"],
+        uniquen:[true, "Username Exist"]
+    },
+  content: {
+    type: String,
+    required: true,
+    unique: false
+  },
+  images: [{
+    path: String
+  }],
+  date: {
+    type: Date,
+    default: Date.now
+  },
+  likes: {
+    type: Number,
+    default: 0
+  },
+  retweets: {
+    type: Number,
+    default: 0
+  },
+  hashtags: [{
+    type: String
+  }],
+  mentions: [{
+    type: String
+  }],
+  inReplyTo: {
+    type: String //TweetId 
+  },
+  quotedTweet: {
+    type: String //TweetId
+  },
+
+  isRetweet: {
+    type: Boolean,
+    default: false
+  },
+  originalTweet: {
+    type: String, //TweetId
+    ref: 'Tweet',
+    if: function() { return this.isRetweet; } 
+  },
+
+  retweetedBy: {
+    type: String //TweetId
+  },
+  comments:[{
+    userId: {type:String},
+    comment: {type:String},
+    comment_date:{type:Date}
+  }],
+  replyCount: {
+    type: Number,
+    default: 0
+  },
+  quoteCount: {
+    type: Number,
+    default: 0
+  },
+  retweetCount: {
+    type: Number,
+    default: 0
+  },
+  favoriteCount: {
+    type: Number,
+    default: 0
+  }
+});
+
+module.exports = mongoose.model('Tweet', tweetSchema);
+

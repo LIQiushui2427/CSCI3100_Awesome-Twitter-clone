@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 
-const SidebarLink = ({ Icon, text, active }) => {
+const SidebarLink = ({ Icon, text, active, destination }) => {
   const router = useRouter();
 
   const handleClick = () => {
     if (active) {
-      router.push("/");
+      router.push('/profile');
     }
   };
 
