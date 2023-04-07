@@ -1,9 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from '../../config.js';
+import { useFormik } from 'formik';
+import Post from '../tweet/post.jsx';
+import useFetch from '../../hooks/fetch.hook';
 import Tweet from '../tweet/tweet';
-import PostPanel from '../tweet/postPanel.jsx';
+import {
+  PhotographIcon,
+  XIcon,
+} from '@heroicons/react/outline';
+
 const Home = () => {
   const [tweets, setTweets] = useState([]);
+ 
+  const [{ isLoading, apiData, serverError }] = useFetch();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -11,11 +20,13 @@ const Home = () => {
       // handle case where token is not found in localStorage
       return;
     }
-    axios.get('/tweet/loadAllTweets', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+
+    axios
+      .get('/tweet/loadAllTweets', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(response => {
         const tweets = Object.values(response.data.tweets);
         setTweets(tweets);
@@ -25,6 +36,18 @@ const Home = () => {
         console.log(error);
       });
   }, []);
+
+  return (
+    <div>
+      <Post />
+      <div className=" w-1/2 flex flex-col justify-center items-center">
+            {tweets.map((tweet, index) => (
+          <Tweet key={index} tweetId={tweet.tweetId} />
+        ))}
+      </div>
+    </div>
+  )
+  /*
   return (
     <div className="w-full flex flex-col justify-center items-center mt-16">
       <div className="w-full flex justify-center items-center mb-8">
@@ -44,7 +67,7 @@ const Home = () => {
         <PostPanel />
         </div>
     </div>
-  );
+  );*/
 };
 
 export default Home;

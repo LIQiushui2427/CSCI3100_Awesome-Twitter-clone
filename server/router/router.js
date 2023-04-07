@@ -11,6 +11,7 @@ router.route('/login').post(controller.verifyUser, controller.login);
 router.route('/logout').post(Auth, controller.logout);
 
 /* GET request*/ 
+router.route('/user/:username').get(controller.getUser)
 router.route('/generateOTP').get(controller.verifyUser, localVariables, controller.generateOTP) 
 router.route('/verifyOTP').get(controller.verifyUser, controller.verifyOTP)
 router.route('/createResetSession').get(controller.createResetSession)

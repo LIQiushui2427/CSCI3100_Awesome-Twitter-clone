@@ -7,12 +7,28 @@ const PostPanel = () => {
 
 const [username,setUsername]=useState('getUsername');
 
-    useEffect(() => {
-    getUsername().then(res => setUsername(res));
-    }, []);
-  const handleContentChange = (e) => {
-    setContent(e.target.value);
-  };
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    // handle case where token is not found in localStorage
+    return;
+  }
+
+  axios
+    .get('/tweet/loadAllTweets', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(response => {
+      const tweets = Object.values(response.data.tweets);
+      setTweets(tweets);
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}, []);
 
   const handleImageChange = (e) => {
     const files = e.target.files;

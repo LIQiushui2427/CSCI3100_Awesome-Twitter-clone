@@ -18,6 +18,8 @@ export const UserSchema = new mongoose.Schema({
         required : [true, "Please provide a unique email"],
         unique: [false, "Email Exist"]
     },
+    Nickname: { type: String },
+    profile: { type: String },
     isAdmin: {
         type: Boolean,
         required: true,
