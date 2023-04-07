@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+
 
 /*
 export const TweetSchema = new mongoose.Schema({
@@ -34,7 +34,7 @@ export default mongoose.model.Tweets || mongoose.model('Tweet', TweetSchema);
 
 */
 
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const tweetSchema = new mongoose.Schema({
   tweetId : {
@@ -45,7 +45,7 @@ const tweetSchema = new mongoose.Schema({
   username : {
         type: String,
         required : [true, "Please provide unique Username"],
-        uniquen [true, "Username Exist"]
+        uniquen:[true, "Username Exist"]
     },
   content: {
     type: String,
@@ -74,21 +74,29 @@ const tweetSchema = new mongoose.Schema({
     type: String
   }],
   inReplyTo: {
-    type: String
+    type: String //TweetId 
   },
   quotedTweet: {
-    type: String
+    type: String //TweetId
   },
+
   isRetweet: {
     type: Boolean,
     default: false
   },
+  originalTweet: {
+    type: String, //TweetId
+    ref: 'Tweet',
+    if: function() { return this.isRetweet; } 
+  },
+
   retweetedBy: {
-    type: String
+    type: String //TweetId
   },
   comments:[{
-    userId: String,
-    comment: String
+    userId: {type:String},
+    comment: {type:String},
+    comment_date:{type:Date}
   }],
   replyCount: {
     type: Number,

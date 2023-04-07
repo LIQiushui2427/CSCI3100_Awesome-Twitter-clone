@@ -1,7 +1,7 @@
+/*
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-/*
 export const UserSchema = new mongoose.Schema({
     username : {
         type: String,
@@ -32,7 +32,6 @@ export default mongoose.model.Users || mongoose.model('User', UserSchema);
 
 
 import mongoose from 'mongoose';
-import TweetModel from "./Tweet.model";
 
 const UserSchema = new mongoose.Schema({
   userId: {
@@ -45,6 +44,11 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide unique Username'],
     unique: [true, 'Username Exist']
   },
+  isAdmin: {
+    type: Boolean,
+    required: true,
+    default:false,
+},
   bio: {
     type: String,
     required: false
@@ -65,7 +69,7 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  profileImage: {
+  avatar: {
     type: String,
     required: false
   },
@@ -90,16 +94,24 @@ const UserSchema = new mongoose.Schema({
     default: 0
   },
   tweets: [{
-    tweetId: String
+    tweetId: {
+    type: String,
+    unique: [true,'Tweet exist']}
   }],
   likedTweets: [{
-    tweetId: String
+    tweetId: {
+        type: String,
+        unique: [true,'Tweet exist']}
   }],
   retweetedTweets: [{
-    tweetId: String
+    tweetId: {
+        type: String,
+        unique: [true,'Tweet exist']}
   }],
   replies:[{
-    tweetId: String,
+    tweetId: {
+        type: String,
+        unique: [true,'Tweet exist']},
     reply_content:{type:String, required: {true: 'Please provide the reply'}},
     date:{type:Date,required:{true: 'Please provide the reply'}},
     required: false
