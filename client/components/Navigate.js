@@ -10,7 +10,7 @@ export default function Navigate({title='Tweet',url='/'}) {
                 </svg>
                 </div>
         </Link>
-    <div className="text-xl font-bold pl-5">{title}</div>
+      <div className="text-xl font-bold pl-5">{title}</div>
     </div>
   );
 }

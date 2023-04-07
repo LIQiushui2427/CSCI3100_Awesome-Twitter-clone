@@ -22,8 +22,6 @@ export async function verifyUser(req, res, next){
     }
 }
 
-
-
 export async function signup(req,res){
     try {
         const { username, password, email } = req.body;        
@@ -191,6 +189,29 @@ export async function resetPassword(req, res) {
         return res.status(500).send({ error: "Unable to update record" });
     }
 }
+
+export async function getUser(req, res) {
+    try {
+      const { username } = req.params;
+  
+      if (!username) {
+        return res.status(400).json({ error: "Invalid username" });
+      }
+  
+      const user = await UserModel.findOne({ username });
+  
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      const { password, ...userData } = user.toObject();
+  
+      return res.status(200).json(userData);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Server error" });
+    }
+  }
 
 export async function updateUser(req,res){
     try{

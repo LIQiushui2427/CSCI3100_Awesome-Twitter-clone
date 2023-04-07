@@ -69,6 +69,21 @@ export async function updateUser(response){
     }
 }
 
+
+
+/** update user tweets */
+export async function updateTweet(response){
+    try {
+        
+        const token = await localStorage.getItem('token');
+        const data = await client.post('/tweet/createTweet', response, { headers : { "Authorization" : `Bearer ${token}`}});
+
+        return Promise.resolve({ data })
+    } catch (error) {
+        return Promise.reject({ error : "Couldn't Update Profile...!"})
+    }
+}
+
 /** generate OTP */
 //to be modified
 export async function generateOTP(username){
