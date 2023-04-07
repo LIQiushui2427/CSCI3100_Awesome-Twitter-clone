@@ -18,10 +18,20 @@ export async function checkLoginStatus(){
 export async function getUsername(){
     const token = localStorage.getItem('token')
     if(!token) return Promise.reject("Cannot find Token");
+    //console.log(token);
+    let decode = jwt_decode(token)
+    //console.log(decode.username);
+    return decode.username;
+}
+
+/* check if user is admin */
+export async function checkIsAdmin(){
+    const token = localStorage.getItem('token')
+    if(!token) return Promise.reject("Cannot find Token");
     console.log(token);
     let decode = jwt_decode(token)
-    console.log(decode.username);
-    return decode.username;
+    //console.log(decode.username);
+    return decode.isAdmin;
 }
 
 

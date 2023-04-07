@@ -5,7 +5,7 @@ import { Router, useRouter } from 'next/router';
 import {useState} from 'react';
 //import avatar from '../../public/default_avatar.png';
 import nologinavatar from '../../public/no_login_avatar.png';
-import {getUsername, checkLoginStatus} from '../../helper/helper';
+import {getUsername, checkLoginStatus, checkIsAdmin} from '../../helper/helper';
 
 import {
   HashtagIcon,
@@ -16,6 +16,7 @@ import {
   UserIcon,
   DotsCircleHorizontalIcon,
   DotsHorizontalIcon,
+  KeyIcon,
 } from "@heroicons/react/outline";
 import SidebarLink from "./SidebarLink";
 
@@ -23,24 +24,17 @@ const LeftPane = () => {
   const router = useRouter();
   const [isloggedin, setIsloggedin] = useState(false);
   const [username, setUsername] = useState("Login");
-  //setIsloggedin(checkLoginStatus());
-  //let isloggedin = false;
-  //const isloggedin = checkLoginStatus();
+  const [isadmin, setIsadmin] = useState(false);
   checkLoginStatus().then(res => setIsloggedin(res));
   getUsername().then(res=>setUsername(res));
+  checkIsAdmin().then(res=>setIsadmin(res));
   let avatar = require('../../public/default_avatar.png');
   let nologinavatar = require('../../public/no_login_avatar.png');
-  //const {username} = getUsername();
   
   function userLogout(){
     localStorage.removeItem('token');
     window.location.href = "/";
   }
-
-  /*if(isloggedin){
-    {username} = getUsername();
-  }*/
-
 
   return (
     <div className="hidden sm:flex flex-col items-center xl:items-start xl:w-[340px] p-2 fixed h-full">
@@ -57,6 +51,9 @@ const LeftPane = () => {
         <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
         <SidebarLink text="Lists" Icon={ClipboardListIcon} />
         <SidebarLink text="Profile" Icon={UserIcon} />
+        {isadmin?
+        <SidebarLink text="Admin" Icon={KeyIcon} routelink="/admin" />
+        :null}
       </div>
       <button className="hidden xl:inline ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
         Tweet
