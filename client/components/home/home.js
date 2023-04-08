@@ -4,6 +4,8 @@ import { useFormik } from 'formik';
 import Post from '../tweet/post.jsx';
 import useFetch from '../../hooks/fetch.hook';
 import TweetText from '../tweetContent/tweetText.jsx';
+import { getUsername, checkLoginStatus, checkIsAdmin } from '../../helper/helper';
+
 import {
   PhotographIcon,
   XIcon,
@@ -12,7 +14,8 @@ import {
 const Home = () => {
   const [tweets, setTweets] = useState([]);
   const [tweetCount, setTweetCount] = useState(0);
-
+  const [isloggedin, setIsloggedin] = useState(false);
+  checkLoginStatus().then(res => setIsloggedin(res));
   useEffect(() => {
     axios
       .get('/tweet/loadAllTweets')
@@ -28,15 +31,15 @@ const Home = () => {
   }, [tweetCount]);
 
   const addTweet = (tweet) => {
-    setTweets([tweet,...tweets]);
+    setTweets([tweet, ...tweets]);
     setTweetCount(tweetCount + 1);
   }
   console.log(tweetCount)
   return (
-    <div>
-      <Post onTweet={addTweet} />
+    <div>{isloggedin ?
+      <Post onTweet={addTweet} /> : null}
       <div >
-          {tweets.map((tweet, index) => (
+        {tweets.map((tweet, index) => (
           <TweetText key={index} tweetId={tweet.tweetId} />
         ))}
       </div>
