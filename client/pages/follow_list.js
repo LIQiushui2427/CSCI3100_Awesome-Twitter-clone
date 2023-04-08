@@ -113,3 +113,41 @@ function FollowList ({followers=followers_default,followings=followings_default}
 
 export default FollowList;
 
+
+
+
+/*
+
+import mongoose from 'mongoose';
+import { useState, useEffect } from 'react';
+
+
+function UserFollow({ type,hostUserId }) {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function fetchUsers() {
+      const currentUser = await User.findOne({ userId:{hostUserId} });
+      const usersToDisplay = type === 'following'
+        ? await User.find({ followers: currentUser.userId })
+        : await User.find({ following: currentUser.userId });
+      setUsers(usersToDisplay);
+    }
+    fetchUsers();
+  }, [type]);
+
+  return (
+    <>
+      <h1>{type === 'following' ? 'Followed by' : 'Following'}:</h1>
+      <ul>
+        {users.map(user => (
+          <li key={user._id}>
+            <h2>{user.username}</h2>
+            <p>{user.name}</p>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+*/

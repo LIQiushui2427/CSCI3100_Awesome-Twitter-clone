@@ -66,6 +66,7 @@ const LeftPane = () => {
         <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
         <SidebarLink text="Lists" Icon={ClipboardListIcon} />
         <SidebarLink text="Profile" Icon={UserIcon}  onPush={handleClick}/>
+
       </div>
       <button className="hidden xl:inline xl:ml-24 ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
         Tweet
