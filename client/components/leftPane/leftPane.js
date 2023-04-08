@@ -48,6 +48,9 @@ const LeftPane = () => {
     if (destination === "Home"){
       router.push(`/`);
     }
+    else if (destination === "Lists"){
+      router.push(`/follow_list`);
+    }
     else{
       router.push(`/${destination}`);
     }
@@ -66,7 +69,7 @@ const LeftPane = () => {
         <SidebarLink text="Notifications" Icon={BellIcon}  />
         <SidebarLink text="Messages" Icon={InboxIcon}  />
         <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
-        <SidebarLink text="Lists" Icon={ClipboardListIcon} />
+        <SidebarLink text="Lists" Icon={ClipboardListIcon} onPush={handleClick}/>
         <SidebarLink text="Profile" Icon={UserIcon}  onPush={handleClick}/>
 
 
