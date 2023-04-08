@@ -43,6 +43,7 @@ const LeftPane = () => {
     localStorage.removeItem('token');
     window.location.href = "/";
   }
+
   const handleClick = (destination) => {
     if (destination === "Home"){
       router.push(`/`);
@@ -51,6 +52,7 @@ const LeftPane = () => {
       router.push(`/${destination}`);
     }
   }
+
   return (
     <div className="hidden sm:flex flex-col items-center xl:items-start xl:w-[300px] p-2 fixed h-full">
       <div className="flex items-center justify-center w-14 h-14 hoverAnimation p-0 xl:ml-24" onClick={()=>{router.push(`/`);}}>
@@ -67,8 +69,9 @@ const LeftPane = () => {
         <SidebarLink text="Lists" Icon={ClipboardListIcon} />
         <SidebarLink text="Profile" Icon={UserIcon}  onPush={handleClick}/>
 
+
       </div>
-      <button className="hidden xl:inline xl:ml-24 ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
+      <button  onClick={()=>router.push('/profile?isMyProfile=true')} className="hidden xl:inline xl:ml-24 ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
         Tweet
       </button>
 
