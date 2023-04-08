@@ -3,7 +3,6 @@ import axios from '../../config.js';
 import { useFormik } from 'formik';
 import Post from '../tweet/post.jsx';
 import useFetch from '../../hooks/fetch.hook';
-import Tweet from '../tweet/tweet';
 import TweetText from '../tweetContent/tweetText.jsx';
 import {
   PhotographIcon,
