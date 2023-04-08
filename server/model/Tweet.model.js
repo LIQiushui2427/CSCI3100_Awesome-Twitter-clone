@@ -1,7 +1,11 @@
 
+import mongoose from "mongoose";
 
-/*
+
 export const TweetSchema = new mongoose.Schema({
+    nickname: {
+      type: String,
+    },
     tweetId : {
         type: String,
         required : [true, "Please provide unique TweetId"],
@@ -17,7 +21,9 @@ export const TweetSchema = new mongoose.Schema({
         required: [true, "Please provide a content"],
         unique : false,
     },
-    images: [{ path: String }],
+    images: {
+      type: String,
+  },
     date: {
         type: Date,
     },
@@ -32,7 +38,7 @@ export const TweetSchema = new mongoose.Schema({
 export default mongoose.model.Tweets || mongoose.model('Tweet', TweetSchema);
 
 
-*/
+/*
 
 import mongoose from "mongoose";
 
@@ -118,3 +124,4 @@ const tweetSchema = new mongoose.Schema({
 
 module.exports = mongoose.model('Tweet', tweetSchema);
 
+*/

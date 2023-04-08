@@ -1,55 +1,65 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from '../../config.js';
 import { useFormik } from 'formik';
-import toast,{Toaster} from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import useFetch from '../../hooks/fetch.hook';
 import convertToBase64 from '../../helper/convert';
-import {getUsername, checkLoginStatus} from '../../helper/helper';
+import { getUsername, checkLoginStatus } from '../../helper/helper';
 
 import {
     PhotographIcon,
     XIcon,
 } from '@heroicons/react/outline';
 import { updateTweet } from '@/helper/helper.js';
+import { set } from 'local-storage';
 
-const Post = () => {
+const Post = ({ onTweet }) => {
     const [selectedFile, setSelectedFile] = useState("");
     const filePickerRef = useRef(null);
     const [{ isLoading, apiData, serverError }] = useFetch();
     const [input, setInput] = useState('');
     const [username, setUsername] = useState(''); // Added useState to store username
-    
+
     useEffect(() => {
-      getUsername().then((value) => {
-        setUsername(value); // Update username state with resolved value
-      });
+        getUsername().then((value) => {
+            setUsername(value); // Update username state with resolved value
+        });
     }, []); // Use useEffect to fetch username once, when component mounts
-    
+
     console.log(username); // Use console.log inside useEffect callback or after the promise is resolved
-    
-    const handleFileInputChange =  async e => {
+
+    const handleFileInputChange = async e => {
         const base64 = await convertToBase64(e.target.files[0]);
         setSelectedFile(base64);
+    };
+
+    const resetForm = () => {
+        formik.resetForm();
+        setSelectedFile("");
+        setInput("");
     };
 
     const formik = useFormik({
         initialValues: {
             username: username || '',
+            nickname: apiData?.nickname || username,
             content: "",
         },
         enableReinitialize: true,
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit: async values => {
-            values = await Object.assign(values, { images: selectedFile || ''})
+            values = await Object.assign(values, { images: selectedFile || '' })
             console.log(values)
             let updatePromise = updateTweet(values);
             toast.promise(updatePromise, {
                 loading: 'Posting...',
                 success: <b>Post Successfully...!</b>,
                 error: <b>Fail to post!</b>
+            }).then(() => {
+                onTweet(values);
+                resetForm();
             });
-
         }
     })
     return (<div>
