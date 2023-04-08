@@ -59,10 +59,22 @@ const tweetSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  likes: {
+  likesCount: {
     type: Number,
     default: 0
   },
+  likedBy:[{
+    userId:String,
+    unique:[True, 'have liked this tweet']
+  }],
+  dislikesCount: {
+    type: Number,
+    default: 0
+  },
+  dislikedBy:[{
+    userId:String,
+    unique:[True, 'have disliked this tweet']
+  }],
   retweets: {
     type: Number,
     default: 0
