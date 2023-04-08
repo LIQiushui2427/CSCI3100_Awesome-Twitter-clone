@@ -52,7 +52,7 @@ const LeftPane = () => {
         <SidebarLink text="Messages" Icon={InboxIcon} />
         <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
         <SidebarLink text="Lists" Icon={ClipboardListIcon} />
-        <SidebarLink text="Profile" Icon={UserIcon} destination="/profile" />
+        <SidebarLink text="Profile" Icon={UserIcon} destination="/profile" active />
       </div>
       <button className="hidden xl:inline ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
         Tweet
@@ -60,7 +60,7 @@ const LeftPane = () => {
 
       <div className="text-[#d9d9d9] flex mt-14 items-center justify-center hoverAnimation xl:ml-24 xl:-mr-0" >
         <img src={isloggedin? "https://picsum.photos/id/1005/40/40" : "https://www.w3schools.com/howto/img_avatar.png"} alt="User profile" className="w-8 h-8 rounded-full mr-2"/>
-        {isloggedin?
+        {/*{isloggedin? */}
           <div className="hidden xl:inline leading-5">
             <h2 className="font-bold cursor-pointer" onClick={() => router.push('/profile')}>{username}</h2>
             <p className="text-gray-600 cursor-pointer" onClick={userLogout}>logout</p>
@@ -68,7 +68,7 @@ const LeftPane = () => {
           <div className="hidden xl:inline leading-5">
             <h2 className="font-bold cursor-pointer" onClick={() => router.push('/login')}>Login</h2>
           </div>
-        }
+       {/* } */}
         <DotsHorizontalIcon className="h-5 hidden xl:inline ml-10" />
 
       </div>

@@ -5,7 +5,7 @@ const SidebarLink = ({ Icon, text, active, destination }) => {
 
   const handleClick = () => {
     if (active) {
-      router.push('/profile');
+      router.push({destination});
     }
   };
 
