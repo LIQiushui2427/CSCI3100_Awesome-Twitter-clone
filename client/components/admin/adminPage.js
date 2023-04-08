@@ -1,50 +1,62 @@
 import React, { useState, useEffect } from 'react';
+import { Router, useRouter } from 'next/router';
 import axios from '../../config.js';
-import Tweet from '../tweet/tweet.jsx';
-import PostPanel from '../tweet/postPanel.jsx';
+import Navigate from "../Navigate";
+import UserComponent from "./userComponent";
+import { checkIsAdmin } from '../../helper/helper.js';
 const AdminPage = () => {
-  const [tweets, setTweets] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [isadmin, setIsadmin] = useState(false);
+  const router = useRouter();
+  checkIsAdmin().then(res=>setIsadmin(res));
 
   useEffect(() => {
+    
+    /*if(!isadmin){
+      alert("Only admin users can access admin page!");
+     //router.push('/');
+    }*/
+    
+    
+    
     const token = localStorage.getItem('token');
+    
     if (!token) {
       // handle case where token is not found in localStorage
       return;
     }
-    axios.get('/tweet/loadAllTweets', {
+    axios.get('/admin/listAllUsers', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then(response => {
-        const tweets = Object.values(response.data.tweets);
-        setTweets(tweets);
+        const users = Object.values(response.data.users);
+        setUsers(users);
         console.log(response.data);
       })
       .catch(error => {
         console.log(error);
       });
   }, []);
-  return (
-    <div className="w-full flex flex-col justify-center items-center mt-16">
-      <div className="w-full flex justify-center items-center mb-8">
-        <button className="text-lg text-white font-bold mr-4 py-2 px-6">
-          Admin Page
-        </button>
-        <button className="text-lg text-white font-bold py-2 px-6">
-          Testing
-        </button>
-      </div>
-      <div className=" w-1/2 flex flex-col justify-center items-center">
-            {tweets.map((tweet, index) => (
-          <Tweet key={index} tweetId={tweet.tweetId} />
-        ))}
-      </div>
-      <div className="w-1/2 flex justify-center items-center">
-        <PostPanel />
+  return(
+    <div className="w-full flex flex-col justify-center items-center">
+        <div className="w-full justify-start items-stretch pb-10">
+            <div className="px-5 pt-2">
+                <Navigate title="Users List"/>
+            </div>
+            {isadmin?<div >
+              {users.map((auser) => (
+              <UserComponent key={auser.username} username={auser.username} admin={auser.isAdmin?"true":"false"} avatar="https://picsum.photos/id/1005/40/40" />
+              ))}
+            </div>
+            :
+            <div className="p-6">
+              You do not have access to the admin page.  
+            </div>}
         </div>
     </div>
-  );
+);
 };
 
 export default AdminPage;

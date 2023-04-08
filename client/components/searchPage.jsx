@@ -1,5 +1,5 @@
 import React from 'react';
-import Tweet from './tweet/tweet';
+//import Tweet from './tweet/tweet';
 import UserList from './userlist';
 function SearchPage() {
   return (
@@ -32,9 +32,7 @@ function SearchPage() {
           </button>
         </div>
       </div>
-        <div className="mt-10  w-20">
-            <Tweet author="Testauthor" content="Testcontent" picture= "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDFi9koI1_dNL4G-ln4LJgP4RXx6jgERift0PWrSr4w&usqp=CAU&ec=48665701://via.placeholder.com/150"/>
-        </div>
+        
         <div className="mt-10 w-20">
             <UserList />
         </div>
@@ -43,3 +41,8 @@ function SearchPage() {
 }
 
 export default SearchPage;
+/*
+<div className="mt-10  w-20">
+            <Tweet author="Testauthor" content="Testcontent" picture= "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDFi9koI1_dNL4G-ln4LJgP4RXx6jgERift0PWrSr4w&usqp=CAU&ec=48665701://via.placeholder.com/150"/>
+        </div>
+        */
