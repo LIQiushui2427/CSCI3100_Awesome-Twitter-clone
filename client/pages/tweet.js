@@ -9,19 +9,13 @@ import TweetContent from '../components/tweetContent/tweetContent';
 class Tweets extends React.Component {
   render() {
     return (
-      <div className="container">
-        <div className="grid grid-cols-4">
-          <div>
-            <LeftPane />
-          </div>
-          <div className="col-span-2">
+      <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto">
+        <LeftPane />
+          <div className="flex-grow border-l border-r border-gray-700 max-w-2xl sm:ml-[73px] xl:ml-[370px]">
             <TweetContent />
           </div>
-          <div>
-            <RightPane />
-          </div>
-        </div>
-      </div>
+        <RightPane />
+      </main>
     );
   }
 }

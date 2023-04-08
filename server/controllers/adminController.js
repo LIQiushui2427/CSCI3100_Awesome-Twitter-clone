@@ -1,72 +1,35 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import ENV from '../config.js'
-import otpGenerator from 'otp-generator'
-import nodemailer from 'nodemailer';
-import Mailgen from 'mailgen';
 import UserModel from '../model/User.model.js'
 
-export async function verifyUser(req, res, next){
-    try {
-
-        const { username } = req.method == "GET" ? req.query : req.body;
-
-        const user = await UserModel.findOne({ username });
-        if(!user) {
-            return res.status(404).send({ error : "verifyUser: Can't find User!"});
-        }
-        next();
-
-    } catch (error) {
-        return res.status(401).send({ error: "Authentication Error"});
-    }
+export async function listAllUsers(req, res) {
+  try {
+    const users = await UserModel.find({}).sort({ isAdmin: -1 });
+    res.status(200).json({ users });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 }
 
-
-
-export async function login(req, res) {
-    const { username, password } = req.body;
-    console.log(req.body);
-    try {
-      const user = await UserModel.findOne({ username });
-      if (!user) {
-        return res.status(404).send({ error: "Username not Found" });
+export async function deleteUser(req, res){
+  const { username } = req.body;
+  if (!username) {
+      return res.status(400).json({errno:400, error: "username is required" });
+  }
+  try {
+      const deluser = await UserModel.findOne({ username: username });
+      if (!deluser) {
+          return res.status(404).json({errorno:404, error: "User not found" });
       }
-  
-      const passwordCheck = await bcrypt.compare(password, user.password);
-      if (!passwordCheck) {
-        return res.status(400).send({ error: "Password does not Match" });
+      if(deluser.isAdmin){
+        return res.status(403).json({errorno:403,error:"Cannot delete admin user"});
       }
-  
-      const token = jwt.sign(
-        {
-          userId: user._id,
-          username: user.username
-        },
-        ENV.JWT_SECRET,
-        { expiresIn: "24h" }
-      );
-      let oldTokens = user.tokens || [];
-      if(oldTokens.length){
-        oldTokens = oldTokens.filter(t => {
-            const timeDiff = (Date.now() - parseInt(t.signedAt)) / 1000;
-            if(timeDiff < 86400){
-                return t;
-            }
-        });
-      }
-      await UserModel.findByIdAndUpdate(user._id, {
-        tokens: [...oldTokens,{token,signedAt: Date.now().toString()}],
-      });
-      return res.status(200).send({
-        msg: "Login Successful...!",
-        username: user.username,
-        token,
-      });
-
-    } catch (error) {
-      return res.status(500).send({ error });
-    }
-    
+      await deluser.deleteOne();
+      res.status(201).json({ message: "User deleted successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({errno:500, error: "Internal Server Error" });
+  }
 }
-
