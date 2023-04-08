@@ -1,4 +1,4 @@
-/*
+
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
@@ -18,6 +18,8 @@ export const UserSchema = new mongoose.Schema({
         required : [true, "Please provide a unique email"],
         unique: [false, "Email Exist"]
     },
+    Nickname: { type: String },
+    profile: { type: String },
     isAdmin: {
         type: Boolean,
         required: true,
@@ -27,10 +29,10 @@ export const UserSchema = new mongoose.Schema({
 
 export default mongoose.model.Users || mongoose.model('User', UserSchema);
 
-*/
 
 
 
+/*
 import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
@@ -47,8 +49,8 @@ const UserSchema = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
     required: true,
-    default:false,
-},
+    default: false,
+  },
   bio: {
     type: String,
     required: false
@@ -81,7 +83,7 @@ const UserSchema = new mongoose.Schema({
     userId: String,
     username: String
   }],
-  followingCount:{
+  followingCount: {
     type: Number,
     default: 0
   },
@@ -89,31 +91,35 @@ const UserSchema = new mongoose.Schema({
     userId: String,
     username: String
   }],
-  followerCount:{
+  followerCount: {
     type: Number,
     default: 0
   },
   tweets: [{
     tweetId: {
-    type: String,
-    unique: [true,'Tweet exist']}
+      type: String,
+      unique: [true, 'Tweet exist']
+    }
   }],
   likedTweets: [{
     tweetId: {
-        type: String,
-        unique: [true,'Tweet exist']}
+      type: String,
+      unique: [true, 'Tweet exist']
+    }
   }],
   retweetedTweets: [{
     tweetId: {
-        type: String,
-        unique: [true,'Tweet exist']}
+      type: String,
+      unique: [true, 'Tweet exist']
+    }
   }],
-  replies:[{
+  replies: [{
     tweetId: {
-        type: String,
-        unique: [true,'Tweet exist']},
-    reply_content:{type:String, required: {true: 'Please provide the reply'}},
-    date:{type:Date,required:{true: 'Please provide the reply'}},
+      type: String,
+      unique: [true, 'Tweet exist']
+    },
+    reply_content: { type: String, required: { true: 'Please provide the reply' } },
+    date: { type: Date, required: { true: 'Please provide the reply' } },
     required: false
   }],
   notificationSettings: {
@@ -124,3 +130,4 @@ const UserSchema = new mongoose.Schema({
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);
 
+*/

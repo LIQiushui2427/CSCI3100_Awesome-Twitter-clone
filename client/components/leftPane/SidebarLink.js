@@ -9,7 +9,7 @@ const SidebarLink = ({ Icon, text, active, destination }) => {
     }
   };
 
-  const linkClasses = `text-[#d9d9d9] flex items-center justify-center xl:justify-start text-xl space-x-3 hoverAnimation ${active && "font-bold"}`;
+  const linkClasses = `text-[#d9d9d9] flex items-center justify-center xl:justify-start text-2xl space-x-3 hoverAnimation ${active && "font-bold"}`;
 
   return (
     <div className={linkClasses} onClick={handleClick}>
