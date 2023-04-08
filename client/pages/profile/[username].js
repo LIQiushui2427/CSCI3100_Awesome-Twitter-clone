@@ -1,16 +1,18 @@
-import Layout from "../components/Layout";
-import Navigate from "../components/Navigate";
-import Cover from "../components/Cover";
+import Layout from "../../components/Layout";
+import Navigate from "../../components/Navigate";
+import Cover from "../../components/Cover";
 import { useEffect, useState } from "react";
 import LeftPane from "@/components/leftPane/leftPane";
 import RightPane from "@/components/rightPane/rightPane";
 import Button from "@/components/follow_button";
-import FollowList from "./follow_list";
+import { getUsername, checkLoginStatus, checkIsAdmin } from '../../helper/helper';
+import FollowList from "../follow_list";
 import { Router, useRouter } from 'next/router';
 import React from 'react';
+import useFetch from '../../hooks/fetch.hook';
 
 
-import EditProfile from "./edit_profile";
+import EditProfile from "../edit_profile";
 
 
 const user_default = {
@@ -22,21 +24,29 @@ const user_default = {
 };
 
 
-function Profile({ user = user_default }) {
-
+function Profile() {
+  let user = user_default;
   const router = useRouter();
-
-
-  const { isMyProfile } = router.query;
-
+  const [current_username, setUsername] = useState("Login");
+  const [isMyProfile, setIsmyProfile] = useState(false)
   const [showEditCard, setShowEditCard] = useState(false);
 
-  const handleEditClick = () => {
-    setShowEditCard(true);
-  };
+  getUsername().then(res => setUsername(res));
+  const { username } = router.query;
 
+  useEffect(() => {
+    if (current_username === username) {
+      setIsmyProfile(true)
+    } else {
+      setIsmyProfile(false)
+    }
+  }, [current_username, username])
+
+  const handleEditClick = () => {
+    setShowEditCard(true)
+  };
   const handleClose = () => {
-    setShowEditCard(false);
+    setShowEditCard(false)
   };
 
 
@@ -67,10 +77,10 @@ function Profile({ user = user_default }) {
               </div>
 
               <div>
-                {isMyProfile === 'true' ?
+                {isMyProfile ?
                   <div>
                     <div className="flex pt-4 item-center mr-5">
-                      <button onClick={handleEditClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                      <button onClick={handleEditClick} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
                         Edit Profile
                       </button>
                     </div>

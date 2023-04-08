@@ -31,15 +31,15 @@ const Home = () => {
   }, [tweetCount]);
 
   const addTweet = (tweet) => {
-    setTweets([tweet, ...tweets]);
+    setTweets([tweet,...tweets]);
     setTweetCount(tweetCount + 1);
   }
-  console.log(tweetCount)
+  
   return (
-    <div>{isloggedin ?
-      <Post onTweet={addTweet} /> : null}
+    <div>{isloggedin?
+      <Post onTweet={addTweet} />:null}
       <div >
-        {tweets.map((tweet, index) => (
+          {tweets.map((tweet, index) => (
           <TweetText key={index} tweetId={tweet.tweetId} />
         ))}
       </div>
