@@ -41,13 +41,16 @@ const LeftPane = () => {
     localStorage.removeItem('token');
     window.location.href = "/";
   }
-
   const handleClick = (destination) => {
     if (destination === "Home") {
       router.push(`/`);
     }
     else if (destination === "Lists") {
       router.push(`/follow_list`);
+    }
+    else if (destination === "Profile"){
+      
+      router.push(`/profile/${username}`);
     }
     else {
       router.push(`/${destination}`);
