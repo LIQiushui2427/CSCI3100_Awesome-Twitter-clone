@@ -1,6 +1,4 @@
-/*
 
-import ENV from '../config.js'
 import TweetModel from '../model/Tweet.model.js'
 import UserModel from '../model/User.model.js';
 
@@ -34,7 +32,6 @@ export async function getUserProfile(req, res){
 
 
 
-*/
 
 
 

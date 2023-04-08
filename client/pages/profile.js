@@ -43,10 +43,10 @@ function Profile({ user = user_default }) {
 
 
   return (
-    <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto">
+    <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto z=60">
       <LeftPane />
-      <div className="flex-grow border-l border-r border-gray-700 max-w-2xl sm:ml-[73px] xl:ml-[350px]">
-        <div className={showEditCard ? "opacity-50 z-50" : "max-w-2xl mx-auto border-l border-r border-twitterBorder min-h-screen "}>
+      <div className="flex-grow border-l border-r border-gray-700 max-w-2xl sm:ml-[73px] xl:ml-[350px] z=40">
+        <div className={showEditCard ? "opacity-50 " : "max-w-2xl mx-auto border-l border-r border-twitterBorder min-h-screen "}>
           <div className="flex">
             <div className="w-1/4">
             </div>

@@ -31,8 +31,8 @@ function EditProfile({onClose}) {
 
   return (
     
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 w-400 bg-white rounded-md shadow-lg overflow-hidden">
-        
+      <div className="z=30 relative bg-main-background rounded-2xl max-w-xl w-full h-[672px] overflow-hidden">
+        <p>This is edit profile</p>
         {/*navigation*/}
 
         <div className="bg-black text-white sticky top-0 px-4 py-2 flex justify-between items-center">
