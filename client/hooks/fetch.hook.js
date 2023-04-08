@@ -18,7 +18,7 @@ export default function useFetch(query) {
         setData((prevData) => ({ ...prevData, isLoading: true }));
 
         const { username } = !query ? await getUsername() : '';
-
+        console.log(username)
         const endpoint = !query ? `/api/user/${username}` : `/api/${query}`;
         const response = await axios.get(endpoint);
 

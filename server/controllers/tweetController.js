@@ -1,10 +1,10 @@
 import ENV from '../config.js'
-import TweetModel from '../model/Tweet.model.js'
+import TweetModel from '../model/Tweet.model.js';
 import UserModel from '../model/User.model.js';
 
 export async function getTweetById(req, res) {
     const { tweetId } = req.query;
-    //c("req.query: ", req.query)
+    //("req.query: ", req.query)
     try {
       const tweet = await TweetModel.findOne({ tweetId });
   
@@ -47,23 +47,19 @@ export async function loadAllTweets(req, res) {
 
 export async function createTweet(req, res) {
   try {
-    const { username, content } = req.body;
-
+    const { nickname ,username, content, images} = req.body;
+    
     if (!username) {
       return res.status(400).send({ error: "Username is required" });
     }
 
-    if (!content) {
+    if (!content ) {
       return res.status(400).send({ error: "Content is required" });
-    }
-
-    let images = [];
-    if (req.files && req.files.length > 0) {
-      images = req.files.map((file) => ({ path: file.path }));
     }
 
     const newTweet = new TweetModel({
       tweetId: Math.random().toString(20),
+      nickname,
       username,
       content,
       images,
@@ -71,7 +67,6 @@ export async function createTweet(req, res) {
       likes: 0,
       retweets: 0,
     });
-
     await newTweet.save();
 
     res.status(201).json({ tweetId: newTweet.tweetId });
