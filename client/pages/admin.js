@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import LeftPane from '../components/leftPane/leftPane';
 import RightPane from '../components/rightPane/rightPane';
-import AdminPage from '../components/admin/adminPage'
+import AdminPage from '../components/admin/adminPage';
 
 class Admin extends React.Component {
   render() {

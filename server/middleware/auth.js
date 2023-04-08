@@ -23,6 +23,15 @@ export default async function Auth(req, res, next){
     }
 }
 
+export async function checkAdmin(req, res, next){
+    if (req.user && req.user.isAdmin){
+        next();
+    }
+    else{
+        res.status(401).json({ error : "Authentication Failed!"})
+    }
+}
+
 export function localVariables(req, res, next){
     req.app.locals = {
         OTP : null,

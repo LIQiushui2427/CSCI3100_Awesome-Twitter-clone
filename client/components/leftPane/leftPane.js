@@ -63,7 +63,6 @@ const LeftPane = () => {
 
       </div>
       <div className="space-y-2.5 mt-4 mb-2.5 xl:ml-24">
-
         <SidebarLink text="Home" Icon={HomeIcon} onPush={handleClick} />
         {isloggedin ?
           <>
@@ -72,6 +71,9 @@ const LeftPane = () => {
             <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
             <SidebarLink text="Lists" Icon={ClipboardListIcon} onPush={handleClick} />
             <SidebarLink text="Profile" Icon={UserIcon} onPush={handleClick} />
+            {isadmin?
+              <SidebarLink text="Admin" Icon={KeyIcon} />
+            :null}
           </>
           : null}
       </div>
