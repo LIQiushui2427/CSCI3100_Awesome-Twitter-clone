@@ -10,7 +10,6 @@ import jwt_decode from 'jwt-decode';
 export async function checkLoginStatus(){
   const token = localStorage.getItem('token')
   if(!token) return false;
-  console.log("logged in!");
   return true;
 }
 
@@ -28,7 +27,6 @@ export async function getUsername(){
 export async function checkIsAdmin(){
     const token = localStorage.getItem('token')
     if(!token) return Promise.reject("Cannot find Token");
-    console.log(token);
     let decode = jwt_decode(token)
     //console.log(decode.username);
     return decode.isAdmin;

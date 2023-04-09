@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import axios from '../../config.js';
+import Link from 'next/link';
 
 const Avatar = ({ src, alt }) => (
   <img
@@ -19,16 +20,14 @@ Avatar.propTypes = {
 const TweetText = ({ tweetId }) => {
   const [tweetData, setTweetData] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
-
-  //console.log(tweetId);
+  console.log('TweetText component invoked');
   useEffect(() => {
     const fetchTweetData = async () => {
       try {
         const response = await axios.get(`/tweet/getTweetById?tweetId=${tweetId}`);///tweet:tweetId
         const data = response.data;
         setTweetData(data);
-        console.log(data)
-
+        console.log("TweetText: tweetData: ", data);
       } catch (error) {
         console.error(error);
       }
@@ -38,7 +37,7 @@ const TweetText = ({ tweetId }) => {
   if (!tweetData) {
     return <div>Loading tweet...</div>;
   }
-  //console.log(tweetData);
+
   const { nickname, username, content, images, date, likes, retweets } = tweetData;
   const authorid = username
   const authorname = nickname

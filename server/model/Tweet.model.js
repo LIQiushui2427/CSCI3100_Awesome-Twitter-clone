@@ -3,37 +3,39 @@ import mongoose from "mongoose";
 
 
 export const TweetSchema = new mongoose.Schema({
-    nickname: {
-      type: String,
-    },
-    tweetId : {
-        type: String,
-        required : [true, "Please provide unique TweetId"],
-        unique: [true, "TweetId Exist"]
-    },
-    username : {
-        type: String,
-        required : [true, "Please provide unique Username"],
-        unique: [false, "Username Exist"]
-    },
-    content: {
-        type: String,
-        required: [true, "Please provide a content"],
-        unique : false,
-    },
-    images: {
-      type: String,
+  nickname: {
+    type: String,
   },
-    date: {
-        type: Date,
-    },
-    likes: {
-        type: Number,
-    },
-    retweets: {
-        type: Number,
-    },
+  tweetId: {
+    type: String,
+    required: [true, "Please provide unique TweetId"],
+    unique: [true, "TweetId Exist"]
+  },
+  username: {
+    type: String,
+    required: [true, "Please provide unique Username"],
+    unique: [false, "Username Exist"]
+  },
+  content: {
+    type: String,
+    required: [true, "Please provide a content"],
+    unique: false,
+  },
+  images: {
+    type: String,
+  },
+  date: {
+    type: Date,
+  },
+  likes: {
+    type: Number,
+  },
+  retweets: {
+    type: Number,
+  },
+  commentIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
+
 
 export default mongoose.model.Tweets || mongoose.model('Tweet', TweetSchema);
 

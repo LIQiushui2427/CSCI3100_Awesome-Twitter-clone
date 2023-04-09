@@ -1,36 +1,57 @@
-import Layout from "../Layout";
-import Navigate from "../Navigate";
-import Cover from "../Cover";
-import TweetText from "./tweetText";
-import CommentBox from "./commentBox";
-import CommentText from "./commentText";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Layout from '../Layout';
+import Navigate from '../Navigate';
+import Cover from '../Cover';
+import TweetText from './tweetText';
+import CommentBox from './commentBox';
+import CommentText from './commentText';
 
-export default function TweetContent(){
-    return(
-        <div className="w-full flex flex-col justify-center items-center">
-            <div className="w-full justify-start items-stretch pb-10">
-                <div className="px-5 pt-2">
-                    <Navigate title="Tweet"/>
-                </div>
-                <div>
-                    <TweetText content="testing testing" time="Mar 23" />
-                </div>
-                <div>
-                    <CommentBox />
-                </div>
-                <div>
-                    <CommentText />
-                </div>
-                <div>
-                    <CommentText content="test1" nopic="true" />
-                </div>
-                <div>
-                    <CommentText authorname="John Doe" authorid="johndoe" avatarpic="https://picsum.photos/id/1005/40/40" content="test2" picture="https://pbs.twimg.com/media/EKJt7R6XYAEzdvt.png" />
-                </div>
-                <div>
-                    <CommentText authorname="beeper" authorid="c_beeper" content="reply (unfinished)" avatarpic="https://1.gravatar.com/avatar/69119e7cc6b6fed2cbc852051081eda0" picture="https://ksbeeper.files.wordpress.com/2020/11/e5b18fe5b995e688aae59bbe-2021-02-23-163818.gif" />
-                </div>
-            </div>
+function TweetContent({ tweetId }) {
+  const [tweetData, setTweetData] = useState(null);
+  const [commentsData, setCommentsData] = useState([]);
+
+  useEffect(() => {
+
+    const fetchTweetData = async () => {
+        try {
+          if (tweetId) { // <-- Check if tweetId exists
+            const response = await axios.get(`http://localhost:8080/api/tweet/getTweetById?tweetId=${tweetId}`);
+            console.log("TweetId in tweetContent", tweetId);
+            setTweetData(response.data);
+            setCommentsData(response.data.comments);
+            console.log("Tweetdata:", response.data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    fetchTweetData();
+  }, [tweetId]);
+
+  return (//layout and something before would not render somehow . Stuck rendering so i deleted.
+      <div className="w-full flex flex-col justify-center items-center">
+        <div className="w-full justify-start items-stretch pb-10">
+          <div className="px-5 pt-2">
+            <Navigate title="Tweet" />
+          </div>
+          {tweetData && (
+            <TweetText tweetId={tweetId} />
+          )}
+
+          <CommentBox />
+          {/* {commentsData.map((comment) => (
+            <CommentText
+              key={comment.commentId}
+              authorname={comment.authorname}
+              authorid={comment.authorid}
+              content={comment.content}
+              picture={comment.picture}
+            />
+          ))} */}
         </div>
-    );
+      </div>
+  );
 }
+
+export default TweetContent;

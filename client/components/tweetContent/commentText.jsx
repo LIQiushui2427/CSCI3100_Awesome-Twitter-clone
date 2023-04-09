@@ -57,6 +57,7 @@ const CommentText = ({ authorname='test', authorid='reply_example',originalid='s
 );
 
 CommentText.propTypes = {
+  commmentId: PropTypes.string.isRequired,
   authorname: PropTypes.string.isRequired,
   authorid: PropTypes.string.isRequired,
   originalid: PropTypes.string.isRequired,

@@ -143,3 +143,34 @@ try {
     res.status(500).send({ error: "Internal Server Error" });
 }
 }
+
+
+export async function unlikeTweet (req, res) {
+  try {
+    const tweetId = req.body.tweetId;
+    const userId = req.user.userId;
+
+    const tweet = await Tweet.findById(tweetId);
+
+    if (!tweet) {
+      return res.status(404).json({
+        message: "Tweet not found",
+      });
+    }
+
+    // Remove userId from likes array
+    const likes = tweet.likes.filter((like) => like.toString() !== userId);
+
+    tweet.likes = likes;
+    await tweet.save();
+
+    res.status(200).json({
+      message: "Tweet unliked successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
