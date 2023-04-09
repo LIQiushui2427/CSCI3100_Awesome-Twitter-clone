@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { getUsername } from '../../helper/helper';
-import axios 
 
 const Avatar = ({ src, alt }) => (
-  <img
-    className="h-16 w-16 rounded-full"
-    src={src}
-    alt={alt}
-  />
+  <img className="h-16 w-16 rounded-full" src={src} alt={alt} />
 );
 
 Avatar.propTypes = {
@@ -16,35 +10,48 @@ Avatar.propTypes = {
   alt: PropTypes.string.isRequired,
 };
 
-function CommentBox({authorid = 'someone_example', avatarpic = 'https://picsum.photos/id/1005/40/40' });
-  const [username, setUsername] = useState('');
+function CommentBox({ tweetId, username, avatarpic }) {
   const [commentContent, setCommentContent] = useState('');
   const [commentImages, setCommentImages] = useState([]);
+  const [resolvedUsername, setResolvedUsername] = useState('');
 
   useEffect(() => {
-    getUsername().then((value) => {
-      setUsername(value);
+    username.then((result) => {
+      setResolvedUsername(result);
     });
-  }, []);
+  }, [username]);
 
-  const handleSubmit = async () => {
-    const response = await fetch('http://localhost:3000/api/comments');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const formData = new FormData();
+    formData.append('username', resolvedUsername);
+    formData.append('content', commentContent);
+    formData.append('tweetId', tweetId);
+    commentImages.forEach((image) => {
+      formData.append('commentImages', image);
+    });
+  
+    const jsonData = {};
+    for (const [key, value] of formData.entries()) {
+      jsonData[key] = value;
+    }
+  
+    const response = await fetch(`http://localhost:8080/api/tweet/${tweetId}/createComment?username=${resolvedUsername}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        author: username,
-        content: commentContent,
-        images: commentImages,
-      }),
+      body: JSON.stringify(jsonData),
     });
+  
     if (response.ok) {
       // do something
     } else {
       // handle errors
     }
   };
+  
 
   const handleContentChange = (e) => {
     setCommentContent(e.target.value);
@@ -64,10 +71,22 @@ function CommentBox({authorid = 'someone_example', avatarpic = 'https://picsum.p
         <Avatar src={avatarpic} alt="Test" />
         <div className="ml-4">
           <div className="flex items-centerl">
-            <textarea name="commentInput" placeholder="Tweet your reply" value={commentContent} onChange={handleContentChange} cols={60} rows={3} className="w-full resize-none bg-transparent caret-white focus:outline-none text-xlon" />
+            <textarea
+              name="commentInput"
+              placeholder="Tweet your reply"
+              value={commentContent}
+              onChange={handleContentChange}
+              cols={60}
+              rows={3}
+              className="w-full resize-none bg-transparent caret-white focus:outline-none text-xlon"
+            />
           </div>
           <div className="flex items-center">
             <div className="px-5 justify-self-end">
+              <label className="bg-twitterBlue text-white py-2 px-6 rounded-full cursor-pointer">
+                <input type="file" multiple onChange={handleImageChange} className="hidden" />
+                <span>Image</span>
+              </label>
               <button className="bg-twitterBlue text-white py-2 px-6 rounded-full" onClick={handleSubmit}>
                 Reply
               </button>
@@ -80,7 +99,8 @@ function CommentBox({authorid = 'someone_example', avatarpic = 'https://picsum.p
 }
 
 CommentBox.propTypes = {
-  authorid: PropTypes.string.isRequired,
+  tweetId: PropTypes.string.isRequired,
+  username: PropTypes.object.isRequired, // Change the prop type to object
   avatarpic: PropTypes.string.isRequired,
 };
 

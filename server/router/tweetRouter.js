@@ -15,7 +15,7 @@ tweetRouter.route("/createTweet").post(
   controller.createTweet
 );
 
-tweetRouter.route("/createComment").post(
+tweetRouter.route("/:tweetId/createComment").post(
   verifyUser,
   commentController.createComment
 );
@@ -31,6 +31,10 @@ tweetRouter.route("/deleteComment/:commentId").delete(
   commentController.deleteComment
 );
 
+tweetRouter.route("/:tweetId/comments").get(
+  verifyUser,
+  commentController.loadTweetComments
+);
 /* POST requests for liking/unliking a tweet */
 tweetRouter.route("/likeTweet").post(
   verifyUser,

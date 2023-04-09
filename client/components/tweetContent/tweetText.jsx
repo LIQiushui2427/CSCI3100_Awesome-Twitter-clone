@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import axios from '../../config.js';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 const Avatar = ({ src, alt }) => (
@@ -20,6 +21,7 @@ Avatar.propTypes = {
 const TweetText = ({ tweetId }) => {
   const [tweetData, setTweetData] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
+  const router = useRouter();
   console.log('TweetText component invoked');
   useEffect(() => {
     const fetchTweetData = async () => {
@@ -56,6 +58,14 @@ const TweetText = ({ tweetId }) => {
     }
     
   };
+
+  const OnClickTweet = () => {
+    console.log("TweetText: OnClickTweet: ", tweetId);
+    router.push(`/tweet?tweetId=${tweetId}`);
+  };
+
+ 
+  
   const onRetweet = () => {
 
   };
@@ -80,7 +90,7 @@ const TweetText = ({ tweetId }) => {
       </div>
 
       <div className="flex flex-col items-start p-2 divide-y divide-gray-500">
-        <p className="text-xl text-[#d9d9d9]  mb-4">{content}</p>
+        <button className="text-left text-lg font-bold" onClick={OnClickTweet}> {content} </button>
         <img className={"w-auto rounded-xl " + (nopic == "true" ? 'hidden' : '')} src={picture} alt="Sample Picture" />
         <div className="text-gray-500 flex pt-2 pb-2 mt-2">
           <div className="text-white font-bold"> {retweets} </div>

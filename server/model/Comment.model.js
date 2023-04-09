@@ -7,12 +7,12 @@ const CommentSchema = new mongoose.Schema({
     required: [true, 'Please provide unique commentId'],
     unique: [true, 'commentId Exist']
   },
-  author: {
+  username: {
     type: String,
-    required: [true, 'Please provide the author name']
+    required: [true, 'Please provide the username']
   },
   tweetId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: [true, 'Please provide the tweet Id']
   },
   replyTo: {
