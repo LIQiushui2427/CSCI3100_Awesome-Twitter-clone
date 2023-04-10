@@ -8,9 +8,10 @@ import UserModel from '../model/User.model.js'
 
 export async function verifyUser(req, res, next){
     try {
-
+        console.log("req.query: ", req.query)
+        console.log("req.body: ", req.body)
         const { username } = req.method == "GET" ? req.query : req.body;
-
+        
         const user = await UserModel.findOne({ username });
         if(!user) {
             return res.status(404).send({ error : "verifyUser: Can't find User!"});
