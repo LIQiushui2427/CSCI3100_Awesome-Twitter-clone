@@ -15,7 +15,7 @@ router.route('/user/:username').get(controller.getUser)
 router.route('/generateOTP').get(controller.verifyUser, localVariables, controller.generateOTP) 
 router.route('/verifyOTP').get(controller.verifyUser, controller.verifyOTP)
 router.route('/createResetSession').get(controller.createResetSession)
-
+router.route("/searchUsers").get(controller.searchUsers);
 /* PUT request*/ 
 router.route('/resetPassword').put(controller.verifyUser, controller.resetPassword);
 router.route('/updateUser').put(Auth, controller.updateUser);
