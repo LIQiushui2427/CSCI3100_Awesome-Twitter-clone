@@ -125,7 +125,8 @@ export async function login(req, res) {
 }
 
 export async function generateOTP(req, res) {
-    const { username } = req.body;
+    const { username } = req.query;
+    console.log(username)
     const user = await UserModel.findOne({ username });
     try {
         if (!user) {

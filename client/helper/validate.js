@@ -28,9 +28,9 @@ export async function passwordValidate(values){
 export async function resetPasswordValidation(values){
     const errors = passwordVerify({}, values);
 
-    /*if(values.password !== values.confirm_pwd){
+    if(values.password !== values.password2){
         errors.exist = toast.error("Password not match...!");
-    }*/
+    }
 
     return errors;
 }
@@ -47,8 +47,13 @@ export async function registerValidation(values){
 /** validate login form */
 export async function loginValidation(values){
     const errors = usernameVerify({}, values);
-    passwordVerify(errors, values);
+    return errors;
+}
 
+/** validate sendOTP form */
+export async function sendOTPValidation(values){
+    console.log(values)
+    const errors = usernameVerify({}, values);
     return errors;
 }
 
@@ -70,8 +75,8 @@ function passwordVerify(errors = {}, values){
         errors.password = toast.error("Password Required...!");
     } else if(values.password.includes(" ")){
         errors.password = toast.error("Wrong Password...!");
-    }else if(values.password.length < 4){
-        errors.password = toast.error("Password must be more than 4 characters long");
+    }else if(values.password.length < 6){
+        errors.password = toast.error("Password must be more than 6 characters long");
     }
     /*else if(!specialChars.test(values.password)){
         errors.password = toast.error("Password must have special character");
@@ -79,6 +84,7 @@ function passwordVerify(errors = {}, values){
 
     return errors;
 }
+
 
 
 /** validate username */
