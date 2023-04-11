@@ -22,7 +22,25 @@ export async function verifyUser(req, res, next){
         return res.status(401).send({ error: "Authentication Error"});
     }
 }
-
+export async function searchUsers(req, res) {
+    try {
+      const { key } = req.query;
+      if (!key) {
+        return res.status(400).send({ error: "Keyword is required" });
+      }
+  
+      const users = await UserModel.find({ username: { $regex: key, $options: "i" } });
+      if (users.length === 0) {
+        return res.status(404).send({ error: "No users found for the keyword" });
+      }
+  
+      res.status(200).send({ users });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: "Internal Server Error" });
+    }
+  }
+  
 export async function signup(req,res){
     try {
         const { username, password, email } = req.body;        
@@ -196,7 +214,7 @@ export async function resetPassword(req, res) {
 export async function getUser(req, res) {
     try {
       const { username } = req.params;
-  
+    console.log("getUser: ", username);
       if (!username) {
         return res.status(400).json({ error: "Invalid username" });
       }
@@ -204,7 +222,7 @@ export async function getUser(req, res) {
       const user = await UserModel.findOne({ username });
   
       if (!user) {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ error: "Get user: User not found" });
       }
   
       const { password, ...userData } = user.toObject();

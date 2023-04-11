@@ -21,7 +21,7 @@ export async function deleteUser(req, res){
   try {
       const deluser = await UserModel.findOne({ username: username });
       if (!deluser) {
-          return res.status(404).json({errorno:404, error: "User not found" });
+          return res.status(404).json({errorno:404, error: "Admin: User not found" });
       }
       if(deluser.isAdmin){
         return res.status(403).json({errorno:403,error:"Cannot delete admin user"});
