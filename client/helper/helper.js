@@ -3,8 +3,6 @@ import React, { createContext, useState,useEffect } from 'react';
 import client from '../config'
 import jwt_decode from 'jwt-decode';
 
-
-
 /** Make API Requests */
 
 export async function checkLoginStatus(){
@@ -96,14 +94,7 @@ export async function updateTweet(response){
 //to be modified
 export async function generateOTP(username){
     try {
-        const {data : { code }, status } = await client.get('/generateOTP', { params : { username }});
-
-        // send mail with the OTP
-        if(status === 201){
-            let { data : { email }} = await getUser({ username });
-            let text = `Your Password Recovery OTP is ${code}. Verify and recover your password.`;
-            await client.post('/api/registerMail', { username, userEmail: email, text, subject : "Password Recovery OTP"})
-        }
+        const { data: { code }, status } = await client.get(`/generateOTP?username=${username.username}`);
         return Promise.resolve(code);
     } catch (error) {
         return Promise.reject({ error });
@@ -113,6 +104,7 @@ export async function generateOTP(username){
 /** verify OTP */
 export async function verifyOTP({ username, code }){
     try {
+        console.log(code)
        const { data, status } = await client.get('/verifyOTP', { params : { username, code }})
        return { data, status }
     } catch (error) {
