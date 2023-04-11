@@ -24,24 +24,49 @@ const user_default = {
 };
 
 
-function Profile() {
+function Profile({hostUsername='host'}) {
   let user = user_default;
   const router = useRouter();
-  const [current_username, setUsername] = useState("Login");
-  const [isMyProfile, setIsmyProfile] = useState(false)
+
+  const { username } = router.query??'host';
+
+  const [current_username, setCur_Username] = useState(username);
+  //const [isMyProfile, setIsmyProfile] = useState(false)
   const [showEditCard, setShowEditCard] = useState(false);
 
-  getUsername().then(res => setUsername(res));
-  const { username } = router.query;
-
+  /*getUsername().then(res => setCur_Username(res));*/
+  
+  
+  /*
+  const [profile, setProfile]=useState('')
   useEffect(() => {
+    axios
+      .get(`/loadUserInfo?userId=${userId}`)
+      .then(response => {
+        const userData = Object.values(response.data.userData);
+        setProfile(userData);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [current_username]); */
+
+
+  /*useEffect(() => {
+    current_username === username?
+    undefined:setCur_Username({username})   
+  }, [current_username, username])*/
+  
+
+ /* useEffect(() => {
     if (current_username === username) {
       setIsmyProfile(true)
     } else {
       setIsmyProfile(false)
     }
-  }, [current_username, username])
-
+  }, [current_username, username])*/
+ 
   const handleEditClick = () => {
     setShowEditCard(true)
   };
@@ -77,7 +102,7 @@ function Profile() {
               </div>
 
               <div>
-                {isMyProfile ?
+                {current_username===hostUsername ?
                   <div>
                     <div className="flex pt-4 item-center mr-5">
                       <button onClick={handleEditClick} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
@@ -100,6 +125,7 @@ function Profile() {
                     </div>
                     <div className="pr-5">
                       <Button text="Follow" />
+                      {console.log('the value of hostUsername and current_username are'+{hostUsername}+{current_username})}
                     </div>
                   </div>
                 }
@@ -120,10 +146,16 @@ function Profile() {
                 </div>
               </div>
               <div className="text-gray-500 pl-5 pt-2 flex items-center">
-                <button onClick={() => router.push('/follow_list?followxx=following')} >
+                <button onClick={() => router.push({
+                        pathname: '/follow_list', 
+                        query:{username:current_username,followxx:"following"} 
+                  })} > 
                   <div>x following</div>
                 </button>
-                <button onClick={() => router.push('/follow_list?followxx=follower')} className="p-2">
+                <button onClick={() => router.push({
+                        pathname: '/follow_list', 
+                        query:{username:current_username,followxx:"followers"} 
+                  })} className="p-2">
                   <div>x follower</div>
                 </button>
               </div>

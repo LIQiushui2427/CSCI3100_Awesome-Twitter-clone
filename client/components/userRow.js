@@ -18,12 +18,12 @@ const userDefault={
 function UserRow({user=userDefault}){ //parameter to insert: user
 
    const router = useRouter();
-   
+   const username = user.id??'host';
 
    return(
 
     <div className="grid grid-cols-3 gap-0">
-    <div onClick={() => router.push('/profile?isMyProfile=false')} className="container col-span-2 ml-auto mx-auto pt-3 pl-20 cursor-pointer">
+    <div onClick={() => router.push(`/profile/${username}`)} className="container col-span-2 ml-auto mx-auto pt-3 pl-20 cursor-pointer">
           <ul>
               <li key={user.id} className="flex items-center py-4 px-15">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
