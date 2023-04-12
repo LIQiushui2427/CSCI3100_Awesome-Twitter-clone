@@ -20,6 +20,11 @@ tweetRouter.route("/:tweetId/createComment").post(
   commentController.createComment
 );
 
+tweetRouter.route("/reTweet").post(
+  verifyUser,
+  controller.reTweet
+);
+
 /* DELETE requests */
 tweetRouter.route("/deleteTweet").delete(
   verifyUser,
