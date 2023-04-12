@@ -26,6 +26,7 @@ const TweetText = ({ tweetId }) => {
   const [currentUser,setCurrentUser] = useState();
   const [isloggedin, setIsloggedin] = useState(false);
   const [likednum,setLikednum] = useState();
+  const [noop,setNoop] = useState(true);
   checkLoginStatus().then(res => setIsloggedin(res));
   getUsername().then(res => setCurrentUser(res));
   const router = useRouter();
@@ -42,22 +43,24 @@ const TweetText = ({ tweetId }) => {
         console.error(error);
       }
     };
-    fetchTweetData().then(res=>
-      function(){
-        console.log("after fetching tweet data:");
-        console.log(res);
-        if(res.likedUsers.includes(currentUser)){
-          setIsLiked(true);
-        }
-        setLikednum(res.likes);
-      }
-    );
+    fetchTweetData();
     
   }, [tweetId]);
   if (!tweetData) {
     return <div>Loading tweet...</div>;
   }
+  /*useEffect(() => {
+    
+    console.log("after fetching tweet data:");
+    console.log(tweetData);
+    if(tweetData.likedUsers.includes(currentUser)){
+      setIsLiked(true);
+    }
+    setLikednum(tweetData.likes);
+  });*/
+  
   console.log("tweet loaded");
+  
 
   const { nickname, username, content, images, date, likes, retweets, isRetweet,retweetUser,originalTime,likedUsers } = tweetData;
   const authorid = username
@@ -66,6 +69,12 @@ const TweetText = ({ tweetId }) => {
   const picture = images
   const nopic = (images === '' ? "true" : "false")
   //const [retweetnum,setRetweetnum] = useState(retweets);
+  if(noop && tweetData.likedUsers.includes(currentUser) && !isLiked){
+    setIsLiked(true);
+  }
+  if(noop && likednum != likes){
+    setLikednum(likes);
+  }
   
   console.log("tweet info loaded");
   const onComment = () => {
@@ -74,12 +83,14 @@ const TweetText = ({ tweetId }) => {
     if(!isloggedin){
       alert("You need to login before liking!");
       router.push('/login');
+      return;
     }
     if (isLiked){
       unlikeTweet({username:currentUser,tweetId:tweetId}).then(
         function(){
           setIsLiked(false);
           setLikednum(likednum - 1);
+          setNoop(false);
       },function(){
         alert("Fail to unlike tweet!");
       });
@@ -89,6 +100,7 @@ const TweetText = ({ tweetId }) => {
         function(){
           setIsLiked(true);
           setLikednum(likednum + 1);
+          setNoop(false);
       },function(){
         alert("Fail to like tweet!");
       });
@@ -107,6 +119,7 @@ const TweetText = ({ tweetId }) => {
     if(!isloggedin){
       alert("You need to login before retweeting!");
       router.push('/login');
+      return;
     }
     if(isRetweet){
       alert("Please retweet original tweet!");
