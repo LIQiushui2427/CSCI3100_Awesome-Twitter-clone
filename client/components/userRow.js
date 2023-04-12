@@ -4,23 +4,21 @@ import Button from "@/components/follow_button";
 import { Router, useRouter } from 'next/router';
 
 
+const userDefault = {
+  'avatar': 'https://inews.gtimg.com/newsapp_bt/0/12614599781/1000',
+  'name': 'Carlos',
+  'id': 'carlos',
+  'signature': 'Work hard, play hard!'
 
-
-
-const userDefault={
-    'avatar':'https://inews.gtimg.com/newsapp_bt/0/12614599781/1000',
-    'name': 'Carlos',
-    'id':'carlos',
-    'signature': 'Work hard, play hard!'
-    
 };
 
-function UserRow({user=userDefault}){ //parameter to insert: user
+function UserRow({ user = userDefault }) { //parameter to insert: user
 
    const router = useRouter();
    const username = user.id??'host';
 
-   return(
+
+  return (
 
     <div className="grid grid-cols-3 gap-0">
     <div onClick={() => router.push(`/profile/${username}`)} className="container col-span-2 ml-auto mx-auto pt-3 pl-20 cursor-pointer">
@@ -38,13 +36,13 @@ function UserRow({user=userDefault}){ //parameter to insert: user
           </ul>
       </div>
       <div className="flex justify-center items-center col-span-1">
-             <div className="align-left"> 
-                <Button />
-                </div>
-                </div>
+        <div className="align-left">
+          <Button />
+        </div>
+      </div>
     </div>
 
-   );
+  );
 
 }
 

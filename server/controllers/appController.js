@@ -213,7 +213,7 @@ export async function resetPassword(req, res) {
 
 export async function getUser(req, res) {
     try {
-      const { username } = req.params;
+    const { username } = req.params;
     console.log("getUser: ", username);
       if (!username) {
         return res.status(400).json({ error: "Invalid username" });
@@ -234,25 +234,24 @@ export async function getUser(req, res) {
     }
   }
 
-export async function updateUser(req,res){
-    try{
-        const userId = req.user._id;
-        console.log(userId);
-        if(userId){
-            const body = req.body;
-            //console.log(email);
-            await UserModel.updateOne({_id:userId},body,function(err,data){
-                if(err) throw err;
-                return res.status(201).send({msg:"Record Updated...!"});
-            })
-        }
-        else{
-            return res.status(401).send({msg:"Unauthorized access!"});
-        }
-    }catch(error){
-        return res.status(401).send({error});
+  export async function updateUser(req, res) {
+    try {
+      const userId = req.user._id;
+      if (userId) {
+        const body = req.body;
+        console.log("HH")
+        console.log(body.cover)
+
+        await UserModel.updateOne({ _id: userId }, body);
+        res.status(201).send({ msg: "Record Updated...!" });
+      } else {
+        res.status(401).send({ msg: "Unauthorized access!" });
+      }
+    } catch (error) {
+      res.status(401).send({ error });
     }
-}
+  }
+  
 
 export async function logout(req,res){
     if(req.headers && req.headers.authorization){

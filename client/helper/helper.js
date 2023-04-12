@@ -17,7 +17,7 @@ export async function getUsername(){
     if(!token) return Promise.reject("Cannot find Token");
     //console.log(token);
     let decode = jwt_decode(token)
-    //console.log(decode.username);
+    console.log(decode.username);
     return decode.username;
 }
 

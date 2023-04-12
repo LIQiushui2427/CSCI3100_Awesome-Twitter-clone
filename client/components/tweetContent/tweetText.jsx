@@ -161,7 +161,7 @@ const TweetText = ({ tweetId }) => {
       </div>
 
       <div className="flex flex-col items-start p-2 divide-y divide-gray-500">
-        <button className="text-left text-lg font-bold" onClick={OnClickTweet}> {content} </button>
+        <button className="text-left text-lg " onClick={OnClickTweet}> {content} </button>
         <img className={"w-auto rounded-xl " + (nopic == "true" ? 'hidden' : '')} src={picture} alt="Sample Picture" />
         <div className="text-gray-500 flex pt-2 pb-2 mt-2">
           <div className="text-white font-bold"> {retweets} </div>

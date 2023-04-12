@@ -10,72 +10,39 @@ import FollowList from "../follow_list";
 import { Router, useRouter } from 'next/router';
 import React from 'react';
 import useFetch from '../../hooks/fetch.hook';
-
-
 import EditProfile from "../edit_profile";
+import convertToBase64 from '../../helper/convert';
 
 
-const user_default = {
-  'avatar': 'https://inews.gtimg.com/newsapp_bt/0/12614599781/1000',
-  'name': 'Carlos',
-  'id': 'carlos',
-  'signature': 'Work hard, play hard!'
-
-};
-
-
-function Profile({hostUsername='host'}) {
-  let user = user_default;
+function Profile() {
+  const [{ isLoading, apiData, serverError }] = useFetch();
   const router = useRouter();
-
-  const { username } = router.query??'host';
-
-  const [current_username, setCur_Username] = useState(username);
-  //const [isMyProfile, setIsmyProfile] = useState(false)
+  const [current_username, setUsername] = useState("Login");
+  const [isMyProfile, setIsmyProfile] = useState(false)
   const [showEditCard, setShowEditCard] = useState(false);
+  const [cover, setCover] = useState(null)
+  const [editMode,setEditMode] = useState(false);
+  const [isFollowing,setIsFollowing] = useState(false);
+  getUsername().then(res => setUsername(res));
+  const { username } = router.query;
 
-  /*getUsername().then(res => setCur_Username(res));*/
-  
-  
-  /*
-  const [profile, setProfile]=useState('')
   useEffect(() => {
-    axios
-      .get(`/loadUserInfo?userId=${userId}`)
-      .then(response => {
-        const userData = Object.values(response.data.userData);
-        setProfile(userData);
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [current_username]); */
-
-
-  /*useEffect(() => {
-    current_username === username?
-    undefined:setCur_Username({username})   
-  }, [current_username, username])*/
-  
-
- /* useEffect(() => {
     if (current_username === username) {
       setIsmyProfile(true)
     } else {
       setIsmyProfile(false)
     }
-  }, [current_username, username])*/
- 
+  }, [current_username, username])
+
   const handleEditClick = () => {
     setShowEditCard(true)
   };
   const handleClose = () => {
     setShowEditCard(false)
   };
-
-
-
+  function updateUserImage(src) {
+    setCover(src)
+  }
 
   return (
     <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto z=60">
@@ -88,28 +55,31 @@ function Profile({hostUsername='host'}) {
           </div>
           <div className="border-b border-twitterBorder pb-10">
             <div className="px-5 pt-2">
-              <Navigate title={user.name} />
+              <Navigate title={apiData?.Nickname || username} />
             </div>
 
-            <Cover src="http://5b0988e595225.cdn.sohucs.com/images/20190724/d89126445d4e423298f44cf672890fbc.jpeg" />
+            <Cover src={cover||apiData?.cover || "https://cdn.discordapp.com/attachments/1089880136037437460/1095383978967564318/cHl.jpg"}
+             editable={isMyProfile}
+             onChange={src => updateUserImage(src)}
+            />
             <div className="flex justify-between">
               <div className="ml-5 relative">
                 <div className="absolute -top-14 border-4 rounded-full border-black overflow-hidden">
                   <div className="rounded-full overflow-hidden w-36">
-                    <img src="https://inews.gtimg.com/newsapp_bt/0/12614599781/1000"></img>
+                    <img src={apiData?.profile||"https://www.w3schools.com/howto/img_avatar.png"}></img>
                   </div>
                 </div>
               </div>
 
               <div>
-                {current_username===hostUsername ?
+                {isMyProfile ?
                   <div>
                     <div className="flex pt-4 item-center mr-5">
-                      <button onClick={handleEditClick} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                      <button onClick={()=>setShowEditCard(true) } className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
                         Edit Profile
                       </button>
                     </div>
-                    {showEditCard && <EditProfile onClose={handleClose} />}
+                    {showEditCard && <EditProfile onClose={()=>setShowEditCard(false)} />}
                   </div>
                   :
                   <div className="flex  pt-4 ">
@@ -125,7 +95,6 @@ function Profile({hostUsername='host'}) {
                     </div>
                     <div className="pr-5">
                       <Button text="Follow" />
-                      {console.log('the value of hostUsername and current_username are'+{hostUsername}+{current_username})}
                     </div>
                   </div>
                 }
@@ -133,30 +102,21 @@ function Profile({hostUsername='host'}) {
 
 
             </div>
-            <div className="mt-12 px-7 ">
-              <h1 className="pl-5 font-bold text-xl leading-5">{"Carlos"}</h1>
+            <div className="mt-10 px-7 ">
+              <h1 className="pl-6 pb-3 font-bold text-xl leading-5">{apiData?.Nickname || username}</h1>
             </div>
             <div>
-              <div className="text-gray-500 pl-5 pt-2 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
-                </svg>
-                <div className="pl-2 ">
-                  Joined March 2023
+              <div className="text-gray-500 pl-5 pt-2 flex items-center pb-3">
+                <div>
+                  {apiData?.signature||"good good study, day day up"}
                 </div>
               </div>
-              <div className="text-gray-500 pl-5 pt-2 flex items-center">
-                <button onClick={() => router.push({
-                        pathname: '/follow_list', 
-                        query:{username:current_username,followxx:"following"} 
-                  })} > 
-                  <div>x following</div>
+              <div className="text-white pl-5 ml-5 pt-2 flex items-center">
+                <button onClick={() => router.push('/follow_list?followxx=following')} >
+                  <div className="hover:underline">following</div>
                 </button>
-                <button onClick={() => router.push({
-                        pathname: '/follow_list', 
-                        query:{username:current_username,followxx:"followers"} 
-                  })} className="p-2">
-                  <div>x follower</div>
+                <button onClick={() => router.push('/follow_list?followxx=follower')} className="pl-4">
+                  <div className="hover:underline">follower</div>
                 </button>
               </div>
 

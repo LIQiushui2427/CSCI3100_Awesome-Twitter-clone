@@ -16,22 +16,33 @@ const User = ({ userId }) => {
   if (!user) {
     return <p>Loading user...</p>;
   }
-
   return (
-    <li className="flex items-center space-x-4 py-4">
-      <img
-        className="w-10 h-10 rounded-full"
-        src={user.avatar}
-        alt={'https://via.placeholder.com/150'}
-      />
-      <div>
-        <h3 className="font-bold w-40 text-blue-300">{user.username}</h3>
-        <button className="text-blue-500 hover:text-blue-700">
-          View Profile
-        </button>
-        <Button text="Follow" />
+    <div className="grid grid-cols-3 gap-0">
+      <div className="container col-span-2 ml-auto mx-auto pt-3 pl-5 ">
+        <ul>
+          <li key={user.username} className="flex items-center py-4 px-15">
+            <div className="w-12 h-12 rounded-full overflow-hidden">
+              <img
+                className="w-10 h-10 rounded-full cursor-pointer"
+                src={user?.profile || "https://www.w3schools.com/howto/img_avatar.png"}
+                alt={'https://via.placeholder.com/150'}
+              />
+            </div>
+            <div className="ml-4">
+              <h2><b>{user?.Nickname || user.username}</b></h2>
+              <p className="text-gray-500">@{user.username}</p>
+              <p className="text-white-300">{user?.signature || ""}</p>
+            </div>
+          </li>
+        </ul>
       </div>
-    </li>
+      <div className="flex justify-center items-center col-span-1">
+        <div className="align-left">
+          <Button />
+        </div>
+      </div>
+    </div>
+
   );
 };
 

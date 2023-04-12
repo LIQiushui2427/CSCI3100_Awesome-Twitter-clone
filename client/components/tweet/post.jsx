@@ -16,7 +16,7 @@ import { set } from 'local-storage';
 const Post = ({ onTweet }) => {
     const [selectedFile, setSelectedFile] = useState("");
     const filePickerRef = useRef(null);
-    const [{ isLoading, apiData, serverError }] = useFetch();
+    const [{ isLoading, apiData, serverError }] = useFetch(null);
     const [input, setInput] = useState('');
     const [username, setUsername] = useState(''); // Added useState to store username
 
@@ -30,6 +30,7 @@ const Post = ({ onTweet }) => {
 
     const handleFileInputChange = async e => {
         const base64 = await convertToBase64(e.target.files[0]);
+
         setSelectedFile(base64);
     };
 

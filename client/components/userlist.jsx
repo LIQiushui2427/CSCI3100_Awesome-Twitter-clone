@@ -16,7 +16,7 @@ const UserList = ({ searchKey }) => {
   }, [searchKey]);
 
   return (
-    <div className="rounded-lg shadow-md p-6">
+    <div className="rounded-lg shadow-md">
       {users? (
         <ul>
           {users.map((user) => (
