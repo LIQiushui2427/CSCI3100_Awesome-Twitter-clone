@@ -16,6 +16,7 @@ const Home = () => {
   const [tweetCount, setTweetCount] = useState(0);
   const [isloggedin, setIsloggedin] = useState(false);
   checkLoginStatus().then(res => setIsloggedin(res));
+  
   useEffect(() => {
     axios
       .get('/tweet/loadAllTweets')

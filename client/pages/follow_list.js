@@ -39,14 +39,12 @@ const followings_default = [{
 function FollowList({ followers = followers_default, followings = followings_default }) {
 
   const router = useRouter();
-  const { followxx } = router.query;
 
+  const username = router.query.username ?? 'host'; 
+  const followxx = router.query.followxx ?? 'following';
+  
 
-  const [activeTab, setActiveTab] = useState(followxx);
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
+  //const [activeTab, setActiveTab] = useState(followxx); 
 
 
   return (
@@ -59,10 +57,10 @@ function FollowList({ followers = followers_default, followings = followings_def
             <Navigate title={"Carlosssss"} />
           </div>
           <div>
-            {activeTab === 'following' ? (
+            {followxx === 'following' ? (
               <div>
                 <div class="grid grid-cols-2  border-b border-twitterBorder">
-                  <div class="flex items-center justify-center text-lg text-gray-500 hover:bg-gray-800 cursor-pointer pt-2 pb-2" onClick={() => handleTabClick('followers')}><p class="text-center" >Followers</p></div>
+                  <div class="flex items-center justify-center text-lg text-gray-500 hover:bg-gray-800 cursor-pointer pt-2 pb-2" onClick={() => router.replace({pathname:'/follow_list',query:{username:username,followxx:'followers'}})}><p class="text-center" >Followers</p></div>
                   <div class="flex items-center justify-center text-lg text-white hover:bg-gray-800 cursor-pointer"><p class="text-center" >Following</p></div>
                 </div>
                 <div>
@@ -78,7 +76,7 @@ function FollowList({ followers = followers_default, followings = followings_def
               <div>
                 <div class="grid grid-cols-2  border-b border-twitterBorder">
                   <div class="flex items-center justify-center text-lg text-white hover:bg-gray-800 cursor-pointer pt-2 pb-2"><p class="text-center">Followers</p></div>
-                  <div class="flex items-center justify-center text-lg text-gray-500 hover:bg-gray-800 cursor-pointer" onClick={() => handleTabClick('following')}><p class="text-center">Following</p></div>
+                  <div class="flex items-center justify-center text-lg text-gray-500 hover:bg-gray-800 cursor-pointer" onClick={() => router.replace({pathname:'/follow_list',query:{username:username,followxx:'following'}})}><p class="text-center">Following</p></div>
                 </div>
                 <div>
                   {followers.map((follower) => (

@@ -66,6 +66,7 @@ export async function createTweet(req, res) {
       date: new Date(),
       likes: 0,
       retweets: 0,
+      likedUsers: [],
     });
     await newTweet.save();
 
@@ -119,8 +120,7 @@ try {
   
 export async function likeTweet(req, res) {
 try {
-    const { username } = req.body;
-    const { tweetId } = req.query;
+    const {username,tweetId} = req.body;
     if (!tweetId) {
     return res.status(400).send({ error: "TweetId is required" });
     }
@@ -133,7 +133,8 @@ try {
     }
     const updatedTweet = await TweetModel.findByIdAndUpdate(
     tweet._id,
-    { $inc: { likes: 1 } },
+    { $inc: { likes: 1 } ,
+    $push:{likedUsers:username}},
     { new: true }
     );
     updatedTweet.likes++; // Manually increment the likes count since Mongoose doesn't update the document instance
@@ -147,10 +148,9 @@ try {
 
 export async function unlikeTweet (req, res) {
   try {
-    const tweetId = req.body.tweetId;
-    const userId = req.user.userId;
+    const {username,tweetId} = req.body;
 
-    const tweet = await Tweet.findById(tweetId);
+    const tweet = await TweetModel.findOne({tweetId});
 
     if (!tweet) {
       return res.status(404).json({
@@ -159,10 +159,19 @@ export async function unlikeTweet (req, res) {
     }
 
     // Remove userId from likes array
-    const likes = tweet.likes.filter((like) => like.toString() !== userId);
+    const likedUsers = tweet.likedUsers.filter((like) => like.toString() !== username);
 
-    tweet.likes = likes;
-    await tweet.save();
+    /*tweet.likedUsers = likedUsers;
+    tweet.likes--;
+    await tweet.save();*/
+    const updatedTweet = await TweetModel.findByIdAndUpdate(
+      tweet._id,
+      { $inc: { likes: -1 } ,
+      $set:{likedUsers:likedUsers}},
+      { new: true }
+      );
+      updatedTweet.likes--; // Manually increment the likes count since Mongoose doesn't update the document instance
+      //res.json(updatedTweet);
 
     res.status(200).json({
       message: "Tweet unliked successfully",
@@ -174,3 +183,53 @@ export async function unlikeTweet (req, res) {
     });
   }
 };
+export async function reTweet(req, res) {
+  try {
+    const {username,tweetId} = req.body;
+    
+    if (!username) {
+      return res.status(400).send({ error: "Nickname is required" });
+    }
+
+    if (!tweetId ) {
+      return res.status(400).send({ error: "Original tweet ID is required" });
+    }
+
+    const tweet = await TweetModel.findOne({ tweetId });
+  
+      if (!tweet) {
+        return res.status(404).send({ error: "Tweet not found" });
+      }
+    
+
+    const newTweet = new TweetModel({
+      tweetId: Math.random().toString(20),
+      nickname: tweet.nickname,
+      username: tweet.username,
+      content: tweet.content,
+      images: tweet.images,
+      date: new Date(),
+      likes: tweet.likes,
+      retweets: tweet.retweets,
+      isRetweet: true,
+      retweetUser: username,
+      originalTime: tweet.date,
+      likedUSers: tweet.likedUsers,
+    });
+    await newTweet.save();
+
+    const originalTweet = await TweetModel.findByIdAndUpdate(
+      tweet._id,
+      { $inc: { retweets: 1 } },
+      { new: true }
+      );
+      originalTweet.retweets++;
+
+    res.status(201).json({ tweetId: newTweet.tweetId });
+  } catch (error) {
+    console.error("error in reTweet: ", error);
+    return res
+      .status(500)
+      .send({ error: "Internal Server Error in reTweet" });
+  }
+}

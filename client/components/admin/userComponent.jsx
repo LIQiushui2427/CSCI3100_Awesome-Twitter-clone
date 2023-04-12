@@ -1,9 +1,11 @@
 import React from "react";
+import { useState } from 'react';
 import { Router, useRouter } from 'next/router';
 import {deleteUser} from '../../helper/adminhelper';
 
 const UserComponent = ({username,avatar,admin = "false"}) => {
   const router = useRouter();
+  const [deleted,setDeleted] = useState(false);
   function clickDelete(){
     let r = confirm("Are you sure you want to delete user "+username+"?");
     if(r == true){
@@ -12,13 +14,15 @@ const UserComponent = ({username,avatar,admin = "false"}) => {
         },function(){
           alert("Fail to delete user!");
         });
-        router.push('/admin')
+        //router.push('/admin')
+        setDeleted(true);
     }
   }
   return (
     <div className="rounded-lg shadow-md p-6">
       <ul>
-        <li className="flex items-center xl:justify-start space-x-3">
+        {deleted?null:
+          <li className="flex items-center xl:justify-start space-x-3">
             <img
               className="w-10 h-10 rounded-full"
               src={avatar}
@@ -34,7 +38,7 @@ const UserComponent = ({username,avatar,admin = "false"}) => {
                 Delete
               </button>}
             
-        </li>
+        </li>}
       </ul>
       </div>
   );
