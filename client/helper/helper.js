@@ -98,7 +98,7 @@ export async function sendRetweet(response){
 
         return Promise.resolve({ data })
     } catch (error) {
-        return Promise.reject({ error : "Couldn't Update Profile...!"})
+        return Promise.reject({ error : "Couldn't Retweet!"})
     }
 }
 
@@ -131,5 +131,29 @@ export async function resetPassword({ username, password }){
         return Promise.resolve({ data, status})
     } catch (error) {
         return Promise.reject({ error })
+    }
+}
+
+export async function likeTweet(response){
+    try {
+        
+        const token = await localStorage.getItem('token');
+        const data = await client.post('/tweet/likeTweet', response, { headers : { "Authorization" : `Bearer ${token}`}});
+
+        return Promise.resolve({ data })
+    } catch (error) {
+        return Promise.reject({ error : "Couldn't like tweet!"})
+    }
+}
+
+export async function unlikeTweet(response){
+    try {
+        
+        const token = await localStorage.getItem('token');
+        const data = await client.post('/tweet/unlikeTweet', response, { headers : { "Authorization" : `Bearer ${token}`}});
+
+        return Promise.resolve({ data })
+    } catch (error) {
+        return Promise.reject({ error : "Couldn't unlike tweet!"})
     }
 }

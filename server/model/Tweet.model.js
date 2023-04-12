@@ -45,6 +45,7 @@ export const TweetSchema = new mongoose.Schema({
   originalTime:{
     type: Date,
   },
+  likedUsers: [{ type: String, ref: "likedUsers" }],
 });
 
 
