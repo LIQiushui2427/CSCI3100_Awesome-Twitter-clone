@@ -19,10 +19,11 @@ export async function getCommentById(req, res) {
 
 export async function loadTweetComments(req, res) {
   const { tweetId } = req.query;
+  console.log("loadTweetComments: tweetId: ", tweetId);
   try {
     const tweet = await TweetModel.findOne({ tweetId });
     if (!tweet) {
-      return res.status(404).send({ error: "Tweet not found" });
+      return res.status(404).send({ error: "loadTweetComments: Tweet not found" });
     }
     const comments = await CommentModel.find({ tweetId });
     return res.status(200).send(comments);
@@ -52,7 +53,9 @@ export async function deleteComment(req, res) {
 
 export async function createComment(req, res) {
   try {
-    const { tweetId, username, content } = req.body;
+    const { tweetId, content } = req.body;
+    const username = req.query.username;
+
     if (!tweetId) {
       return res.status(400).send({ error: "TweetId is required" });
     }
@@ -62,15 +65,19 @@ export async function createComment(req, res) {
     if (!content) {
       return res.status(400).send({ error: "Content is required" });
     }
+
     const newComment = new CommentModel({
       commentId: Math.random().toString(20),
       tweetId,
       username,
+      replyTo: null,
       content,
       date: new Date(),
       likes: 0,
     });
+
     await newComment.save();
+
     res.status(201).json({ commentId: newComment.commentId });
   } catch (error) {
     console.error(error);
@@ -79,5 +86,6 @@ export async function createComment(req, res) {
       .send({ error: "Internal Server Error in createComment" });
   }
 }
+
 
 

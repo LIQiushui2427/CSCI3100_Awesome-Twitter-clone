@@ -5,12 +5,8 @@ const Avatar = ({ src, alt }) => (
   <img className="h-16 w-16 rounded-full" src={src} alt={alt} />
 );
 
-Avatar.propTypes = {
-  src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-};
 
-function CommentBox({ tweetId, username, avatarpic }) {
+function CommentBox({ tweetId, username, onNewComment, avatarpic= 'https://www.w3schools.com/howto/img_avatar.png' }) {
   const [commentContent, setCommentContent] = useState('');
   const [commentImages, setCommentImages] = useState([]);
   const [resolvedUsername, setResolvedUsername] = useState('');
@@ -47,8 +43,11 @@ function CommentBox({ tweetId, username, avatarpic }) {
   
     if (response.ok) {
       // do something
+      console.log('CommentBox.jsx: handleSubmit: new comment created');
+      onNewComment();
     } else {
       // handle errors
+      console.log('Error at handleSubmit in CommentBox.jsx');
     }
   };
   
@@ -98,6 +97,10 @@ function CommentBox({ tweetId, username, avatarpic }) {
   );
 }
 
+Avatar.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+};
 CommentBox.propTypes = {
   tweetId: PropTypes.string.isRequired,
   username: PropTypes.object.isRequired, // Change the prop type to object
