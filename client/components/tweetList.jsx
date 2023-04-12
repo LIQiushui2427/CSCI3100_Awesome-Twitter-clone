@@ -21,7 +21,7 @@ const TweetList = ({ searchKey }) => {
   }
   console.log("TweetList: tweets: ", data.tweets);
     return (
-    <div className="rounded-lg shadow-md p-6">
+    <div className="rounded-lg shadow-md p-2">
       <ul>
         {tweets.map((tweet) => (
           <li key={tweet.tweetId} className="flex items-center space-x-4 py-4">
