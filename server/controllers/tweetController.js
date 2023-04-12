@@ -174,3 +174,52 @@ export async function unlikeTweet (req, res) {
     });
   }
 };
+export async function reTweet(req, res) {
+  try {
+    const {username,tweetId} = req.body;
+    
+    if (!username) {
+      return res.status(400).send({ error: "Nickname is required" });
+    }
+
+    if (!tweetId ) {
+      return res.status(400).send({ error: "Original tweet ID is required" });
+    }
+
+    const tweet = await TweetModel.findOne({ tweetId });
+  
+      if (!tweet) {
+        return res.status(404).send({ error: "Tweet not found" });
+      }
+    
+
+    const newTweet = new TweetModel({
+      tweetId: Math.random().toString(20),
+      nickname: tweet.nickname,
+      username: tweet.username,
+      content: tweet.content,
+      images: tweet.images,
+      date: new Date(),
+      likes: tweet.likes,
+      retweets: tweet.retweets,
+      isRetweet: true,
+      retweetUser: username,
+      originalTime: tweet.date,
+    });
+    await newTweet.save();
+
+    const originalTweet = await TweetModel.findByIdAndUpdate(
+      tweet._id,
+      { $inc: { retweets: 1 } },
+      { new: true }
+      );
+      originalTweet.retweets++;
+
+    res.status(201).json({ tweetId: newTweet.tweetId });
+  } catch (error) {
+    console.error("error in reTweet: ", error);
+    return res
+      .status(500)
+      .send({ error: "Internal Server Error in reTweet" });
+  }
+}

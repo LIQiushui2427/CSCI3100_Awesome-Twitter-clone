@@ -78,7 +78,7 @@ const LeftPane = ({hostUsername='host'}) => {
             <SidebarLink text="Lists" Icon={ClipboardListIcon} onPush={handleClick} />
             <SidebarLink text="Profile" Icon={UserIcon} onPush={() => handleClick("Profile")} />
             {isadmin?
-              <SidebarLink text="Admin" Icon={KeyIcon} />
+              <SidebarLink text="Admin" Icon={KeyIcon} onPush={() => handleClick("admin")}/>
             :null}
           </>
           : null}
