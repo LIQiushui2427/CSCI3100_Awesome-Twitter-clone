@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from '../../config.js';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { sendRetweet,getUsername,checkLoginStatus} from '@/helper/helper.js';
+import { sendRetweet,getUsername,checkLoginStatus,likeTweet,unlikeTweet} from '@/helper/helper.js';
 
 const Avatar = ({ src, alt }) => (
   <img
@@ -25,6 +25,7 @@ const TweetText = ({ tweetId }) => {
   
   const [currentUser,setCurrentUser] = useState();
   const [isloggedin, setIsloggedin] = useState(false);
+  const [likednum,setLikednum] = useState();
   checkLoginStatus().then(res => setIsloggedin(res));
   getUsername().then(res => setCurrentUser(res));
   const router = useRouter();
@@ -36,18 +37,29 @@ const TweetText = ({ tweetId }) => {
         const data = response.data;
         setTweetData(data);
         console.log("TweetText: tweetData: ", data);
+        return data;
       } catch (error) {
         console.error(error);
       }
     };
-    fetchTweetData();
+    fetchTweetData().then(res=>
+      function(){
+        console.log("after fetching tweet data:");
+        console.log(res);
+        if(res.likedUsers.includes(currentUser)){
+          setIsLiked(true);
+        }
+        setLikednum(res.likes);
+      }
+    );
+    
   }, [tweetId]);
   if (!tweetData) {
     return <div>Loading tweet...</div>;
   }
   console.log("tweet loaded");
 
-  const { nickname, username, content, images, date, likes, retweets, isRetweet,retweetUser,originalTime } = tweetData;
+  const { nickname, username, content, images, date, likes, retweets, isRetweet,retweetUser,originalTime,likedUsers } = tweetData;
   const authorid = username
   const authorname = nickname
   const time = (isRetweet?originalTime : date)
@@ -56,15 +68,30 @@ const TweetText = ({ tweetId }) => {
   //const [retweetnum,setRetweetnum] = useState(retweets);
   
   console.log("tweet info loaded");
-
   const onComment = () => {
   };
   const onLike = () => {
+    if(!isloggedin){
+      alert("You need to login before liking!");
+      router.push('/login');
+    }
     if (isLiked){
-      setIsLiked(false);
+      unlikeTweet({username:currentUser,tweetId:tweetId}).then(
+        function(){
+          setIsLiked(false);
+          setLikednum(likednum - 1);
+      },function(){
+        alert("Fail to unlike tweet!");
+      });
     }
     else{
-      setIsLiked(true);
+      likeTweet({username:currentUser,tweetId:tweetId}).then(
+        function(){
+          setIsLiked(true);
+          setLikednum(likednum + 1);
+      },function(){
+        alert("Fail to like tweet!");
+      });
     }
     
   };
@@ -80,6 +107,10 @@ const TweetText = ({ tweetId }) => {
     if(!isloggedin){
       alert("You need to login before retweeting!");
       router.push('/login');
+    }
+    if(isRetweet){
+      alert("Please retweet original tweet!");
+      return;
     }
     sendRetweet({username:currentUser,tweetId:tweetId}).then(
       function(){
@@ -122,7 +153,7 @@ const TweetText = ({ tweetId }) => {
         <div className="text-gray-500 flex pt-2 pb-2 mt-2">
           <div className="text-white font-bold"> {retweets} </div>
           <div className="pl-2">Retweets</div>
-          <div className="text-white font-bold pl-5"> {likes} </div>
+          <div className="text-white font-bold pl-5"> {likednum} </div>
           <div className="pl-2">Likes</div>
         </div>
         <div className="pt-2 justify-between flex items-center">
