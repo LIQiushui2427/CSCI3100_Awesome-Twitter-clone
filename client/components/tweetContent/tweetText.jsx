@@ -159,7 +159,7 @@ const TweetText = ({ tweetId }) => {
         <img className={"w-auto rounded-xl " + (nopic == "true" ? 'hidden' : '')} src={picture} alt="Sample Picture" />
         <div className="w-full text-gray-500 flex pt-2 pb-2 mt-2">
           <div className="text-gray-500 font-bold"> {retweets} Retweets </div>
-          <div className="text-gray-500 font-bold pl-5"> {likes} Likes</div>
+          <div className="text-gray-500 font-bold pl-5"> {likednum} Likes</div>
         </div>
         <div className="pt-2 w-full justify-between flex items-center">
           <div className="p-2 mr-3 hover:text-blue-600 hover:bg-blue-600/10 rounded-full items-center cursor-pointer" onClick={onComment}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
