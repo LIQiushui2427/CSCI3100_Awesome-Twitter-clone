@@ -1,16 +1,15 @@
-import Layout from "../../components/Layout";
 import Navigate from "../../components/Navigate";
 import Cover from "../../components/Cover";
+import Avatar from "../../components/Avatar";
 import { useEffect, useState } from "react";
 import LeftPane from "@/components/leftPane/leftPane";
 import RightPane from "@/components/rightPane/rightPane";
 import Button from "@/components/follow_button";
-import { getUsername, checkLoginStatus, checkIsAdmin } from '../../helper/helper';
 import FollowList from "../follow_list";
 import { Router, useRouter } from 'next/router';
 import React from 'react';
 import useFetch from '../../hooks/fetch.hook';
-import convertToBase64 from '../../helper/convert';
+import { updateUser } from "../../helper/helper";
 function Profile() {
   const router = useRouter();
   const { username } = router.query;
@@ -20,9 +19,17 @@ function Profile() {
   const [biography, setbiography] = useState(null)
   const [Nickname, setNickname] = useState(null)
   const [profile, setProfile] = useState(null)
+  const [oribiobiography, setOribiobiography] = useState(null)
+  const [oriname, setOriname] = useState(null)
+  const [oriprofile, setOriprofile] = useState(null)
 
-  function updateUserImage(src) {
-    setCover(src)
+  function updateUserImage(tmp_type, src) {
+    if (tmp_type === "cover") {
+      setCover(src)
+    }
+    else {
+      setProfile(src)
+    }
   }
 
   async function updateProfile() {
@@ -30,14 +37,17 @@ function Profile() {
     values = await Object.assign(values, { Nickname: Nickname || '', biography: biography || '', profile: profile || '' })
     let updatePromise = updateUser(values);
     updatePromise.then((res) => {
-      setEditMode(false);
     });
+    setOribiobiography(biography)
+    setOriname(Nickname)
+    setOriprofile(profile)
+    setEditMode(false);
   }
 
   function cancel() {
-    setbiography(null);
-    setProfile(null);
-    setNickname(null);
+    setbiography(oribiobiography);
+    setProfile(oriprofile);
+    setNickname(oriname);
     setEditMode(false);
   }
   function toggleFollow() {
@@ -62,16 +72,17 @@ function Profile() {
             <div className="px-5 pt-2">
               <Navigate title={Nickname || apiData?.Nickname || username} />
             </div>
-
             <Cover src={cover || apiData?.cover || "https://cdn.discordapp.com/attachments/1089880136037437460/1095383978967564318/cHl.jpg"}
               editable={isMyProfile}
-              onChange={src => updateUserImage(src)}
+              onChange={src => updateUserImage('cover', src)}
             />
             <div className="flex justify-between">
               <div className="ml-5 relative">
                 <div className="absolute -top-20 border-4 rounded-full border-black overflow-hidden">
-                  <div className="rounded-full overflow-hidden w-36">
-                    <img src={profile || apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"}></img>
+                  <div className="rounded-full overflow-hidden w-36 h-36">
+                    <Avatar src={profile || apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"} 
+                      editable={isMyProfile}
+                      onChange={src => updateUserImage('profile', src)} />
                   </div>
                 </div>
               </div>
@@ -86,10 +97,10 @@ function Profile() {
                         </button>)
                       }
                       {editMode && (<div>
-                        <button onClick={() => {setEditMode(false); updateProfile()}} className="bg-[#1d9bf0] hover:bg-blue-700 mr-5 text-white font-bold py-2 px-4 rounded mt-4">
+                        <button onClick={() => { setEditMode(false); updateProfile() }} className="bg-[#1d9bf0] hover:bg-blue-700 mr-5 text-white font-bold py-2 px-4 rounded mt-4">
                           Save
                         </button>
-                        <button onClick={() => {setEditMode(false); cancel()}} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        <button onClick={() => { setEditMode(false); cancel() }} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
                           Cancel
                         </button>
                       </div>)
@@ -116,8 +127,6 @@ function Profile() {
                   </div>)
                 }
               </div>
-
-
             </div>
             {!editMode && (
               <div>
@@ -125,7 +134,7 @@ function Profile() {
                   <h1 className="pl-6 pb-3 font-bold text-xl leading-5">{Nickname || apiData?.Nickname || username}</h1>
                 </div>
                 <div>
-                <h1 className="pl-14 pb-2 text-sm text-gray-500 leading-5">@{username}</h1>
+                  <h1 className="pl-14 pb-2 text-sm text-gray-500 leading-5">@{username}</h1>
                 </div>
               </div>)
             }
@@ -137,9 +146,9 @@ function Profile() {
               </div>
             )}
             <div>
-              {!editMode && (<div className="text-gray-500 pl-5 pt-2 flex items-center pb-3">
+              {!editMode && (<div className="text-gray-500 pl-5  flex items-center pb-3">
                 <div>
-                  {biography||apiData?.biography || "good good study, day day up"}
+                  {biography || apiData?.biography || "good good study, day day up"}
                 </div>
               </div>)}
 
@@ -147,6 +156,7 @@ function Profile() {
                 <div>
                   <textarea value={biography}
                     onChange={ev => setbiography(ev.target.value)}
+                    placeholder="Write your biography here!"
                     className="bg-twitterBorder p-2 mb-2 rounded-2xl w-full block" />
                 </div>
               )}
