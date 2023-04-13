@@ -17,7 +17,7 @@ export async function getUsername(){
     if(!token) return Promise.reject("Cannot find Token");
     //console.log(token);
     let decode = jwt_decode(token)
-    //console.log(decode.username);
+    console.log(decode.username);
     return decode.username;
 }
 
@@ -90,6 +90,18 @@ export async function updateTweet(response){
     }
 }
 
+export async function sendRetweet(response){
+    try {
+        
+        const token = await localStorage.getItem('token');
+        const data = await client.post('/tweet/reTweet', response, { headers : { "Authorization" : `Bearer ${token}`}});
+
+        return Promise.resolve({ data })
+    } catch (error) {
+        return Promise.reject({ error : "Couldn't Retweet!"})
+    }
+}
+
 /** generate OTP */
 //to be modified
 export async function generateOTP(username){
@@ -119,5 +131,29 @@ export async function resetPassword({ username, password }){
         return Promise.resolve({ data, status})
     } catch (error) {
         return Promise.reject({ error })
+    }
+}
+
+export async function likeTweet(response){
+    try {
+        
+        const token = await localStorage.getItem('token');
+        const data = await client.post('/tweet/likeTweet', response, { headers : { "Authorization" : `Bearer ${token}`}});
+
+        return Promise.resolve({ data })
+    } catch (error) {
+        return Promise.reject({ error : "Couldn't like tweet!"})
+    }
+}
+
+export async function unlikeTweet(response){
+    try {
+        
+        const token = await localStorage.getItem('token');
+        const data = await client.post('/tweet/unlikeTweet', response, { headers : { "Authorization" : `Bearer ${token}`}});
+
+        return Promise.resolve({ data })
+    } catch (error) {
+        return Promise.reject({ error : "Couldn't unlike tweet!"})
     }
 }

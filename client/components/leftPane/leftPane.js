@@ -4,6 +4,8 @@ import { HomeIcon } from '@heroicons/react/solid';
 import React from 'react';
 import { Router, useRouter } from 'next/router';
 import { useState } from 'react';
+import { useMemo } from 'react';
+
 //import avatar from '../../public/default_avatar.png';
 import nologinavatar from '../../public/no_login_avatar.png';
 import { getUsername, checkLoginStatus, checkIsAdmin } from '../../helper/helper';
@@ -21,21 +23,27 @@ import {
 } from "@heroicons/react/outline";
 import SidebarLink from "./SidebarLink";
 
-const LeftPane = ({hostUsername='host'}) => {
+function LeftPane () {
 
   const [{ isLoading, apiData, serverError }] = useFetch();
   const router = useRouter();
 
-  const [showPopup, setShowPopup] = useState(false);
   const [isloggedin, setIsloggedin] = useState(false);
-  //const [username, setUsername] = useState("Login");
+  const [username, setUsername] = useState("Login");
   const [isadmin, setIsadmin] = useState(false);
-  checkLoginStatus().then(res => setIsloggedin(res));
-  //getUsername().then(res => setUsername(res));
-  checkIsAdmin().then(res => setIsadmin(res));
-  let avatar = require('../../public/default_avatar.png');
-  let nologinavatar = require('../../public/no_login_avatar.png');
-  //const {username} = getUsername();
+
+  useMemo(() => {
+    checkLoginStatus().then(res => setIsloggedin(res));
+  }, []);
+
+  useMemo(() => {
+    getUsername().then(res => setUsername(res));
+  }, []);
+
+  useMemo(() => {
+    checkIsAdmin().then(res => setIsadmin(res));
+  }, []);
+
 
   function userLogout() {
     localStorage.removeItem('token');
@@ -46,14 +54,15 @@ const LeftPane = ({hostUsername='host'}) => {
       router.push(`/`);
     }
     else if (destination === "Lists") {
-      router.push({
-        pathname: '/follow_list', 
-        query:{username:hostUsername,followxx:"following"} 
-    });  
+      router.push(`/follow_list`);
     }
-    else if (destination === "Profile"){
-      
-      router.push(`/profile/${hostUsername}`);
+    else if (destination === "Profile") {
+
+      router.push(`/profile/${username}`);
+    }
+    else if (destination === "Admin") {
+
+      router.push(`/admin`);
     }
     else {
       router.push(`/${destination}`);
@@ -76,10 +85,10 @@ const LeftPane = ({hostUsername='host'}) => {
             <SidebarLink text="Messages" Icon={InboxIcon} />
             <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
             <SidebarLink text="Lists" Icon={ClipboardListIcon} onPush={handleClick} />
-            <SidebarLink text="Profile" Icon={UserIcon} onPush={() => handleClick("Profile")} />
-            {isadmin?
-              <SidebarLink text="Admin" Icon={KeyIcon} />
-            :null}
+            <SidebarLink text="Profile" Icon={UserIcon} onPush={handleClick} />
+            {isadmin ?
+              <SidebarLink text="Admin" Icon={KeyIcon} onPush={handleClick}/>
+              : null}
           </>
           : null}
       </div>
@@ -91,8 +100,8 @@ const LeftPane = ({hostUsername='host'}) => {
 
           <div className="hidden xl:inline leading-5 flex">
             <div>
-              <div className="text-xl font-bold cursor-pointer ml-2" onClick={() => router.push('/profile')}>{apiData?.Nickname || hostUsername}</div>
-              <p className="text-gray-600 cursor-pointer ml-2" >@{hostUsername}</p>
+              <div className="text-xl font-bold cursor-pointer ml-2" onClick={() => router.push('/profile')}>{apiData?.Nickname || username}</div>
+              <p className="text-gray-600 cursor-pointer ml-2" >@{username}</p>
             </div>
           </div>
 

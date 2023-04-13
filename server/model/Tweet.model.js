@@ -11,6 +11,9 @@ export const TweetSchema = new mongoose.Schema({
     required: [true, "Please provide unique TweetId"],
     unique: [true, "TweetId Exist"]
   },
+  profile: {
+    type: String,
+  },
   username: {
     type: String,
     required: [true, "Please provide unique Username"],
@@ -34,6 +37,18 @@ export const TweetSchema = new mongoose.Schema({
     type: Number,
   },
   commentIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  isRetweet: {
+    type: Boolean,
+    required:true,
+    default:false,
+  },
+  retweetUser:{
+    type: String,
+  },
+  originalTime:{
+    type: Date,
+  },
+  likedUsers: [{ type: String, ref: "likedUsers" }],
 });
 
 

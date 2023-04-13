@@ -16,10 +16,10 @@ import { set } from 'local-storage';
 const Post = ({ onTweet }) => {
     const [selectedFile, setSelectedFile] = useState("");
     const filePickerRef = useRef(null);
-    const [{ isLoading, apiData, serverError }] = useFetch();
+    const [{ isLoading, apiData, serverError }] = useFetch(null);
     const [input, setInput] = useState('');
     const [username, setUsername] = useState(''); // Added useState to store username
-
+    console.log(apiData?.Nickname)
     useEffect(() => {
         getUsername().then((value) => {
             setUsername(value); // Update username state with resolved value
@@ -30,6 +30,7 @@ const Post = ({ onTweet }) => {
 
     const handleFileInputChange = async e => {
         const base64 = await convertToBase64(e.target.files[0]);
+
         setSelectedFile(base64);
     };
 
@@ -42,14 +43,14 @@ const Post = ({ onTweet }) => {
     const formik = useFormik({
         initialValues: {
             username: username || '',
-            nickname: apiData?.nickname || username,
+            nickname: apiData?.Nickname || username,
             content: "",
         },
         enableReinitialize: true,
         validateOnBlur: false,
         validateOnChange: false,
         onSubmit: async values => {
-            values = await Object.assign(values, { images: selectedFile || '' })
+            values = await Object.assign(values, { images: selectedFile || '', profile: apiData?.profile || '' })
             console.log(values)
             let updatePromise = updateTweet(values);
             toast.promise(updatePromise, {

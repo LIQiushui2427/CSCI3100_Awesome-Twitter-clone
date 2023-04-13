@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
@@ -20,11 +19,15 @@ export const UserSchema = new mongoose.Schema({
     },
     Nickname: { type: String },
     profile: { type: String },
+    biography: {type: String}, 
+    followers: { type: Array, default: [] },
+    following: { type: Array, default: [] },
     isAdmin: {
         type: Boolean,
         required: true,
         default:false,
     },
+    cover: {type:String}
 });
 
 export default mongoose.model.Users || mongoose.model('User', UserSchema);

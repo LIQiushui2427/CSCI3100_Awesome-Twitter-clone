@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import useFetch from '../../hooks/fetch.hook';
 
 const Avatar = ({ src, alt }) => (
   <img className="h-16 w-16 rounded-full" src={src} alt={alt} />
 );
 
-Avatar.propTypes = {
-  src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-};
 
-function CommentBox({ tweetId, username, avatarpic }) {
+function CommentBox({ tweetId, username, onNewComment, avatarpic= 'https://www.w3schools.com/howto/img_avatar.png' }) {
   const [commentContent, setCommentContent] = useState('');
   const [commentImages, setCommentImages] = useState([]);
   const [resolvedUsername, setResolvedUsername] = useState('');
+  const [{ isLoading, apiData, serverError }] = useFetch();
 
   useEffect(() => {
     username.then((result) => {
@@ -31,7 +29,7 @@ function CommentBox({ tweetId, username, avatarpic }) {
     commentImages.forEach((image) => {
       formData.append('commentImages', image);
     });
-  
+    setCommentContent("");
     const jsonData = {};
     for (const [key, value] of formData.entries()) {
       jsonData[key] = value;
@@ -43,12 +41,16 @@ function CommentBox({ tweetId, username, avatarpic }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(jsonData),
+      
     });
   
     if (response.ok) {
       // do something
+      console.log('CommentBox.jsx: handleSubmit: new comment created');
+      onNewComment();
     } else {
       // handle errors
+      console.log('Error at handleSubmit in CommentBox.jsx');
     }
   };
   
@@ -68,7 +70,7 @@ function CommentBox({ tweetId, username, avatarpic }) {
         <span className="text-gray-500">Replying to this tweet </span>
       </div>
       <div className="flex items-start p-4">
-        <Avatar src={avatarpic} alt="Test" />
+        <Avatar src={apiData?.profile || avatarpic} alt="Test" />
         <div className="ml-4">
           <div className="flex items-centerl">
             <textarea
@@ -87,7 +89,7 @@ function CommentBox({ tweetId, username, avatarpic }) {
                 <input type="file" multiple onChange={handleImageChange} className="hidden" />
                 <span>Image</span>
               </label>
-              <button className="bg-twitterBlue text-white py-2 px-6 rounded-full" onClick={handleSubmit}>
+              <button className="ml-5 bg-twitterBlue text-white py-2 px-6 rounded-full" onClick={handleSubmit}>
                 Reply
               </button>
             </div>
@@ -98,6 +100,10 @@ function CommentBox({ tweetId, username, avatarpic }) {
   );
 }
 
+Avatar.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+};
 CommentBox.propTypes = {
   tweetId: PropTypes.string.isRequired,
   username: PropTypes.object.isRequired, // Change the prop type to object

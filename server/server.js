@@ -5,6 +5,7 @@ import connect from './database/connection.js';
 import router from './router/router.js';
 import tweetRouter from './router/tweetRouter.js';
 import adminRouter from './router/adminRouter.js';
+import userRouter from './router/userRouter.js';
 const app = express();
 import multer from 'multer';
 
@@ -41,7 +42,7 @@ app.get('/', (req, res)=>{
 });
 
 app.use('/api', router)
-
+app.use('/api/user', userRouter)
 app.use('/api/tweet', tweetRouter)
 app.use('/api/admin', adminRouter)
 
