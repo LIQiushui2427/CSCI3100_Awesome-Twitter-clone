@@ -5,6 +5,7 @@ import axios from '../../config.js';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { sendRetweet,getUsername,checkLoginStatus,likeTweet,unlikeTweet} from '@/helper/helper.js';
+import useFetch from '../../hooks/fetch.hook';
 
 const Avatar = ({ src, alt }) => (
   <img
@@ -20,6 +21,7 @@ Avatar.propTypes = {
 };
 
 const TweetText = ({ tweetId }) => {
+  const [{ isLoading, apiData, serverError }] = useFetch();
   const [tweetData, setTweetData] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [currentUser,setCurrentUser] = useState();
@@ -55,7 +57,7 @@ const TweetText = ({ tweetId }) => {
   console.log("tweet loaded");
   
 
-  const { nickname, username, content, images, date, likes, retweets, isRetweet,retweetUser,originalTime,likedUsers } = tweetData;
+  const { nickname, username, content, profile,images, date, likes, retweets, isRetweet,retweetUser,originalTime,likedUsers } = tweetData;
   const authorid = username
   const authorname = nickname
   const time = (isRetweet?originalTime : date)
@@ -126,7 +128,6 @@ const TweetText = ({ tweetId }) => {
       alert("Fail to retweet!");
     });
   };
-  console.log("before return");
   return (
     <div className="w-full">
       {isRetweet?<div className="text-gray-500 flex">
@@ -137,7 +138,7 @@ const TweetText = ({ tweetId }) => {
       </div>:null}
       <div className="flex items-start p-4">
         <img
-          src={'https://www.w3schools.com/howto/img_avatar.png'}
+          src={profile || 'https://www.w3schools.com/howto/img_avatar.png'}
           alt=""
           className="h-11 w-11 rounded-full cursor-pointer"
         />

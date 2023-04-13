@@ -47,7 +47,7 @@ export async function loadAllTweets(req, res) {
 
 export async function createTweet(req, res) {
   try {
-    const { nickname ,username, content, images} = req.body;
+    const { nickname ,username, content, profile, images} = req.body;
     if (!username) {
       return res.status(400).send({ error: "Username is required" });
     }
@@ -57,8 +57,9 @@ export async function createTweet(req, res) {
     }
 
     const newTweet = new TweetModel({
-      tweetId: Math.random().toString(20),
       nickname,
+      tweetId: Math.random().toString(20),
+      profile,
       username,
       content,
       images,
@@ -210,6 +211,7 @@ export async function reTweet(req, res) {
       username: tweet.username,
       content: tweet.content,
       images: tweet.images,
+      profile: tweet.profile,
       date: new Date(),
       likes: tweet.likes,
       retweets: tweet.retweets+1,

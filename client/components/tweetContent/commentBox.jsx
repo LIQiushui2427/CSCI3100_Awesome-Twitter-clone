@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import useFetch from '../../hooks/fetch.hook';
 
 const Avatar = ({ src, alt }) => (
   <img className="h-16 w-16 rounded-full" src={src} alt={alt} />
@@ -10,6 +11,7 @@ function CommentBox({ tweetId, username, onNewComment, avatarpic= 'https://www.w
   const [commentContent, setCommentContent] = useState('');
   const [commentImages, setCommentImages] = useState([]);
   const [resolvedUsername, setResolvedUsername] = useState('');
+  const [{ isLoading, apiData, serverError }] = useFetch();
 
   useEffect(() => {
     username.then((result) => {
@@ -27,7 +29,7 @@ function CommentBox({ tweetId, username, onNewComment, avatarpic= 'https://www.w
     commentImages.forEach((image) => {
       formData.append('commentImages', image);
     });
-  
+    setCommentContent("");
     const jsonData = {};
     for (const [key, value] of formData.entries()) {
       jsonData[key] = value;
@@ -39,6 +41,7 @@ function CommentBox({ tweetId, username, onNewComment, avatarpic= 'https://www.w
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(jsonData),
+      
     });
   
     if (response.ok) {
@@ -67,7 +70,7 @@ function CommentBox({ tweetId, username, onNewComment, avatarpic= 'https://www.w
         <span className="text-gray-500">Replying to this tweet </span>
       </div>
       <div className="flex items-start p-4">
-        <Avatar src={avatarpic} alt="Test" />
+        <Avatar src={apiData?.profile || avatarpic} alt="Test" />
         <div className="ml-4">
           <div className="flex items-centerl">
             <textarea
@@ -86,7 +89,7 @@ function CommentBox({ tweetId, username, onNewComment, avatarpic= 'https://www.w
                 <input type="file" multiple onChange={handleImageChange} className="hidden" />
                 <span>Image</span>
               </label>
-              <button className="bg-twitterBlue text-white py-2 px-6 rounded-full" onClick={handleSubmit}>
+              <button className="ml-5 bg-twitterBlue text-white py-2 px-6 rounded-full" onClick={handleSubmit}>
                 Reply
               </button>
             </div>
