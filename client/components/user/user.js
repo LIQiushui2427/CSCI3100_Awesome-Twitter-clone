@@ -15,12 +15,13 @@ const Button = ({ isFollowed, handleFollow }) => {
 }
 
 const User = ({ userId, currentUser }) => {
+  console.log(typeof userId);
   const [user, setUser] = useState(null);
   const [isFollowed, setIsFollowed] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`http://localhost:8080/api/getUser/${userId}`);
+      const response = await fetch(`http://localhost:8080/api/user/${userId}`);
       const data = await response.json();
       setUser(data);
       setIsFollowed(data.followers.includes(currentUser));
@@ -29,7 +30,7 @@ const User = ({ userId, currentUser }) => {
   }, [userId, currentUser]);
 
   const handleFollow = async () => {
-    const response = await fetch(`http://localhost:8080/api/user/${isFollowed ? "unfollow" : "follow"}?username=${currentUser}`, {
+    const response = await fetch(`http://localhost:8080/api/user_f/${isFollowed ? "unfollow" : "follow"}?username=${currentUser}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

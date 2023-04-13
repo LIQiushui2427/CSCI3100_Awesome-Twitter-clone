@@ -14,14 +14,14 @@ function UserList ({ searchKey, follower, following}) {
         setUsers(data.users);
       } else if (follower) {
         console.log("UserList: followers: ", follower);
-        const response = await fetch(`http://localhost:8080/api/user/getFollowers?username=${follower}`);
+        const response = await fetch(`http://localhost:8080/api/user_f/getFollowers?username=${follower}`);
         const data = await response.json();
         console.log("UserList: getFollowers: ", data);
         setUsers(data); // modify this line
       }
       else if(following){
         console.log("UserList: following: ", following);
-        const response = await fetch(`http://localhost:8080/api/user/getFollowing?username=${following}`);
+        const response = await fetch(`http://localhost:8080/api/user_f/getFollowing?username=${following}`);
         const data = await response.json();
         console.log("UserList: getFollowing: ", data);
         setUsers(data); // modify this line
@@ -37,21 +37,37 @@ function UserList ({ searchKey, follower, following}) {
     fetchUsername();
   }, [searchKey, follower, following])
   console.log("UserList: users: ", users);
-  return (
-    <div className="rounded-lg shadow-md">
-      {users? (
-        <ul>
-          {users.map((username) => (
-          <User key={username} userId={username} />
-          ))}
+  if(searchKey){
+    return (
+      <div className="rounded-lg shadow-md">
+        {users? (
+          <ul>
+              {users.map((user) => (
+              <User key={user.username} userId={user.username} currentUser={username} />
+              ))}
+          </ul>
+        ) : (
+          <p>No users found.</p>
+        )}
+      </div>
+    );
+  }
 
-
-        </ul>
-      ) : (
-        <p>No users found.</p>
-      )}
-    </div>
-  );
+  else if(follower || following){
+    return (
+      <div className="rounded-lg shadow-md">
+        {users? (
+          <ul>
+              {users.map((username_) => (
+              <User key={username_} userId={username_} currentUser={username} />
+              ))}
+          </ul>
+        ) : (
+          <p>No users found.</p>
+        )}
+      </div>
+    );
+  }
 };
 
 export default UserList;
