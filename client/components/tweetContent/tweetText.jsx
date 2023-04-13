@@ -138,13 +138,13 @@ const TweetText = ({ tweetId }) => {
       </div>:null}
       <div className="flex items-start p-4">
         <img
-          src={apiData?.profile||'https://www.w3schools.com/howto/img_avatar.png'}
+          src={'https://www.w3schools.com/howto/img_avatar.png'}
           alt=""
           className="h-11 w-11 rounded-full cursor-pointer"
         />
         <div className="ml-4">
           <div className="flex items-center">
-            <span className="font-bold text-lg">{apiData?.Nickname  || authorname}</span>
+            <span className="font-bold text-lg">{authorname}</span>
           </div>
           <div className="flex items-center">
             <span className="text-gray-500">@{authorid}</span>
