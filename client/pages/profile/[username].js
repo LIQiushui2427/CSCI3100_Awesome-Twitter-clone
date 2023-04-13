@@ -25,11 +25,8 @@ function Profile() {
   const [profile, setProfile] = useState(null)
   const [oribiobiography, setOribiobiography] = useState(null)
   const [oriname, setOriname] = useState(null)
-<<<<<<< HEAD
-=======
   const [oriprofile, setOriprofile] = useState(null)
   const [displayMode, setDisplayMode] = useState(0)
->>>>>>> 61a84b6bdadb639880864cbeae62d18c64fddc87
 
   function updateUserImage(tmp_type, src) {
     if (tmp_type === "cover") {
@@ -119,17 +116,6 @@ function Profile() {
                   <div className="flex  pt-4 ">
                    <p className="text-white text-xl font-bold">Not your Profile</p>
                   </div>)
-                }
-                {editMode && (
-                    <div className="flex pt-4 item-center mr-5">
-                      <button onClick={() => setEditMode(false)} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                        Save
-                      </button>
-                      <button onClick={() => setEditMode(false)} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                        Cancel
-                      </button>
-                    </div>
-                  )
                 }
               </div>
 

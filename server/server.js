@@ -42,7 +42,7 @@ app.get('/', (req, res)=>{
 });
 
 app.use('/api', router)
-app.use('/api/user', userRouter)
+app.use('/api/user_f', userRouter)
 app.use('/api/tweet', tweetRouter)
 app.use('/api/admin', adminRouter)
 
