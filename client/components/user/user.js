@@ -1,21 +1,53 @@
 import React, { useEffect, useState } from "react";
-import Button from "../follow_button";
+import getUsername from '../../helper/helper.js';
 
-const User = ({ userId }) => {
+const Button = ({ isFollowed, handleFollow }) => {
+  const buttonText = isFollowed ? 'Unfollow' : 'Follow';
+
+  return (
+    <button
+      className={`px-4 py-2 full-rounded rounded-lg ${isFollowed ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}
+      onClick={handleFollow}
+    >
+      {buttonText}
+    </button>
+  );
+}
+
+const User = ({ userId, currentUser }) => {
   const [user, setUser] = useState(null);
-  console.log("User: ", userId);
+  const [isFollowed, setIsFollowed] = useState(false);
+
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`http://localhost:8080/api/user/${userId}`);
+      const response = await fetch(`http://localhost:8080/api/getUser/${userId}`);
       const data = await response.json();
       setUser(data);
+      setIsFollowed(data.followers.includes(currentUser));
     }
     fetchData();
-  }, [userId]);
+  }, [userId, currentUser]);
+
+  const handleFollow = async () => {
+    const response = await fetch(`http://localhost:8080/api/user/${isFollowed ? "unfollow" : "follow"}?username=${currentUser}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ followee: user.username, follower: currentUser, username : currentUser }),
+    });
+    if (response.ok) {
+      setIsFollowed(!isFollowed);
+    } else {
+      console.error("Failed to follow/unfollow user.");
+    }
+  };
+  
 
   if (!user) {
     return <p>Loading user...</p>;
   }
+
   return (
     <div className="grid grid-cols-3 gap-0">
       <div className="container col-span-2 ml-auto mx-auto pt-3 pl-5 ">
@@ -38,11 +70,10 @@ const User = ({ userId }) => {
       </div>
       <div className="flex justify-center items-center col-span-1">
         <div className="align-left">
-          <Button />
+          <Button isFollowed={isFollowed} handleFollow={handleFollow} />
         </div>
       </div>
     </div>
-
   );
 };
 

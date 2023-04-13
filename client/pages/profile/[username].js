@@ -5,11 +5,15 @@ import { useEffect, useState } from "react";
 import LeftPane from "@/components/leftPane/leftPane";
 import RightPane from "@/components/rightPane/rightPane";
 import Button from "@/components/follow_button";
-import FollowList from "../follow_list";
+import { getUsername, checkLoginStatus, checkIsAdmin } from '../../helper/helper';
 import { Router, useRouter } from 'next/router';
 import React from 'react';
 import useFetch from '../../hooks/fetch.hook';
-import { updateUser } from "../../helper/helper";
+import convertToBase64 from '../../helper/convert';
+import UserList from '../../components/userlist'
+import TweetList from '../../components/tweetlist';
+
+
 function Profile() {
   const router = useRouter();
   const { username } = router.query;
@@ -22,6 +26,7 @@ function Profile() {
   const [oribiobiography, setOribiobiography] = useState(null)
   const [oriname, setOriname] = useState(null)
   const [oriprofile, setOriprofile] = useState(null)
+  const [displayMode, setDisplayMode] = useState(0)
 
   function updateUserImage(tmp_type, src) {
     if (tmp_type === "cover") {
@@ -111,22 +116,22 @@ function Profile() {
                 }
                 {!isMyProfile && (
                   <div className="flex  pt-4 ">
-                    <div className="p-2 mr-3 hover:bg-gray-800 rounded-full border-2 border-twitterBorder items-center cursor-pointer">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                      </svg>
-                    </div>
-                    <div className="p-2 mr-3 hover:bg-gray-800 rounded-full border-2 border-twitterBorder items-center cursor-pointer">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                      </svg>
-                    </div>
-                    <div className="pr-5">
-                      <Button text="Follow" />
-                    </div>
+                   <p className="text-white text-xl font-bold">Not your Profile</p>
                   </div>)
                 }
+                {editMode && (
+                    <div className="flex pt-4 item-center mr-5">
+                      <button onClick={() => setEditMode(false)} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        Save
+                      </button>
+                      <button onClick={() => setEditMode(false)} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        Cancel
+                      </button>
+                    </div>
+                  )
+                }
               </div>
+
             </div>
             {!editMode && (
               <div>
@@ -162,21 +167,41 @@ function Profile() {
               )}
 
               <div className="text-white pl-5 ml-5 pt-2 flex items-center">
-                <button onClick={() => router.push('/follow_list?followxx=following')} >
-                  <div className="hover:underline">following</div>
-                </button>
-                <button onClick={() => router.push('/follow_list?followxx=follower')} className="pl-4">
+                <button onClick={() => setDisplayMode(1)} className="pl-4">
                   <div className="hover:underline">follower</div>
                 </button>
+                <button onClick={() => setDisplayMode(2)} className="pl-4">
+                  <div className="hover:underline">following</div>
+                </button>
+                
               </div>
 
             </div>
           </div>
-          <div class="grid grid-cols-3  border-b border-twitterBorder">
-            <div class="flex items-center justify-center text-lg hover:bg-gray-800 cursor-pointer pt-2 pb-2"><p class="text-center">Tweets</p></div>
-            <div class="flex items-center justify-center text-lg hover:bg-gray-800 cursor-pointer"><p class="text-center">Replies</p></div>
-            <div class="flex items-center justify-center text-lg hover:bg-gray-800 cursor-pointer"><p class="text-center">Likes</p></div>
-          </div>
+          {displayMode === 0 && (
+        <div>
+          <h3>Tweets</h3>
+          <ul>
+            <TweetList username = {username}/>
+          </ul>
+        </div>
+      )}
+      {displayMode === 1 && (
+        <div>
+          <h3>Followers</h3>
+          <ul>
+            <UserList follower = {username}/>
+          </ul>
+        </div>
+      )}
+      {displayMode === 2 && (
+        <div>
+          <h3>Following</h3>
+          <ul>
+            <UserList following = {username}/>
+          </ul>
+        </div>
+      )}
           <div className="flex">
             <div className="w-1/4">
             </div>

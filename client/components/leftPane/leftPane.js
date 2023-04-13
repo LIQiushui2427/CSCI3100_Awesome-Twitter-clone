@@ -23,7 +23,7 @@ import {
 } from "@heroicons/react/outline";
 import SidebarLink from "./SidebarLink";
 
-const LeftPane = () => {
+function LeftPane () {
 
   const [{ isLoading, apiData, serverError }] = useFetch();
   const router = useRouter();
