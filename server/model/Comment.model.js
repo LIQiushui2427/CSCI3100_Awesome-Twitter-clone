@@ -16,7 +16,12 @@ const CommentSchema = new mongoose.Schema({
     required: [true, 'Please provide the tweet Id']
   },
   replyTo: {
-    type: String
+    type: String,
+    default: null
+  },
+  quotedText: {
+    type: String,
+    default: null
   },
   images: [{
     type: String

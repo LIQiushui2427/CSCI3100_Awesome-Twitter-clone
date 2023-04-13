@@ -21,17 +21,17 @@ import {
 } from "@heroicons/react/outline";
 import SidebarLink from "./SidebarLink";
 
-const LeftPane = () => {
+const LeftPane = ({hostUsername='host'}) => {
 
   const [{ isLoading, apiData, serverError }] = useFetch();
   const router = useRouter();
 
   const [showPopup, setShowPopup] = useState(false);
   const [isloggedin, setIsloggedin] = useState(false);
-  const [username, setUsername] = useState("Login");
+  //const [username, setUsername] = useState("Login");
   const [isadmin, setIsadmin] = useState(false);
   checkLoginStatus().then(res => setIsloggedin(res));
-  getUsername().then(res => setUsername(res));
+  //getUsername().then(res => setUsername(res));
   checkIsAdmin().then(res => setIsadmin(res));
   let avatar = require('../../public/default_avatar.png');
   let nologinavatar = require('../../public/no_login_avatar.png');
@@ -46,11 +46,14 @@ const LeftPane = () => {
       router.push(`/`);
     }
     else if (destination === "Lists") {
-      router.push(`/follow_list`);
+      router.push({
+        pathname: '/follow_list', 
+        query:{username:hostUsername,followxx:"following"} 
+    });  
     }
     else if (destination === "Profile"){
       
-      router.push(`/profile/${username}`);
+      router.push(`/profile/${hostUsername}`);
     }
     else {
       router.push(`/${destination}`);
@@ -73,9 +76,9 @@ const LeftPane = () => {
             <SidebarLink text="Messages" Icon={InboxIcon} />
             <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
             <SidebarLink text="Lists" Icon={ClipboardListIcon} onPush={handleClick} />
-            <SidebarLink text="Profile" Icon={UserIcon} onPush={handleClick} />
+            <SidebarLink text="Profile" Icon={UserIcon} onPush={() => handleClick("Profile")} />
             {isadmin?
-              <SidebarLink text="Admin" Icon={KeyIcon} />
+              <SidebarLink text="Admin" Icon={KeyIcon} onPush={() => handleClick("admin")}/>
             :null}
           </>
           : null}
@@ -88,8 +91,8 @@ const LeftPane = () => {
 
           <div className="hidden xl:inline leading-5 flex">
             <div>
-              <div className="text-xl font-bold cursor-pointer ml-2" onClick={() => router.push('/profile')}>{apiData?.Nickname || username}</div>
-              <p className="text-gray-600 cursor-pointer ml-2" >@{username}</p>
+              <div className="text-xl font-bold cursor-pointer ml-2" onClick={() => router.push('/profile')}>{apiData?.Nickname || hostUsername}</div>
+              <p className="text-gray-600 cursor-pointer ml-2" >@{hostUsername}</p>
             </div>
           </div>
 

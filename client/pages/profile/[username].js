@@ -16,7 +16,6 @@ import convertToBase64 from '../../helper/convert';
 
 function Profile() {
   const [{ isLoading, apiData, serverError }] = useFetch();
-
   const router = useRouter();
   const [current_username, setUsername] = useState("Login");
   const [cover, setCover] = useState(null)
