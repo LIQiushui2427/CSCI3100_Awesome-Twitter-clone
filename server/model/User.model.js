@@ -20,6 +20,7 @@ export const UserSchema = new mongoose.Schema({
     },
     Nickname: { type: String },
     profile: { type: String },
+    biography: {type: String}, 
     isAdmin: {
         type: Boolean,
         required: true,

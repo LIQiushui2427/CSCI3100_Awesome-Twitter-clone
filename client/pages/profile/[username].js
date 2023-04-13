@@ -10,24 +10,44 @@ import FollowList from "../follow_list";
 import { Router, useRouter } from 'next/router';
 import React from 'react';
 import useFetch from '../../hooks/fetch.hook';
-import EditProfile from "../edit_profile";
 import convertToBase64 from '../../helper/convert';
-
-
 function Profile() {
-  const [{ isLoading, apiData, serverError }] = useFetch();
   const router = useRouter();
-  const [current_username, setUsername] = useState("Login");
-  const [cover, setCover] = useState(null)
-  const [editMode, setEditMode] = useState(false);
-  getUsername().then(res => setUsername(res));
   const { username } = router.query;
-  const isMyProfile = current_username === username;
-
+  const [editMode, setEditMode] = useState(false);
+  const [cover, setCover] = useState("")
+  const [{ isLoading, apiData, serverError }] = useFetch();
+  const [biography, setbiography] = useState(null)
+  const [Nickname, setNickname] = useState(null)
+  const [profile, setProfile] = useState(null)
 
   function updateUserImage(src) {
     setCover(src)
   }
+
+  async function updateProfile() {
+    let values = {}
+    values = await Object.assign(values, { Nickname: Nickname || '', biography: biography || '', profile: profile || '' })
+    let updatePromise = updateUser(values);
+    updatePromise.then((res) => {
+      setEditMode(false);
+    });
+  }
+
+  function cancel() {
+    setbiography(null);
+    setProfile(null);
+    setNickname(null);
+    setEditMode(false);
+  }
+  function toggleFollow() {
+    /*  setIsFollowing(prev => !prev);
+      axios.post('/api/followers', {
+        destination: apiData?._id,
+      })*/
+  }
+  const isMyProfile = true;
+
 
   return (
     <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto z=60">
@@ -40,7 +60,7 @@ function Profile() {
           </div>
           <div className="border-b border-twitterBorder pb-10">
             <div className="px-5 pt-2">
-              <Navigate title={apiData?.Nickname || username} />
+              <Navigate title={Nickname || apiData?.Nickname || username} />
             </div>
 
             <Cover src={cover || apiData?.cover || "https://cdn.discordapp.com/attachments/1089880136037437460/1095383978967564318/cHl.jpg"}
@@ -49,9 +69,9 @@ function Profile() {
             />
             <div className="flex justify-between">
               <div className="ml-5 relative">
-                <div className="absolute -top-14 border-4 rounded-full border-black overflow-hidden">
+                <div className="absolute -top-20 border-4 rounded-full border-black overflow-hidden">
                   <div className="rounded-full overflow-hidden w-36">
-                    <img src={apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"}></img>
+                    <img src={profile || apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"}></img>
                   </div>
                 </div>
               </div>
@@ -66,10 +86,10 @@ function Profile() {
                         </button>)
                       }
                       {editMode && (<div>
-                        <button onClick={() => setEditMode(false)} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        <button onClick={() => {setEditMode(false); updateProfile()}} className="bg-[#1d9bf0] hover:bg-blue-700 mr-5 text-white font-bold py-2 px-4 rounded mt-4">
                           Save
                         </button>
-                        <button onClick={() => setEditMode(false)} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        <button onClick={() => {setEditMode(false); cancel()}} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
                           Cancel
                         </button>
                       </div>)
@@ -99,15 +119,38 @@ function Profile() {
 
 
             </div>
-            <div className="mt-10 px-7 ">
-              <h1 className="pl-6 pb-3 font-bold text-xl leading-5">{apiData?.Nickname || username}</h1>
-            </div>
-            <div>
-              <div className="text-gray-500 pl-5 pt-2 flex items-center pb-3">
-                <div>
-                  {apiData?.signature || "good good study, day day up"}
+            {!editMode && (
+              <div>
+                <div className="mt-5 px-7 ">
+                  <h1 className="pl-6 pb-3 font-bold text-xl leading-5">{Nickname || apiData?.Nickname || username}</h1>
                 </div>
+                <div>
+                <h1 className="pl-14 pb-2 text-sm text-gray-500 leading-5">@{username}</h1>
+                </div>
+              </div>)
+            }
+            {editMode && (
+              <div>
+                <input type="text" value={Nickname}
+                  onChange={ev => setNickname(ev.target.value)}
+                  className="bg-twitterBorder p-2 mb-2 rounded-full" />
               </div>
+            )}
+            <div>
+              {!editMode && (<div className="text-gray-500 pl-5 pt-2 flex items-center pb-3">
+                <div>
+                  {biography||apiData?.biography || "good good study, day day up"}
+                </div>
+              </div>)}
+
+              {editMode && (
+                <div>
+                  <textarea value={biography}
+                    onChange={ev => setbiography(ev.target.value)}
+                    className="bg-twitterBorder p-2 mb-2 rounded-2xl w-full block" />
+                </div>
+              )}
+
               <div className="text-white pl-5 ml-5 pt-2 flex items-center">
                 <button onClick={() => router.push('/follow_list?followxx=following')} >
                   <div className="hover:underline">following</div>
