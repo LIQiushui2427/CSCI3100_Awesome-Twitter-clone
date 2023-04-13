@@ -100,23 +100,36 @@ export async function deleteTweet(req, res){
 
 
 export async function searchTweets(req, res) {
-try {
-    const { key } = req.query;
-    if (!key) {
-    return res.status(400).send({ error: "Keyword is required" });
+  try {
+    const { key, authorname, username } = req.query;
+    let tweets;
+    console.log("searchTweets invoked: ", req.query)
+    if (key) {
+      tweets = await TweetModel.find({ content: { $regex: key, $options: "i" } });
+    } else if (authorname) {
+      tweets = await TweetModel.find({ username: authorname });
+    } else if (username) {
+      const user = await UserModel.findOne({ username: username }).populate('following');
+      const followingUserIds = user.following.map(u => u._id);
+      tweets = await TweetModel.find({ user: { $in: followingUserIds } });
+    } else if (req.query === {}){
+      tweets = await TweetModel.find({});
+    }
+    else {
+      return res.status(400).send({ error: "Keyword or authorname is required" });
     }
 
-    const tweets = await TweetModel.find({ content: { $regex: key, $options: "i" } });
     if (tweets.length === 0) {
-    return res.status(404).send({ error: "No tweets found for the keyword" });
+      return res.status(404).send({ error: "No tweets found" });
     }
 
     res.status(200).send({ tweets });
-} catch (error) {
+  } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Internal Server Error" });
+  }
 }
-}
+
   
 export async function likeTweet(req, res) {
   console.log("invoked likeTweet()");
