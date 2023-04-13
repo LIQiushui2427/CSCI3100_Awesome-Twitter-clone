@@ -21,7 +21,6 @@ function Profile() {
   const [profile, setProfile] = useState(null)
   const [oribiobiography, setOribiobiography] = useState(null)
   const [oriname, setOriname] = useState(null)
-  const [oriprofile, setOriprofile] = useState(null)
 
   function updateUserImage(tmp_type, src) {
     if (tmp_type === "cover") {
@@ -34,19 +33,17 @@ function Profile() {
 
   async function updateProfile() {
     let values = {}
-    values = await Object.assign(values, { Nickname: Nickname || '', biography: biography || '', profile: profile || '' })
+    values = await Object.assign(values, { Nickname: Nickname || '', biography: biography || '' })
     let updatePromise = updateUser(values);
     updatePromise.then((res) => {
     });
     setOribiobiography(biography)
     setOriname(Nickname)
-    setOriprofile(profile)
     setEditMode(false);
   }
 
   function cancel() {
     setbiography(oribiobiography);
-    setProfile(oriprofile);
     setNickname(oriname);
     setEditMode(false);
   }

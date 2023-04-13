@@ -5,6 +5,7 @@ import axios from '../../config.js';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { sendRetweet,getUsername,checkLoginStatus,likeTweet,unlikeTweet} from '@/helper/helper.js';
+import useFetch from '../../hooks/fetch.hook';
 
 const Avatar = ({ src, alt }) => (
   <img
@@ -20,6 +21,7 @@ Avatar.propTypes = {
 };
 
 const TweetText = ({ tweetId }) => {
+  const [{ isLoading, apiData, serverError }] = useFetch();
   const [tweetData, setTweetData] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [currentUser,setCurrentUser] = useState();
@@ -126,7 +128,6 @@ const TweetText = ({ tweetId }) => {
       alert("Fail to retweet!");
     });
   };
-  console.log("before return");
   return (
     <div className="w-full">
       {isRetweet?<div className="text-gray-500 flex">
@@ -137,13 +138,13 @@ const TweetText = ({ tweetId }) => {
       </div>:null}
       <div className="flex items-start p-4">
         <img
-          src={'https://www.w3schools.com/howto/img_avatar.png'}
+          src={apiData?.profile||'https://www.w3schools.com/howto/img_avatar.png'}
           alt=""
           className="h-11 w-11 rounded-full cursor-pointer"
         />
         <div className="ml-4">
           <div className="flex items-center">
-            <span className="font-bold text-lg">{authorname}</span>
+            <span className="font-bold text-lg">{apiData?.Nickname  || authorname}</span>
           </div>
           <div className="flex items-center">
             <span className="text-gray-500">@{authorid}</span>
