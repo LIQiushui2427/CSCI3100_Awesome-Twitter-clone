@@ -57,7 +57,7 @@ const TweetText = ({ tweetId }) => {
   console.log("tweet loaded");
   
 
-  const { nickname, username, content, images, date, likes, retweets, isRetweet,retweetUser,originalTime,likedUsers } = tweetData;
+  const { nickname, username, content, profile,images, date, likes, retweets, isRetweet,retweetUser,originalTime,likedUsers } = tweetData;
   const authorid = username
   const authorname = nickname
   const time = (isRetweet?originalTime : date)
@@ -138,7 +138,7 @@ const TweetText = ({ tweetId }) => {
       </div>:null}
       <div className="flex items-start p-4">
         <img
-          src={'https://www.w3schools.com/howto/img_avatar.png'}
+          src={profile || 'https://www.w3schools.com/howto/img_avatar.png'}
           alt=""
           className="h-11 w-11 rounded-full cursor-pointer"
         />
