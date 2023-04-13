@@ -14,10 +14,11 @@ const Avatar = ({ src, alt }) => (
 
 function CommentText ({commentor='test_commentor' ,author_username='Tweeter',time='1h', content='hello world',
                     avatarpic='https://www.w3schools.com/howto/img_avatar.png', picture='https://ksbeeper.files.wordpress.com/2020/11/samplepic.png',
-                    nopic="false",likes='0', onLike, onComment, tweetId})  {
+                    nopic="true", likes='0',quotedText, onLike, tweetId, onNewReply})  {
 
   const [replying, setReplying] = useState(false);
   const [replyContent, setReplyContent] = useState('');
+  const [showQuotedText, setShowQuotedText] = useState(false);
 
   const handleReplyClick = () => {
     setReplying(true);
@@ -29,7 +30,6 @@ function CommentText ({commentor='test_commentor' ,author_username='Tweeter',tim
     const username = await getUsername();
 
     const data = {
-      // your data here, such as the author id, post id, etc.
       tweetId: tweetId,
       username: username,
       replyTo: commentor,
@@ -37,25 +37,27 @@ function CommentText ({commentor='test_commentor' ,author_username='Tweeter',tim
       content: replyContent,
     };
 
-    console.log("Data: ", data);
-
-    const response = await axios.post(
-      `http://localhost:8080/api/tweet/${tweetId}/createComment?username=${username}`,
-      JSON.stringify(data),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
+    console.log('CommentText.jsx: handleSubmit: data: ', data);
+    
+    const url = `http://localhost:8080/api/tweet/${tweetId}/createComment?username=${username}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    
     if (response.ok) {
       // do something if the request was successful
+      onNewReply();
       console.log('CommentText.jsx: handleSubmit: new comment created');
     } else {
       // handle the error if the request failed
       console.log('Error at handleSubmit in CommentText.jsx');
     }
+    
 
     setReplying(false);
     setReplyContent('');
@@ -66,7 +68,9 @@ function CommentText ({commentor='test_commentor' ,author_username='Tweeter',tim
     setReplyContent('');
   }
 
-
+  const handleViewQuotedText = () => {
+    setShowQuotedText(!showQuotedText);
+  };
   return(
           <div className="flex flex-col items-start p-2 border-y border-twitterBorder">
           <div className="flex items-start p-4">
@@ -84,6 +88,9 @@ function CommentText ({commentor='test_commentor' ,author_username='Tweeter',tim
               </div>
               <p className="mt-2 mb-2">{content}</p>
               <img className={"w-auto rounded-xl " + (nopic=="true" ? 'hidden' : '')} src={picture} alt="Sample Picture" />
+              <div className="text-sm text-gray-500 mt-2 cursor-pointer" onClick={handleViewQuotedText}>
+                Show quoted text
+              </div>
               <div className="mt-2 justify-start flex items-center">
                 <div className="p-1 mr-2 hover:text-blue-600 hover:bg-blue-600/10 rounded-full items-center cursor-pointer" onClick={handleReplyClick}><Image src="/reply.svg" width={20} height={20} alt = "reply"/></div>
                 <div className="p-1 mr-2 hover:text-pink-600 hover:bg-pink-600/10 rounded-full items-center cursor-pointer" onClick={onLike}><Image src="/like.svg" width={20} height={20} alt = "like"/></div>
@@ -104,7 +111,21 @@ function CommentText ({commentor='test_commentor' ,author_username='Tweeter',tim
               </div>
             </div>
           )}
+          {showQuotedText && (
+            <div className="mt-4 flex justify-between w-full">
+              <div className="block w-full border-gray-300 rounded-lg p-2 mb-4 bg-black text-white">
+                <div className="text-lg font-medium mb-4">Quoted Text</div>
+                <div className="bg-black rounded-lg p-4 text-white mb-4">{quotedText}</div>
+              </div>
+              <button
+                className="bottom-4 right-4 px-4 bg-gray-300 text-black rounded-lg hover:bg-gray-700"
+                onClick={() => setShowQuotedText(false)}
+              >Done</button>
+            </div>
+          )}
+
           </div>
+
   );
 };
         

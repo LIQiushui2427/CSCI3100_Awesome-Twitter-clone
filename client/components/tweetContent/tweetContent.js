@@ -54,9 +54,11 @@ function TweetContent({ tweetId }) {
               tweetId = {tweetId}
               commentor={comment.username}
               author_username={comment.replyTo}
+              quotedText={comment.quotedText}
               content={comment.content}
-              picture={comment.picture}
+              picture={comment.images}
               time= {comment.time}
+              onNewReply={handleNewComment}
             />
           ))}
         </div>

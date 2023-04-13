@@ -53,7 +53,7 @@ export async function deleteComment(req, res) {
 
 export async function createComment(req, res) {
   try {
-    const { tweetId, content } = req.body;
+    const { tweetId, content, replyTo, quotedText, images } = req.body;
     const username = req.query.username;
 
     if (!tweetId) {
@@ -70,7 +70,9 @@ export async function createComment(req, res) {
       commentId: Math.random().toString(20),
       tweetId,
       username,
-      replyTo: null,
+      replyTo,
+      quotedText,
+      images,
       content,
       date: new Date(),
       likes: 0,
@@ -86,6 +88,7 @@ export async function createComment(req, res) {
       .send({ error: "Internal Server Error in createComment" });
   }
 }
+
 
 
 
