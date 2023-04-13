@@ -1,7 +1,7 @@
 import Image from "next/image";
 import useFetch from '../../hooks/fetch.hook';
 import { HomeIcon } from '@heroicons/react/solid';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Router, useRouter } from 'next/router';
 import { useState } from 'react';
 //import avatar from '../../public/default_avatar.png';
@@ -21,21 +21,23 @@ import {
 } from "@heroicons/react/outline";
 import SidebarLink from "./SidebarLink";
 
-const LeftPane = ({hostUsername='host'}) => {
+function LeftPane  ({hostUsername='host'}) {
 
   const [{ isLoading, apiData, serverError }] = useFetch();
   const router = useRouter();
-
   const [showPopup, setShowPopup] = useState(false);
   const [isloggedin, setIsloggedin] = useState(false);
-  //const [username, setUsername] = useState("Login");
+  const [username, setUsername] = useState("Login");
   const [isadmin, setIsadmin] = useState(false);
   checkLoginStatus().then(res => setIsloggedin(res));
-  //getUsername().then(res => setUsername(res));
+
+  getUsername().then(res => setUsername(res));
+
   checkIsAdmin().then(res => setIsadmin(res));
+
   let avatar = require('../../public/default_avatar.png');
   let nologinavatar = require('../../public/no_login_avatar.png');
-  //const {username} = getUsername();
+
 
   function userLogout() {
     localStorage.removeItem('token');
@@ -91,8 +93,8 @@ const LeftPane = ({hostUsername='host'}) => {
 
           <div className="hidden xl:inline leading-5 flex">
             <div>
-              <div className="text-xl font-bold cursor-pointer ml-2" onClick={() => router.push('/profile')}>{apiData?.Nickname || hostUsername}</div>
-              <p className="text-gray-600 cursor-pointer ml-2" >@{hostUsername}</p>
+              <div className="text-xl font-bold cursor-pointer ml-2" onClick={() => router.push('/profile')}>{apiData?.Nickname || username}</div>
+              <p className="text-gray-600 cursor-pointer ml-2" >@{username}</p>
             </div>
           </div>
 
