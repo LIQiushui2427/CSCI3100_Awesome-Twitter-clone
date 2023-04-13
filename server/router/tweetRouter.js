@@ -20,7 +20,7 @@ tweetRouter.route("/:tweetId/createComment").post(
   commentController.createComment
 );
 
-tweetRouter.route("/:tweetId/reTweet").post(
+tweetRouter.route("/reTweet").post(
   verifyUser,
   controller.reTweet
 );
