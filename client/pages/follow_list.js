@@ -13,8 +13,8 @@ import UserRow from "@/components/userRow";
 
 const followers_default = [{
   'avatar': 'https://inews.gtimg.com/newsapp_bt/0/12614599781/1000',
-  'name': 'Carlos1',
-  'id': 'carlos',
+  'name': 'Darlos',
+  'id': 'darlos',
   'signature': 'Work hard, play hard!'
 
 }];
@@ -27,8 +27,8 @@ const followings_default = [{
 },
 {
   'avatar': 'https://inews.gtimg.com/newsapp_bt/0/12614599781/1000',
-  'name': 'Carlos2',
-  'id': 'carlos',
+  'name': 'Garlos',
+  'id': 'garlos',
   'signature': 'Work hard, play hard!'
 
 }];

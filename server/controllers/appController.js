@@ -222,7 +222,7 @@ export async function getUser(req, res) {
       const user = await UserModel.findOne({ username });
   
       if (!user) {
-        return res.status(404).json({ error: "Get user: User not found" });
+        return res.status(404).json({ error: "Get user: User not found" });  
       }
   
       const { password, ...userData } = user.toObject();
