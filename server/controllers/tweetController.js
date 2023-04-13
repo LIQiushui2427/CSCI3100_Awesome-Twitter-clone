@@ -118,6 +118,7 @@ try {
 }
   
 export async function likeTweet(req, res) {
+  console.log("invoked likeTweet()");
 try {
     const {username,tweetId} = req.body;
     if (!tweetId) {
@@ -183,6 +184,7 @@ export async function unlikeTweet (req, res) {
   }
 };
 export async function reTweet(req, res) {
+  console.log("invoked reTweet()");
   try {
     const {username,tweetId} = req.body;
     
@@ -197,6 +199,7 @@ export async function reTweet(req, res) {
     const tweet = await TweetModel.findOne({ tweetId });
   
       if (!tweet) {
+        console.log("cannot find tweet.");
         return res.status(404).send({ error: "Tweet not found" });
       }
     
@@ -209,7 +212,7 @@ export async function reTweet(req, res) {
       images: tweet.images,
       date: new Date(),
       likes: tweet.likes,
-      retweets: tweet.retweets,
+      retweets: tweet.retweets+1,
       isRetweet: true,
       retweetUser: username,
       originalTime: tweet.date,

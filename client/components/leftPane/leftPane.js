@@ -60,6 +60,10 @@ function LeftPane () {
 
       router.push(`/profile/${username}`);
     }
+    else if (destination === "Admin") {
+
+      router.push(`/admin`);
+    }
     else {
       router.push(`/${destination}`);
     }
@@ -83,7 +87,7 @@ function LeftPane () {
             <SidebarLink text="Lists" Icon={ClipboardListIcon} onPush={handleClick} />
             <SidebarLink text="Profile" Icon={UserIcon} onPush={handleClick} />
             {isadmin ?
-              <SidebarLink text="Admin" Icon={KeyIcon} />
+              <SidebarLink text="Admin" Icon={KeyIcon} onPush={handleClick}/>
               : null}
           </>
           : null}
