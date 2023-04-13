@@ -48,7 +48,6 @@ export async function loadAllTweets(req, res) {
 export async function createTweet(req, res) {
   try {
     const { nickname ,username, content, images} = req.body;
-    
     if (!username) {
       return res.status(400).send({ error: "Username is required" });
     }

@@ -25,6 +25,7 @@ export const UserSchema = new mongoose.Schema({
         required: true,
         default:false,
     },
+    cover: {type:String}
 });
 
 export default mongoose.model.Users || mongoose.model('User', UserSchema);

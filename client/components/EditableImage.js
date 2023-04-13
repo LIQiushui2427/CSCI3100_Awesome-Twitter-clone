@@ -7,17 +7,17 @@ import { FileDrop } from "react-file-drop";
 import { PulseLoader } from "react-spinners";
 import { updateUser } from "../helper/helper";
 import convertToBase64 from '../helper/convert';
+import toast,{Toaster} from 'react-hot-toast';
 
 export default function EditableImage({ type, src, onChange, className, editable = false }) {
   const [isFileNearby, setIsFileNearby] = useState(false);
   const [isFileOver, setIsFileOver] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [coverbase, setCoverBase] = useState(false);
   let extraClasses = '';
   if (isFileNearby && !isFileOver) extraClasses += ' bg-blue-500 opacity-40';
   if (isFileOver) extraClasses += ' bg-blue-500 opacity-90';
   if (!editable) extraClasses = '';
-
+  let coverbase = '';
   async function updateImage(files, e) {
     if (!editable) {
       return;
@@ -28,19 +28,15 @@ export default function EditableImage({ type, src, onChange, className, editable
     setIsUploading(true);
     const data = new FormData();
     const base64 = await convertToBase64(files[0]);
-    setCoverBase(base64);
-    data.append(type, coverbase);
-    const formDataObj = {}
-    for (let [key, value] of data.entries()) {
-      formDataObj[key] = value;
-    }
-    const formDataJSON = JSON.stringify(formDataObj);
-    updateUser(formDataJSON).then((response) => {
-      onChange(response.cover);
+    coverbase = base64
+    let values = {}
+    values = await Object.assign(values, { cover: coverbase || '' })
+    let updatePromise = updateUser(values);
+    updatePromise.then((res) => {
+      onChange(coverbase);
       setIsUploading(false);
     });
   }
-
   return (
     <FileDrop
       onDrop={updateImage}

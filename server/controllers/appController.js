@@ -227,7 +227,7 @@ export async function getUser(req, res) {
       }
   
       const { password, ...userData } = user.toObject();
-  
+
       return res.status(200).json(userData);
     } catch (error) {
       console.error(error);
@@ -240,11 +240,11 @@ export async function getUser(req, res) {
       const userId = req.user._id;
       if (userId) {
         const body = req.body;
-        console.log("HH")
-        console.log(body.cover)
-
+        
         await UserModel.updateOne({ _id: userId }, body);
-        res.status(201).send({ msg: "Record Updated...!" });
+        const user = await UserModel.findOne({ userId });
+        const { password, ...userData } = user.toObject();
+        return res.status(200).json(userData);
       } else {
         res.status(401).send({ msg: "Unauthorized access!" });
       }
