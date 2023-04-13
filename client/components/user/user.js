@@ -23,7 +23,7 @@ const User = ({ userId }) => {
           <li key={user.username} className="flex items-center py-4 px-15">
             <div className="w-12 h-12 rounded-full overflow-hidden">
               <img
-                className="w-10 h-10 rounded-full cursor-pointer"
+                className="w-13 h-13 rounded-full cursor-pointer"
                 src={user?.profile || "https://www.w3schools.com/howto/img_avatar.png"}
                 alt={'https://via.placeholder.com/150'}
               />
