@@ -55,8 +55,8 @@ function TweetContent({ tweetId }) {
               commentor_name={comment.nickname}
               tweetId = {tweetId}
               commentor={comment.username}
-              author_username={comment.replyTo}
-              quotedText={comment.quotedText}
+              author_username={comment.replyTo == 'Tweeter' ? tweetData.username : comment.replyTo}
+              quotedText={comment.quotedText == null ? tweetData.content : comment.quotedText}
               content={comment.content}
               picture={comment.images}
               time= {comment.time}

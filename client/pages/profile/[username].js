@@ -12,7 +12,6 @@ import useFetch from '../../hooks/fetch.hook';
 import convertToBase64 from '../../helper/convert';
 import UserList from '../../components/userlist'
 import TweetList from '../../components/tweetlist';
-import { set } from "local-storage";
 
 
 function Profile() {
@@ -29,9 +28,6 @@ function Profile() {
   const [oriprofile, setOriprofile] = useState(null)
   const [displayMode, setDisplayMode] = useState(0)
   const [isMyProfile, setIsMyProfile] = useState(false)
-  const [state1, setState1] = useState(false)
-  const [state2, setState2] = useState(false)
-  const [state3, setState3] = useState(false)
 
   function updateUserImage(tmp_type, src) {
     if (tmp_type === "cover") {
@@ -57,41 +53,25 @@ function Profile() {
     setOriname(Nickname)
     setEditMode(false);
   }
-  async function updateProfile() {
-    if (displayMode === 0) {
-      setState1(true);
-      setState2(false);
-      setState3(false);
-    }
-    else if (displayMode === 1) {
-      setState1(false);
-      setState2(true);
-      setState3(false);
-    }
-    else if (displayMode === 2) {
-      setState1(false);
-      setState2(false);
-      setState3(true)
-    }
-  }
+
   function cancel() {
     setbiography(oribiobiography);
     setNickname(oriname);
     setEditMode(false);
   }
-  useEffect(() => {
-    async function check() {
-      let loggedinusername = await getUsername();
-      console.log("loggedinusername", loggedinusername)
-      setIsMyProfile(loggedinusername === apiData?.username)
-    }
-    check();
-  }, [apiData])
-
+    useEffect(() => {
+      async function check() {
+        let loggedinusername = await getUsername();
+        console.log("loggedinusername", loggedinusername)
+        setIsMyProfile(loggedinusername === apiData?.username)
+      }
+      check();
+    }, [apiData])
+    
   console.log("apiData: username", apiData, username)
   console.log("isMyProfile", isMyProfile)
 
-
+  
   return (
     <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto z=60">
       <LeftPane />
@@ -113,7 +93,7 @@ function Profile() {
               <div className="ml-5 relative">
                 <div className="absolute -top-20 border-4 rounded-full border-black overflow-hidden">
                   <div className="rounded-full overflow-hidden w-36 h-36">
-                    <Avatar src={profile || apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"}
+                    <Avatar src={profile || apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"} 
                       editable={isMyProfile}
                       onChange={src => updateUserImage('profile', src)} />
                   </div>
@@ -144,7 +124,7 @@ function Profile() {
                 }
                 {!isMyProfile && (
                   <div className="flex  pt-20 ">
-                    <p className="text-white text-xl font-bold"></p>
+                   <p className="text-white text-xl font-bold"></p>
                   </div>)
                 }
               </div>
@@ -190,35 +170,35 @@ function Profile() {
                 <button onClick={() => setDisplayMode(2)} className="pl-4">
                   <div className="hover:underline">following</div>
                 </button>
-
+                
               </div>
 
             </div>
           </div>
-          {state1 && (
-            <div>
-              <h3>Tweets</h3>
-              <ul>
-                <TweetList authorname={username} />
-              </ul>
-            </div>
-          )}
-          {state2 && (
-            <div>
-              <h3>Followers</h3>
-              <ul>
-                <UserList follower={username} />
-              </ul>
-            </div>
-          )}
-          {state3 && (
-            <div>
-              <h3>Following</h3>
-              <ul>
-                <UserList following={username} />
-              </ul>
-            </div>
-          )}
+          {displayMode === 0 && (
+        <div>
+          <h3>Tweets</h3>
+          <ul>
+            <TweetList authorname = {username}/>
+          </ul>
+        </div>
+      )}
+      {displayMode === 1 && (
+        <div>
+          <h3>Followers</h3>
+          <ul>
+            <UserList follower = {username}/>
+          </ul>
+        </div>
+      )}
+      {displayMode === 2 && (
+        <div>
+          <h3>Following</h3>
+          <ul>
+            <UserList following = {username}/>
+          </ul>
+        </div>
+      )}
           <div className="flex">
             <div className="w-1/4">
             </div>
