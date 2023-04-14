@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import getUsername from '../../helper/helper.js';
+import { Router, useRouter } from 'next/router';
+
 
 const Button = ({ isFollowed, handleFollow }) => {
   const buttonText = isFollowed ? 'Unfollow' : 'Follow';
@@ -16,6 +17,7 @@ const Button = ({ isFollowed, handleFollow }) => {
 
 const User = ({ userId, currentUser }) => {
   console.log(typeof userId);
+  const router = useRouter()
   const [user, setUser] = useState(null);
   const [isFollowed, setIsFollowed] = useState(false);
 
@@ -54,7 +56,7 @@ const User = ({ userId, currentUser }) => {
       <div className="container col-span-2 ml-auto mx-auto pt-3 pl-5 ">
         <ul>
           <li key={user.username} className="flex items-center py-4 px-15">
-            <div className="w-12 h-12 rounded-full overflow-hidden">
+            <div className="w-12 h-12 rounded-full overflow-hidden" onClick={()=>router.push(`/profile/${user.username}`)}>
               <img
                 className="w-13 h-13 rounded-full cursor-pointer"
                 src={user?.profile || "https://www.w3schools.com/howto/img_avatar.png"}

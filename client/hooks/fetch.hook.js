@@ -11,16 +11,20 @@ export default function useFetch(query) {
     status: null,
     serverError: null,
   });
-  
+  console.log("HH")
+  console.log(query)
+  if (query){
+    console.log("hello")
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
         setData((prevData) => ({ ...prevData, isLoading: true }));
-        console.log()
         let username = ""
         if (!query) {
           await getUsername().then(res => {username = res});
         }
+        console.log(query)
 
         const endpoint = !query ? `api/user/${username}` : `api/${query}`;
         console.log(endpoint)
