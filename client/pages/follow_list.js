@@ -36,7 +36,7 @@ const followings_default = [{
 
 
 
-function FollowList({ followers = followers_default, followings = followings_default }) {
+function FollowList({ hostname='host', followers = followers_default, followings = followings_default }) {
 
   const router = useRouter();
 
@@ -66,7 +66,7 @@ function FollowList({ followers = followers_default, followings = followings_def
                 <div>
                   {followings.map((following) => (
                     <div key={following.id}>
-                      <UserRow user={following} />
+                      <UserRow hostname={hostname} user={following} isfollowing={true} />
                     </div>
                   ))}
                 </div>
@@ -81,7 +81,8 @@ function FollowList({ followers = followers_default, followings = followings_def
                 <div>
                   {followers.map((follower) => (
                     <div key={follower.id}>
-                      <UserRow user={follower} />
+                      <UserRow hostname={hostname} user={follower} isfollowing={false}/> 
+                      {/*Need to check whether uesr is followed by the hostuer*/}
                     </div>
                   ))}
                 </div>

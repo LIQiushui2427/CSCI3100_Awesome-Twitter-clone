@@ -110,15 +110,13 @@ export async function searchTweets(req, res) {
       tweets = await TweetModel.find({ username: authorname });
     } else if (username) {
       const user = await UserModel.findOne({ username: username }).populate('following');
-      const followingUserIds = user.following.map(u => u._id);
-      tweets = await TweetModel.find({ user: { $in: followingUserIds } });
-    } else if (req.query === {}){
+      console.log("user: ", user)
+      const followingUsernames = user.following
+      console.log("followingUsernames: ", followingUsernames)
+      tweets = await TweetModel.find({ username: { $in: followingUsernames } });
+    } else {
       tweets = await TweetModel.find({});
     }
-    else {
-      return res.status(400).send({ error: "Keyword or authorname is required" });
-    }
-
     if (tweets.length === 0) {
       return res.status(404).send({ error: "No tweets found" });
     }

@@ -45,7 +45,7 @@ const TweetList = ({ searchKey, authorname, username}) => {
     </div>
   );
   }
-  else if (authorname) {
+  else if (authorname || username) {
     return (
       <div className="rounded-lg shadow-md p-2">
         <ul>
