@@ -103,20 +103,19 @@ export async function searchTweets(req, res) {
   try {
     const { key, authorname, username } = req.query;
     let tweets;
-    console.log("searchTweets invoked: ", req.query)
+
     if (key) {
-      tweets = await TweetModel.find({ content: { $regex: key, $options: "i" } });
+      tweets = await TweetModel.find({ content: { $regex: key, $options: "i" } }).sort({ date: -1 });
     } else if (authorname) {
-      tweets = await TweetModel.find({ username: authorname });
+      tweets = await TweetModel.find({ username: authorname }).sort({ date: -1 });
     } else if (username) {
       const user = await UserModel.findOne({ username: username }).populate('following');
-      console.log("user: ", user)
-      const followingUsernames = user.following
-      console.log("followingUsernames: ", followingUsernames)
-      tweets = await TweetModel.find({ username: { $in: followingUsernames } });
+      const followingUsernames = user.following;
+      tweets = await TweetModel.find({ username: { $in: followingUsernames } }).sort({ date: -1 });
     } else {
-      tweets = await TweetModel.find({});
+      tweets = await TweetModel.find({}).sort({ date: -1 });
     }
+
     if (tweets.length === 0) {
       return res.status(404).send({ error: "No tweets found" });
     }
@@ -127,6 +126,7 @@ export async function searchTweets(req, res) {
     res.status(500).send({ error: "Internal Server Error" });
   }
 }
+
 
   
 export async function likeTweet(req, res) {
