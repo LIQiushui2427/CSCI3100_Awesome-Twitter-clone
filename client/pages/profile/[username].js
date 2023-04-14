@@ -123,8 +123,8 @@ function Profile() {
                   </div>)
                 }
                 {!isMyProfile && (
-                  <div className="flex  pt-4 ">
-                   <p className="text-white text-xl font-bold">Not your Profile</p>
+                  <div className="flex  pt-20 ">
+                   <p className="text-white text-xl font-bold"></p>
                   </div>)
                 }
               </div>

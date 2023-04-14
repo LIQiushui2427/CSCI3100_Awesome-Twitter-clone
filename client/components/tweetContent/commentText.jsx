@@ -14,14 +14,13 @@ const Avatar = ({ src, alt }) => (
 );
 
 
-function CommentText({ commentor = 'test_commentor', author_username = 'Tweeter', time = '1h', content = 'hello world',
+function CommentText({ commentor = 'test_commentor', commentor_name = 'Tweeter', author_username = 'Tweeter', time = '1h', content = 'hello world',
   avatarpic = 'https://www.w3schools.com/howto/img_avatar.png', picture = 'https://ksbeeper.files.wordpress.com/2020/11/samplepic.png',
   nopic = "true", likes = '0', quotedText, onLike, tweetId, onNewReply }) {
 
   const [replying, setReplying] = useState(false);
   const [replyContent, setReplyContent] = useState('');
   const [showQuotedText, setShowQuotedText] = useState(false);
-  const [{ isLoading, apiData, serverError }] = useFetch();
 
   const handleReplyClick = () => {
     setReplying(true);
@@ -80,7 +79,7 @@ function CommentText({ commentor = 'test_commentor', author_username = 'Tweeter'
         <Avatar src={avatarpic} alt="Test" />
         <div className="ml-4">
           <div className="flex items-center">
-            <span className="font-bold text-lg">{commentor}</span>
+            <span className="font-bold text-lg">{commentor_name}</span>
             <span className="ml-2 text-gray-500">@{commentor}</span>
             <span className="text-gray-500 mx-2">&middot;</span>
             <span className="text-gray-500">{time}</span>
@@ -96,7 +95,6 @@ function CommentText({ commentor = 'test_commentor', author_username = 'Tweeter'
           </div>
           <div className="mt-2 justify-start flex items-center">
             <div className="p-1 mr-2 hover:text-blue-600 hover:bg-blue-600/10 rounded-full items-center cursor-pointer" onClick={handleReplyClick}><Image src="/reply.svg" width={20} height={20} alt="reply" /></div>
-            <div className="p-1 mr-2 hover:text-pink-600 hover:bg-pink-600/10 rounded-full items-center cursor-pointer" onClick={onLike}><Image src="/like.svg" width={20} height={20} alt="like" /></div>
           </div>
         </div>
       </div>

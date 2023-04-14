@@ -26,6 +26,8 @@ function CommentBox({ tweetId, username, onNewComment, avatarpic= 'https://www.w
     formData.append('username', resolvedUsername);
     formData.append('content', commentContent);
     formData.append('tweetId', tweetId);
+    formData.append('nickname', apiData?.Nickname || apiData?.username);
+    formData.append('profile' , apiData?.profile)
     commentImages.forEach((image) => {
       formData.append('commentImages', image);
     });
