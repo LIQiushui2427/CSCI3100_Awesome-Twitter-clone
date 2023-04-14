@@ -19,8 +19,7 @@ function Profile() {
   const { username } = router.query;
   const [editMode, setEditMode] = useState(false);
   const [cover, setCover] = useState("")
-  const [{ isLoading, apiData, serverError }] = useFetch();
-  const [{ isLoading1, apiData1, serverError1 }] = useFetch(`user/${username}`);
+  const [{ isLoading, apiData, serverError }] = useFetch(router.query);
   const [biography, setbiography] = useState(null)
   const [Nickname, setNickname] = useState(null)
   const [profile, setProfile] = useState(null)
@@ -28,6 +27,7 @@ function Profile() {
   const [oriname, setOriname] = useState(null)
   const [oriprofile, setOriprofile] = useState(null)
   const [displayMode, setDisplayMode] = useState(0)
+  const [isMyProfile, setIsMyProfile] = useState(false)
 
   function updateUserImage(tmp_type, src) {
     if (tmp_type === "cover") {
@@ -36,6 +36,11 @@ function Profile() {
     else {
       setProfile(src)
     }
+  }
+  async function check() {
+    let loggedinusername = await getUsername();
+    console.log("loggedinusername", loggedinusername)
+    setIsMyProfile(loggedinusername === apiData?.username)
   }
 
   async function updateProfile() {
@@ -60,9 +65,10 @@ function Profile() {
         destination: apiData?._id,
       })*/
   }
-  const isMyProfile = apiData?.username === username;
+  console.log("apiData: username", apiData, username)
+  console.log("isMyProfile", isMyProfile)
 
-
+  check();
   return (
     <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto z=60">
       <LeftPane />
@@ -74,9 +80,9 @@ function Profile() {
           </div>
           <div className="border-b border-twitterBorder pb-10">
             <div className="px-5 pt-2">
-              <Navigate title={Nickname || apiData1?.Nickname || username} />
+              <Navigate title={Nickname || apiData?.Nickname || username} />
             </div>
-            <Cover src={cover || apiData1?.cover || "https://cdn.discordapp.com/attachments/1089880136037437460/1095383978967564318/cHl.jpg"}
+            <Cover src={cover || apiData?.cover || "https://cdn.discordapp.com/attachments/1089880136037437460/1095383978967564318/cHl.jpg"}
               editable={isMyProfile}
               onChange={src => updateUserImage('cover', src)}
             />
@@ -84,7 +90,7 @@ function Profile() {
               <div className="ml-5 relative">
                 <div className="absolute -top-20 border-4 rounded-full border-black overflow-hidden">
                   <div className="rounded-full overflow-hidden w-36 h-36">
-                    <Avatar src={profile || apiData1?.profile || "https://www.w3schools.com/howto/img_avatar.png"} 
+                    <Avatar src={profile || apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"} 
                       editable={isMyProfile}
                       onChange={src => updateUserImage('profile', src)} />
                   </div>
@@ -114,12 +120,8 @@ function Profile() {
                   </div>)
                 }
                 {!isMyProfile && (
-                  <div>
-                    <div className="flex pt-4 item-center mr-5">
-                    <button  className="transparant   py-2 px-4 rounded mt-6">
-                        </button>
-
-                    </div>
+                  <div className="flex  pt-4 ">
+                   <p className="text-white text-xl font-bold">Not your Profile</p>
                   </div>)
                 }
               </div>
@@ -127,8 +129,8 @@ function Profile() {
             </div>
             {!editMode && (
               <div>
-                <div className="mt-5 px-7 mt-20">
-                  <h1 className="pl-6 pb-3 font-bold text-xl leading-5">{Nickname || apiData1?.Nickname || username}</h1>
+                <div className="mt-5 px-7 ">
+                  <h1 className="pl-6 pb-3 font-bold text-xl leading-5">{Nickname || apiData?.Nickname || username}</h1>
                 </div>
                 <div>
                   <h1 className="pl-14 pb-2 text-sm text-gray-500 leading-5">@{username}</h1>
@@ -145,7 +147,7 @@ function Profile() {
             <div>
               {!editMode && (<div className="text-gray-500 pl-5  flex items-center pb-3">
                 <div>
-                  {biography || apiData1?.biography || "good good study, day day up"}
+                  {biography || apiData?.biography || "good good study, day day up"}
                 </div>
               </div>)}
 

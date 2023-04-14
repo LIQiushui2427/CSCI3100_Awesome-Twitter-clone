@@ -100,7 +100,8 @@ function LeftPane () {
 
           <div className="hidden xl:inline leading-5 flex">
             <div>
-              <div className="text-xl font-bold cursor-pointer ml-2" onClick={() => router.push('/profile')}>{apiData?.Nickname || username}</div>
+              <div className="text-xl font-bold cursor-pointer ml-2" onClick={() => router.push(`/profile/${username}`)}>
+                {apiData?.Nickname || username}</div>
               <p className="text-gray-600 cursor-pointer ml-2" >@{username}</p>
             </div>
           </div>

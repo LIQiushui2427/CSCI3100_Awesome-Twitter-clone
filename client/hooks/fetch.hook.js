@@ -11,23 +11,27 @@ export default function useFetch(query) {
     status: null,
     serverError: null,
   });
-  console.log("HH")
-  console.log(query)
-  if (query){
-    console.log("hello")
-  }
+  console.log("query in use fetch", query)
   useEffect(() => {
     const fetchData = async () => {
       try {
         setData((prevData) => ({ ...prevData, isLoading: true }));
-        let username = ""
+  
+        let endpoint, username = "";
+  
         if (!query) {
-          await getUsername().then(res => {username = res});
+          username = await getUsername();
+          endpoint = `api/user/${username}`;
+        } else if (typeof query === "object" && query.hasOwnProperty("username")) {
+          username = query.username;
+          endpoint = `api/user/${username}`;
+        } else {
+          endpoint = `api/${query}`;
         }
-        console.log(query)
-
-        const endpoint = !query ? `api/user/${username}` : `api/${query}`;
-        console.log(endpoint)
+  
+        console.log("Use fetch query", query);
+        console.log("endpoint", endpoint);
+  
         const response = await axios.get(`http://localhost:8080/${endpoint}`);
         
         setData((prevData) => ({
@@ -44,9 +48,10 @@ export default function useFetch(query) {
         }));
       }
     };
-
+  
     fetchData();
   }, [query]);
+  
 
   return [data, setData];
 }
