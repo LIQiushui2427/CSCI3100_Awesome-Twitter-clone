@@ -59,16 +59,19 @@ function Profile() {
     setNickname(oriname);
     setEditMode(false);
   }
-  function toggleFollow() {
-    /*  setIsFollowing(prev => !prev);
-      axios.post('/api/followers', {
-        destination: apiData?._id,
-      })*/
-  }
+    useEffect(() => {
+      async function check() {
+        let loggedinusername = await getUsername();
+        console.log("loggedinusername", loggedinusername)
+        setIsMyProfile(loggedinusername === apiData?.username)
+      }
+      check();
+    }, [apiData])
+    
   console.log("apiData: username", apiData, username)
   console.log("isMyProfile", isMyProfile)
 
-  check();
+  
   return (
     <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto z=60">
       <LeftPane />
