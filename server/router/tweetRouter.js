@@ -63,6 +63,4 @@ tweetRouter.route("/getTweetById").get(
   controller.getTweetById
 );
 
-tweetRouter.route("/loadAllTweets").get(controller.loadAllTweets);
-
 export default tweetRouter;

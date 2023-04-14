@@ -1,11 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { follow, unfollow } from '@/helper/helper';
 
-function Button() {
-  const [isActive, setIsActive] = useState(false);
+function Button({hostname, guestname, isfollowing}) {
+  const [isActive, setIsActive] = useState(isfollowing??false);
+  
+
+  console.log('follow_button component invoked');
+
 
   const handleClick = () => {
-    setIsActive(!isActive);
-    // do some other following stuff
+    if(isActive){
+      unfollow({follower:hostname, followee:guestname}).then(
+        function(){
+          setIsActive(!isActive);
+        },
+        
+        function(){
+          alert("Fail to unfollow this user!");
+        }
+      )
+    }
+    else{
+      follow({follower:hostname, followee:guestname}).then(
+        function(){
+          setIsActive(!isActive);
+        },
+        
+        function(){
+          alert("Fail to follow this user!");
+        }
+      )
+    }
   };
 
   return (

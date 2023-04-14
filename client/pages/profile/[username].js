@@ -169,7 +169,7 @@ function Profile() {
         <div>
           <h3>Tweets</h3>
           <ul>
-            <TweetList username = {username}/>
+            <TweetList authorname = {username}/>
           </ul>
         </div>
       )}

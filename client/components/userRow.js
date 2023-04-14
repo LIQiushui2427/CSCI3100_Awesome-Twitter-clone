@@ -12,7 +12,7 @@ const userDefault = {
 
 };
 
-function UserRow({ user = userDefault }) { //parameter to insert: user
+function UserRow({ hostname= 'host', user = userDefault, isfollowing=true}) { //parameter to insert: user
 
    const router = useRouter();
    const username = user.id??'host';
@@ -37,7 +37,7 @@ function UserRow({ user = userDefault }) { //parameter to insert: user
       </div>
       <div className="flex justify-center items-center col-span-1">
         <div className="align-left">
-          <Button />
+          <Button hostname={hostname} guestname={user.id} isfollowing={isfollowing}/>
         </div>
       </div>
     </div>
