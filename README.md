@@ -1,29 +1,32 @@
 # CSCI3100_Awesome-Twitter-clone
 ## Introduction
-This is the github repository for the CSCI3100 project. The project is a twitter clone app.
+This is the github repository for CUHK CSCI3100 project. The project is a twitter clone app.
 ## Requirements
-## Intallation
-### For Linux/WSL users
-```
-sudo apt-get install nodejs
-npm i react-router-dom
-npm run build
-npm run start
-```
-### For Windows users
-First you should have installed [node.js](https://nodejs.org/dist/v18.15.0/node-v18.15.0-x64.msi) on your PC. Then in PowerShell/cmd, type
+To distribute our application ono your device, first plaese make sure you have [Node.js](https://nodejs.org/) installed your device. You can type following code to check this installation:
 ```
 node -v
 npm -v
 ```
-to check installation.
-Then type
+## Getting started
+### Installing dependencies (For Linux/WSL/MacOS/Windows users)
+Enter following code in terminal under project directory:
 ```
-npm i react-router-dom
+npm install
+```
+### Build and run
+You should open two terminals under project directory. In each terminal, enter and excecute:
+#### Terminal 1 (Server)
+```
+cd server
+npm run start
+```
+#### Terminal 2 (Client)
+```
+cd client
 npm run build
 npm run start
 ```
-Upon success, you can open [localhost](http://localhost:3000/) on your browser to enjoy our appllication.
+Don't close these two terminals. Upon success, you can open [localhost](http://localhost:3000/) on your browser to enjoy our appllication.
 ## Roadmap
 * [x] High level documentation [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/CSCI3100_High_level_documentation.pdf)
 * [x] Data flow diagram [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/GroupC4_DFD_Specification_Document.pdf)
@@ -36,6 +39,3 @@ Upon success, you can open [localhost](http://localhost:3000/) on your browser t
 * [ZHENG Xinhao 1155143819](https://github.com/jzxheremy)
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
-## Reference
-## Image sourse
-* [App icon](https://www.freeiconspng.com/uploads/cricle-twitter-emblem-png-clipart-8.png)

@@ -17,7 +17,7 @@ const CommentSchema = new mongoose.Schema({
   },
   replyTo: {
     type: String,
-    default: null
+    default: 'Tweeter'
   },
   quotedText: {
     type: String,
