@@ -51,6 +51,8 @@ function TweetContent({ tweetId }) {
           {commentsData.map((comment) => (
             <CommentText
               key={comment.commentId}
+              avatarpic = {comment.profile}
+              commentor_name={comment.nickname}
               tweetId = {tweetId}
               commentor={comment.username}
               author_username={comment.replyTo}

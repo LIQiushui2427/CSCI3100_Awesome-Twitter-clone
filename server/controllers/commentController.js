@@ -53,7 +53,7 @@ export async function deleteComment(req, res) {
 
 export async function createComment(req, res) {
   try {
-    const { tweetId, content, replyTo, quotedText, images } = req.body;
+    const { tweetId, content, profile, nickname, replyTo, quotedText, images } = req.body;
     const username = req.query.username;
 
     if (!tweetId) {
@@ -69,6 +69,8 @@ export async function createComment(req, res) {
     const newComment = new CommentModel({
       commentId: Math.random().toString(20),
       tweetId,
+      nickname,
+      profile,
       username,
       replyTo,
       quotedText,
