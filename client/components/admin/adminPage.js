@@ -47,7 +47,7 @@ const AdminPage = () => {
             </div>
             {isadmin?<div >
               {users.map((auser) => (
-              <UserComponent key={auser.username} username={auser.username} admin={auser.isAdmin?"true":"false"} avatar="https://picsum.photos/id/1005/40/40" />
+              <UserComponent key={auser.username} username={auser.username} admin={auser.isAdmin?"true":"false"} avatar={auser.profile || 'https://www.w3schools.com/howto/img_avatar.png'} />
               ))}
             </div>
             :
