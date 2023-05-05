@@ -56,7 +56,7 @@ function Profile() {
       biography: biography || "",
     });
     let updatePromise = updateUser(values);
-    updatePromise.then((res) => {});
+    updatePromise.then((res) => { });
     setOribiobiography(biography);
     setOriname(Nickname);
     setEditMode(false);
@@ -78,7 +78,7 @@ function Profile() {
     }
     check();
   }, [apiData]);
-  
+
   return (
     <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto z=60">
       <LeftPane />
@@ -100,7 +100,7 @@ function Profile() {
               <div className="ml-5 relative">
                 <div className="absolute -top-20 border-4 rounded-full border-black overflow-hidden">
                   <div className="rounded-full overflow-hidden w-36 h-36">
-                    <Avatar src={profile || apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"} 
+                    <Avatar src={profile || apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"}
                       editable={isMyProfile}
                       onChange={src => updateUserImage('profile', src)} />
                   </div>
@@ -108,32 +108,11 @@ function Profile() {
               </div>
 
               <div>
-                {isMyProfile && (
-                  <div>
-                    <div className="flex pt-4 item-center mr-5">
-                      {!editMode && (
-                        <button onClick={() => setEditMode(true)} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                          Edit Profile
-                        </button>)
-                      }
-                      {editMode && (<div>
-                        <button onClick={() => { setEditMode(false); updateProfile() }} className="bg-[#1d9bf0] hover:bg-blue-700 mr-5 text-white font-bold py-2 px-4 rounded mt-4">
-                          Save
-                        </button>
-                        <button onClick={() => { setEditMode(false); cancel() }} className="bg-[#1d9bf0] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                          Cancel
-                        </button>
-                      </div>)
-                      }
 
-                    </div>
-                  </div>)
-                }
-                {!isMyProfile && (
-                  <div className="flex  pt-20 ">
-                   <p className="text-white text-xl font-bold"></p>
-                  </div>)
-                }
+                <div className="flex  pt-20 ">
+                  <p className="text-white text-xl font-bold"></p>
+                </div>
+
               </div>
 
             </div>
@@ -177,35 +156,35 @@ function Profile() {
                 <button onClick={() => setDisplayMode(2)} className="pl-4">
                   <div className="hover:underline">following</div>
                 </button>
-                
+
               </div>
 
             </div>
           </div>
           {displayMode === 0 && (
-        <div>
-          <h3>Tweets</h3>
-          <ul>
-            <TweetList authorname = {username}/>
-          </ul>
-        </div>
-      )}
-      {displayMode === 1 && (
-        <div>
-          <h3>Followers</h3>
-          <ul>
-            <UserList follower = {username}/>
-          </ul>
-        </div>
-      )}
-      {displayMode === 2 && (
-        <div>
-          <h3>Following</h3>
-          <ul>
-            <UserList following = {username}/>
-          </ul>
-        </div>
-      )}
+            <div>
+              <h3>Tweets</h3>
+              <ul>
+                <TweetList authorname={username} />
+              </ul>
+            </div>
+          )}
+          {displayMode === 1 && (
+            <div>
+              <h3>Followers</h3>
+              <ul>
+                <UserList follower={username} />
+              </ul>
+            </div>
+          )}
+          {displayMode === 2 && (
+            <div>
+              <h3>Following</h3>
+              <ul>
+                <UserList following={username} />
+              </ul>
+            </div>
+          )}
           <div className="flex">
             <div className="w-1/4">
             </div>
