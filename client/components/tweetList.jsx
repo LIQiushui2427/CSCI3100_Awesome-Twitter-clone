@@ -28,9 +28,14 @@ const TweetList = ({ searchKey, authorname, username}) => {
   }, [searchKey, authorname,username]);
 
   console.log("TweetList: tweets: ", data.tweets);
-  if (!tweets || tweets.length == 0) {
-    return <div>No tweet found</div>;
-  }
+  if (!tweets || tweets.length === 0) {
+    return (
+      <div className="text-center mt-10 text-gray-500">
+        <p className="text-lg font-medium">No tweets found</p>
+      </div>
+    );
+}
+
   console.log("TweetList: tweets: ", data.tweets);
   if(searchKey){
     return (

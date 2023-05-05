@@ -37,6 +37,13 @@ function UserList ({ searchKey, follower, following}) {
     fetchUsername();
   }, [searchKey, follower, following])
   console.log("UserList: users: ", users);
+  if (!users || users.length === 0) {
+    return (
+      <div className="text-center mt-10 text-gray-500">
+        <p className="text-lg font-medium">No users found</p>
+      </div>
+    );
+  }
   if(searchKey){
     return (
       <div className="rounded-lg shadow-md">
@@ -47,7 +54,9 @@ function UserList ({ searchKey, follower, following}) {
               ))}
           </ul>
         ) : (
-          <p>No users found.</p>
+          <div className="text-center mt-10 text-gray-500">
+          <p className="text-lg font-medium">No users found </p>
+          </div>
         )}
       </div>
     );
