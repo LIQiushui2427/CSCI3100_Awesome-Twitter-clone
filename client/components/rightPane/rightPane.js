@@ -1,14 +1,26 @@
+// Import React and useState hooks
 import React, { useState } from 'react';
-import { router} from 'next/router';
-import Button from '../follow_button';
+
+// Import the useRouter hook from next/router
 import { useRouter } from 'next/router';
+
+// Import the SearchPage component
 import SearchPage from '../searchPage';
 import Advertise from '../advertise';
 
+// Define a functional component called RightPane
 const RightPane = () => {
+  
+  // Declare a state variable called searchTerm, and a function called setSearchTerm to update it
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Access the useRouter hook and store it in a variable called router
   const router = useRouter();
+
+  // Declare a state variable called searchKey, and a function called setSearchKey to update it
   const [searchKey, setSearchKey] = useState(null)
+
+  // Define a function called handleSearch to handle search events
   const handleSearch = () => {
     if (searchTerm.trim() !== '') {
       setSearchKey(searchTerm.trim())

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
+// Defining the user schema
 export const UserSchema = new mongoose.Schema({
     username : {
         type: String,

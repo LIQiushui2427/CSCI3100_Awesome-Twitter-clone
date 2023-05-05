@@ -1,5 +1,4 @@
 import React from "react";
-import NameCard from "./nameCard";
 import Button from "@/components/follow_button";
 import { Router, useRouter } from 'next/router';
 

@@ -1,76 +1,83 @@
+// Import necessary components and libraries
 import Navigate from "../../components/Navigate";
 import Cover from "../../components/Cover";
 import Avatar from "../../components/Avatar";
 import { useEffect, useState } from "react";
 import LeftPane from "@/components/leftPane/leftPane";
 import RightPane from "@/components/rightPane/rightPane";
-import Button from "@/components/follow_button";
 import { getUsername, checkLoginStatus, checkIsAdmin } from '../../helper/helper';
 import { Router, useRouter } from 'next/router';
 import React from 'react';
 import useFetch from '../../hooks/fetch.hook';
 import convertToBase64 from '../../helper/convert';
-import UserList from '../../components/userlist'
+import UserList from '../../components/userlist';
 import TweetList from '../../components/tweetlist';
 
-
+// Define the Profile component
 function Profile() {
+  // Get the router object and the "username" parameter from the query
   const router = useRouter();
   const { username } = router.query;
-  const [editMode, setEditMode] = useState(false);
-  const [cover, setCover] = useState("")
-  const [{ isLoading, apiData, serverError }] = useFetch(router.query);
-  const [biography, setbiography] = useState(null)
-  const [Nickname, setNickname] = useState(null)
-  const [profile, setProfile] = useState(null)
-  const [oribiobiography, setOribiobiography] = useState(null)
-  const [oriname, setOriname] = useState(null)
-  const [oriprofile, setOriprofile] = useState(null)
-  const [displayMode, setDisplayMode] = useState(0)
-  const [isMyProfile, setIsMyProfile] = useState(false)
 
+  // Define the component state variables
+  const [editMode, setEditMode] = useState(false);
+  const [cover, setCover] = useState("");
+  const [{ isLoading, apiData, serverError }] = useFetch(router.query);
+  const [biography, setbiography] = useState(null);
+  const [Nickname, setNickname] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [oribiobiography, setOribiobiography] = useState(null);
+  const [oriname, setOriname] = useState(null);
+  const [oriprofile, setOriprofile] = useState(null);
+  const [displayMode, setDisplayMode] = useState(0);
+  const [isMyProfile, setIsMyProfile] = useState(false);
+
+  // Define a function to update the user's cover or profile image
   function updateUserImage(tmp_type, src) {
     if (tmp_type === "cover") {
-      setCover(src)
+      setCover(src);
+    } else {
+      setProfile(src);
     }
-    else {
-      setProfile(src)
-    }
-  }
-  async function check() {
-    let loggedinusername = await getUsername();
-    console.log("loggedinusername", loggedinusername)
-    setIsMyProfile(loggedinusername === apiData?.username)
   }
 
+  // Define a function to check if the current user is viewing their own profile
+  async function check() {
+    let loggedinusername = await getUsername();
+    console.log("loggedinusername", loggedinusername);
+    setIsMyProfile(loggedinusername === apiData?.username);
+  }
+
+  // Define a function to update the user's profile information
   async function updateProfile() {
-    let values = {}
-    values = await Object.assign(values, { Nickname: Nickname || '', biography: biography || '' })
-    let updatePromise = updateUser(values);
-    updatePromise.then((res) => {
+    let values = {};
+    values = await Object.assign(values, {
+      Nickname: Nickname || "",
+      biography: biography || "",
     });
-    setOribiobiography(biography)
-    setOriname(Nickname)
+    let updatePromise = updateUser(values);
+    updatePromise.then((res) => {});
+    setOribiobiography(biography);
+    setOriname(Nickname);
     setEditMode(false);
   }
 
+  // Define a function to cancel the user's edits to their profile information
   function cancel() {
     setbiography(oribiobiography);
     setNickname(oriname);
     setEditMode(false);
   }
-    useEffect(() => {
-      async function check() {
-        let loggedinusername = await getUsername();
-        console.log("loggedinusername", loggedinusername)
-        setIsMyProfile(loggedinusername === apiData?.username)
-      }
-      check();
-    }, [apiData])
-    
-  console.log("apiData: username", apiData, username)
-  console.log("isMyProfile", isMyProfile)
 
+  // Check if the user is viewing their own profile on component mount
+  useEffect(() => {
+    async function check() {
+      let loggedinusername = await getUsername();
+      console.log("loggedinusername", loggedinusername);
+      setIsMyProfile(loggedinusername === apiData?.username);
+    }
+    check();
+  }, [apiData]);
   
   return (
     <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto z=60">

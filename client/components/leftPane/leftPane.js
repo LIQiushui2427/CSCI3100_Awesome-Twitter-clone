@@ -21,15 +21,20 @@ import {
   KeyIcon,
 } from "@heroicons/react/outline";
 import SidebarLink from "./SidebarLink";
-import DevelopersList from "../developerlist";
-function LeftPane () {
-
+import DevelopersList from "../developerlist.js"
+// Define the LeftPane component
+function LeftPane() {
+  // Use the useFetch hook to fetch data from an API
   const [{ isLoading, apiData, serverError }] = useFetch();
+  // Use the useRouter hook to access the Next.js router
   const router = useRouter();
 
+  // Define state variables for whether the user is logged in, the user's username, and whether the user is an admin
   const [isloggedin, setIsloggedin] = useState(false);
   const [username, setUsername] = useState("Login");
   const [isadmin, setIsadmin] = useState(false);
+
+  
   const developers = [
     {
       name: 'lqs',
@@ -43,34 +48,44 @@ function LeftPane () {
     },
     // Add more developers as needed
   ];
-  
+  // Use the useMemo hook to check the user's login status and set the isloggedin state variable accordingly
   useMemo(() => {
     checkLoginStatus().then(res => setIsloggedin(res));
   }, []);
 
+  // Use the useMemo hook to get the user's username and set the username state variable accordingly
   useMemo(() => {
     getUsername().then(res => setUsername(res));
   }, []);
 
+  // Use the useMemo hook to check if the user is an admin and set the isadmin state variable accordingly
   useMemo(() => {
     checkIsAdmin().then(res => setIsadmin(res));
   }, []);
 
-
+  // Define a function to handle user logout
   function userLogout() {
+    // Remove the user's token from local storage
     localStorage.removeItem('token');
+    // Redirect the user to the home page
     window.location.href = "/";
   }
+
+  // Define a function to handle sidebar link clicks
   const handleClick = (destination) => {
+    // If the user clicks the "Home" link, redirect them to the home page
     if (destination === "Home") {
       router.push(`/`);
     }
+    // If the user clicks the "Profile" link, redirect them to their own profile page
     else if (destination === "Profile") {
       router.push(`/profile/${username}`);
     }
+    // If the user clicks the "Admin" link and they are an admin, redirect them to the admin page
     else if (destination === "Admin") {
       router.push(`/admin`);
     }
+    // If the user clicks any other link, redirect them to the corresponding page
     else {
       router.push(`/tobedone`);
     }
@@ -94,13 +109,14 @@ function LeftPane () {
             <SidebarLink text="Lists" Icon={ClipboardListIcon} onPush={handleClick} />
             <SidebarLink text="Profile" Icon={UserIcon} onPush={handleClick} />
             {isadmin ?
-              <SidebarLink text="Admin" Icon={KeyIcon} onPush={handleClick}/>
+              <SidebarLink text="Admin" Icon={KeyIcon} onPush={handleClick} />
               : null}
           </>
           : null}
       </div>
+      
       {isloggedin ?
-        <div className="text-[#d9d9d9] flex mt-14 items-center justify-center hoverAnimation xl:ml-24 pr-10 xl:-mr-2" >
+        <div className="text-[#d9d9d9] flex items-center justify-center hoverAnimation xl:ml-24 pr-10 xl:-mr-2" >
 
           <img src={apiData?.profile || "https://www.w3schools.com/howto/img_avatar.png"} alt="User profile" className=" hidden xl:inline  w-12 h-12 rounded-full ml-4" />
 
