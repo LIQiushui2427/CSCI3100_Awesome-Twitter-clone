@@ -21,13 +21,10 @@ import {
   KeyIcon,
 } from "@heroicons/react/outline";
 import SidebarLink from "./SidebarLink";
-
+import DevelopersList from "../developerlist.js"
 // Define the LeftPane component
 function LeftPane() {
   // Use the useFetch hook to fetch data from an API
-import DevelopersList from "../developerlist";
-function LeftPane () {
-
   const [{ isLoading, apiData, serverError }] = useFetch();
   // Use the useRouter hook to access the Next.js router
   const router = useRouter();
@@ -79,10 +76,6 @@ function LeftPane () {
     // If the user clicks the "Home" link, redirect them to the home page
     if (destination === "Home") {
       router.push(`/`);
-    }
-    // If the user clicks the "Lists" link, redirect them to the follow list page
-    else if (destination === "Lists") {
-      router.push(`/follow_list`);
     }
     // If the user clicks the "Profile" link, redirect them to their own profile page
     else if (destination === "Profile") {
