@@ -1,17 +1,21 @@
 import React, { createContext, useState,useEffect } from 'react';
-//import AsyncStorage from '@react-native-async-storage/async-storage';
 import client from '../config'
 import jwt_decode from 'jwt-decode';
 
-/** Make API Requests */
-
+/*
+    This function checks whether the user is logged in by simply checking whether the token exists.
+    It does not involve backend so it is more efficient.
+*/
 export async function checkLoginStatus(){
   const token = localStorage.getItem('token')
   if(!token) return false;
   return true;
 }
 
-/** To get username from Token */
+/*
+    This function gets the username by decoding the token.
+    It does not involve backend so it is more efficient.
+*/
 export async function getUsername(){
     const token = localStorage.getItem('token')
     if(!token) return Promise.reject("Cannot find Token");
@@ -21,27 +25,26 @@ export async function getUsername(){
     return decode.username;
 }
 
-/* check if user is admin */
+/*
+    This function checks if a user is an admin by decoding the token.
+    It does not involve backend so it is more efficient.
+*/
 export async function checkIsAdmin(){
     const token = localStorage.getItem('token')
     if(!token) return Promise.reject("Cannot find Token");
     let decode = jwt_decode(token)
-    //console.log(decode.username);
     return decode.isAdmin;
 }
 
 
-/** register user function */
+/*
+    This function sends a POST request to /signup to register users.
+*/
 export async function registerUser(credentials){
     try {
         const { data : { msg }, status } = await client.post('/signup', credentials);
 
         let { username, email } = credentials;
-
-        /** send email */
-        /*if(status === 201){
-            await axios.post('/api/registerMail', { username, userEmail : email, text : msg})
-        }*/
 
         return Promise.resolve(msg)
     } catch (error) {
@@ -49,7 +52,9 @@ export async function registerUser(credentials){
     }
 }
 
-/** login function */
+/*
+    This function sends a POST request to /login to verify the password thus login.
+*/
 export async function verifyPassword({ username, password }){
     console.log("verifyPassword called: ", username, password)
     try {
@@ -62,7 +67,10 @@ export async function verifyPassword({ username, password }){
     }
 }
 
-/** update user profile function */
+/*
+    This function sends a PUT request to /updateUser to update the information of the user.
+    The request is sent with proper token included.
+*/
 export async function updateUser(response){
     try {
         
@@ -90,6 +98,10 @@ export async function updateTweet(response){
     }
 }
 
+/*
+    This function sends a POST request to /tweet/reTweet to post a retweet.
+    The request is sent with proper token included.
+*/
 export async function sendRetweet(response){
     try {
         
@@ -134,6 +146,10 @@ export async function resetPassword({ username, password }){
     }
 }
 
+/*
+    This function sends a POST request to /tweet/likeTweet to perform like operation on a tweet.
+    The request is sent with proper token included.
+*/
 export async function likeTweet(response){
     try {
         
@@ -146,6 +162,10 @@ export async function likeTweet(response){
     }
 }
 
+/*
+    This function sends a POST request to /tweet/likeTweet to perform unlike operation on a tweet.
+    The request is sent with proper token included.
+*/
 export async function unlikeTweet(response){
     try {
         

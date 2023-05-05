@@ -6,6 +6,10 @@ import LeftPane from '../components/leftPane/leftPane';
 import RightPane from '../components/rightPane/rightPane';
 import AdminPage from '../components/admin/adminPage';
 
+/*
+  This defines the admin page, which contains LeftPane at the left, RightPane at the right, and
+  AdminPage in the middle pane.
+*/
 class Admin extends React.Component {
   render() {
     return (

@@ -4,27 +4,27 @@ import axios from '../../config.js';
 import Navigate from "../Navigate";
 import UserComponent from "./userComponent";
 import { checkIsAdmin } from '../../helper/helper.js';
+/*
+  This is the admin page component, which will appear in the middle plane of the admin page.
+*/
 const AdminPage = () => {
+  //list of users
   const [users, setUsers] = useState([]);
+  //whether the accessing user is an admin
   const [isadmin, setIsadmin] = useState(false);
   const router = useRouter();
+  //check if the user is an admin
   checkIsAdmin().then(res=>setIsadmin(res));
-
+  
   useEffect(() => {
-    
-    /*if(!isadmin){
-      alert("Only admin users can access admin page!");
-     //router.push('/');
-    }*/
-    
-    
-    
+    //get the token for identifying the user
     const token = localStorage.getItem('token');
     
     if (!token) {
       // handle case where token is not found in localStorage
       return;
     }
+    //send GET request to /admin/listAllUsers to get the list of users
     axios.get('/admin/listAllUsers', {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,6 +32,7 @@ const AdminPage = () => {
     })
       .then(response => {
         const users = Object.values(response.data.users);
+        //set the value of users
         setUsers(users);
         console.log(response.data);
       })
@@ -39,6 +40,12 @@ const AdminPage = () => {
         console.log(error);
       });
   }, []);
+  /*
+    The component is returned, in which:
+    users are mapped to a list of UserComponents;
+    if the current user is not an admin user and accesses this page intentionally or unintentionally,
+    only "You do not have access to the admin page" is displayed on the page.
+  */
   return(
     <div className="w-full flex flex-col justify-center items-center">
         <div className="w-full justify-start items-stretch pb-10">
