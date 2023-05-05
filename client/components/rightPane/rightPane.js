@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 
 // Import the SearchPage component
 import SearchPage from '../searchPage';
+import Advertise from '../advertise';
 
 // Define a functional component called RightPane
 const RightPane = () => {
@@ -26,7 +27,18 @@ const RightPane = () => {
     }
   };
 
-  // Render a search box and a SearchPage component
+  const ads = [
+    {
+      sentence: 'Get $200-$600 off a new iPhone 14 when you trade in an iPhone 11 or higher.',
+      sponsor: 'Apple',
+    },
+    {
+      sentence: 'Follow me on Twitter!',
+      sponsor: 'lqs',
+    },
+    // Add more ads as needed
+  ];
+
   return (
     <div className="hidden lg:inline ml-8 xl:w-[450px] py-1 space-y-5">
       <div className="flex items-center">
@@ -46,6 +58,7 @@ const RightPane = () => {
         </button>
       </div>
       <SearchPage searchKey={searchKey} />
+      <Advertise ads={ads} />
     </div>
   );
 };

@@ -87,9 +87,7 @@ function CommentBox({ tweetId, username, onNewComment, avatarpic= 'https://www.w
           </div>
           <div className="flex items-center">
             <div className="px-5 justify-self-end">
-              <label className="bg-twitterBlue text-white py-2 px-6 rounded-full cursor-pointer">
-                <input type="file" multiple onChange={handleImageChange} className="hidden" />
-                <span>Image</span>
+              <label className="text-twitterBlue cursor-pointer hover:text-twitterBlueHover">
               </label>
               <button className="ml-5 bg-twitterBlue text-white py-2 px-6 rounded-full" onClick={handleSubmit}>
                 Reply

@@ -9,7 +9,6 @@ import { useMemo } from 'react';
 //import avatar from '../../public/default_avatar.png';
 import nologinavatar from '../../public/no_login_avatar.png';
 import { getUsername, checkLoginStatus, checkIsAdmin } from '../../helper/helper';
-
 import {
   HashtagIcon,
   BellIcon,
@@ -26,6 +25,9 @@ import SidebarLink from "./SidebarLink";
 // Define the LeftPane component
 function LeftPane() {
   // Use the useFetch hook to fetch data from an API
+import DevelopersList from "../developerlist";
+function LeftPane () {
+
   const [{ isLoading, apiData, serverError }] = useFetch();
   // Use the useRouter hook to access the Next.js router
   const router = useRouter();
@@ -35,6 +37,20 @@ function LeftPane() {
   const [username, setUsername] = useState("Login");
   const [isadmin, setIsadmin] = useState(false);
 
+  
+  const developers = [
+    {
+      name: 'lqs',
+      link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUIcmlja3JvbGw%3D',
+      contact: 'yijian2427@gmail.com',
+    },
+    {
+      name: 'Jane Smith',
+      link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUIcmlja3JvbGw%3D',
+      contact: 'jane@example.com',
+    },
+    // Add more developers as needed
+  ];
   // Use the useMemo hook to check the user's login status and set the isloggedin state variable accordingly
   useMemo(() => {
     checkLoginStatus().then(res => setIsloggedin(res));
@@ -73,12 +89,12 @@ function LeftPane() {
       router.push(`/profile/${username}`);
     }
     // If the user clicks the "Admin" link and they are an admin, redirect them to the admin page
-    else if (destination === "Admin" && isadmin) {
+    else if (destination === "Admin") {
       router.push(`/admin`);
     }
     // If the user clicks any other link, redirect them to the corresponding page
     else {
-      router.push(`/${destination}`);
+      router.push(`/tobedone`);
     }
   }
 
@@ -94,6 +110,10 @@ function LeftPane() {
         <SidebarLink text="Home" Icon={HomeIcon} onPush={handleClick} />
         {isloggedin ?
           <>
+            <SidebarLink text="Notifications" Icon={BellIcon} onPush={handleClick} />
+            <SidebarLink text="Messages" Icon={InboxIcon} onPush={handleClick} />
+            <SidebarLink text="Bookmarks" Icon={BookmarkIcon} onPush={handleClick} />
+            <SidebarLink text="Lists" Icon={ClipboardListIcon} onPush={handleClick} />
             <SidebarLink text="Profile" Icon={UserIcon} onPush={handleClick} />
             {isadmin ?
               <SidebarLink text="Admin" Icon={KeyIcon} onPush={handleClick} />
@@ -126,6 +146,10 @@ function LeftPane() {
           Login
         </button>
       }
+
+      <div className="hidden xl:inline mt-10 ml-2">   
+        <DevelopersList developers={developers} />
+        </div>
 
     </div>
   );
