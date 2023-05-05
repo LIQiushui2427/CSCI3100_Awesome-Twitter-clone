@@ -5,15 +5,6 @@ import toast from 'react-hot-toast'
 export async function usernameValidate(values){
     const errors = usernameVerify({}, values);
 
-    /*if(values.username){
-        // check user exist or not
-        const { status } = await authenticate(values.username);
-        
-        if(status !== 200){
-            errors.exist = toast.error('User does not exist...!')
-        }
-    }*/
-
     return errors;
 }
 
@@ -66,10 +57,13 @@ export async function profileValidation(values){
 
 /** ************************************************* */
 
-/** validate password */
+/*
+    This function checks if a password satisfy the requirements:
+    password cannot include space;
+    password must be at least 6 characters long.
+*/
 function passwordVerify(errors = {}, values){
     /* eslint-disable no-useless-escape */
-    //const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
     if(!values.password){
         errors.password = toast.error("Password Required...!");
@@ -78,16 +72,16 @@ function passwordVerify(errors = {}, values){
     }else if(values.password.length < 6){
         errors.password = toast.error("Password must be more than 6 characters long");
     }
-    /*else if(!specialChars.test(values.password)){
-        errors.password = toast.error("Password must have special character");
-    }*/
 
     return errors;
 }
 
 
 
-/** validate username */
+/*
+    This function checks if a username satisfy the requirement:
+    username cannot include space.
+*/
 function usernameVerify(error = {}, values){
     if(!values.username){
         error.username = toast.error('Username Required...!');
@@ -98,7 +92,11 @@ function usernameVerify(error = {}, values){
     return error;
 }
 
-/** validate email */
+/*
+    This function checks if an email satisfy the requirement:
+    email cannot include space;
+    email must be in the form of <some string>@<some string>.<an alphabet word of length 2-4> .
+*/
 function emailVerify(error ={}, values){
     if(!values.email){
         error.email = toast.error("Email Required...!");
