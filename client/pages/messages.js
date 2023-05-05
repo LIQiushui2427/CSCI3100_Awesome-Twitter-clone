@@ -1,7 +1,7 @@
 import React from 'react';
 import LeftPane from '@/components/leftPane/leftPane';
-import MsgLeftPane from '@/components/messages/msgLeftPane';
-import MsgContent from '@/components/messages/msgContent';
+import MsgLeftPane from '@/components/messageComponent/msgLeftPane';
+import MsgContent from '@/components/messageComponent/msgContent';
 
 const chatterList = [
   { id: 1, name: 'Alice', image: 'https://i.pravatar.cc/40' },

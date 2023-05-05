@@ -76,7 +76,6 @@ function CommentText({ commentor = 'test_commentor', commentor_name = 'Tweeter',
   return (
     <div className="flex flex-col items-start p-2 border-y border-twitterBorder">
       <div className="flex items-start p-4">
-        <Avatar src={avatarpic} alt="Test" />
         <div className="ml-4">
           <div className="flex items-center">
             <span className="font-bold text-lg">{commentor}</span>

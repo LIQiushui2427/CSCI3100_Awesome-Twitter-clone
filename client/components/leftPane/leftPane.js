@@ -9,7 +9,6 @@ import { useMemo } from 'react';
 //import avatar from '../../public/default_avatar.png';
 import nologinavatar from '../../public/no_login_avatar.png';
 import { getUsername, checkLoginStatus, checkIsAdmin } from '../../helper/helper';
-
 import {
   HashtagIcon,
   BellIcon,
@@ -22,7 +21,7 @@ import {
   KeyIcon,
 } from "@heroicons/react/outline";
 import SidebarLink from "./SidebarLink";
-
+import DevelopersList from "../developerlist";
 function LeftPane () {
 
   const [{ isLoading, apiData, serverError }] = useFetch();
@@ -31,7 +30,20 @@ function LeftPane () {
   const [isloggedin, setIsloggedin] = useState(false);
   const [username, setUsername] = useState("Login");
   const [isadmin, setIsadmin] = useState(false);
-
+  const developers = [
+    {
+      name: 'lqs',
+      link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUIcmlja3JvbGw%3D',
+      contact: 'yijian2427@gmail.com',
+    },
+    {
+      name: 'Jane Smith',
+      link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUIcmlja3JvbGw%3D',
+      contact: 'jane@example.com',
+    },
+    // Add more developers as needed
+  ];
+  
   useMemo(() => {
     checkLoginStatus().then(res => setIsloggedin(res));
   }, []);
@@ -53,19 +65,14 @@ function LeftPane () {
     if (destination === "Home") {
       router.push(`/`);
     }
-    else if (destination === "Lists") {
-      router.push(`/follow_list`);
-    }
     else if (destination === "Profile") {
-
       router.push(`/profile/${username}`);
     }
     else if (destination === "Admin") {
-
       router.push(`/admin`);
     }
     else {
-      router.push(`/${destination}`);
+      router.push(`/tobedone`);
     }
   }
 
@@ -81,9 +88,9 @@ function LeftPane () {
         <SidebarLink text="Home" Icon={HomeIcon} onPush={handleClick} />
         {isloggedin ?
           <>
-            <SidebarLink text="Notifications" Icon={BellIcon} />
-            <SidebarLink text="Messages" Icon={InboxIcon} />
-            <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
+            <SidebarLink text="Notifications" Icon={BellIcon} onPush={handleClick} />
+            <SidebarLink text="Messages" Icon={InboxIcon} onPush={handleClick} />
+            <SidebarLink text="Bookmarks" Icon={BookmarkIcon} onPush={handleClick} />
             <SidebarLink text="Lists" Icon={ClipboardListIcon} onPush={handleClick} />
             <SidebarLink text="Profile" Icon={UserIcon} onPush={handleClick} />
             {isadmin ?
@@ -116,6 +123,10 @@ function LeftPane () {
           Login
         </button>
       }
+
+      <div className="hidden xl:inline mt-10 ml-2">   
+        <DevelopersList developers={developers} />
+        </div>
 
     </div>
   );
