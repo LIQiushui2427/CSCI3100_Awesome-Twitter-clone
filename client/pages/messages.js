@@ -2,7 +2,10 @@ import React from 'react';
 import LeftPane from '@/components/leftPane/leftPane';
 import MsgLeftPane from '@/components/messageComponent/msgLeftPane';
 import MsgContent from '@/components/messageComponent/msgContent';
-
+/*
+This component is used to display the messages page.
+It is still static and will be updated in the future.
+*/
 const chatterList = [
   { id: 1, name: 'Alice', image: 'https://i.pravatar.cc/40' },
   { id: 2, name: 'Bob', image: 'https://i.pravatar.cc/41' },

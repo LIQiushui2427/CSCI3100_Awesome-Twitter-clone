@@ -22,6 +22,10 @@ tweetRouter
 tweetRouter.route("/reTweet").post(verifyUser, controller.reTweet);
 
 /* DELETE requests */
+/*
+  Tweet router will handle all the requests for /api/tweet
+*/
+
 tweetRouter.route("/deleteTweet").delete(verifyUser, controller.deleteTweet);
 
 tweetRouter

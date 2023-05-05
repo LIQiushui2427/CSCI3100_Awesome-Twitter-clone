@@ -2,7 +2,9 @@
 import TweetModel from '../model/Tweet.model.js'
 import UserModel from '../model/User.model.js';
 
-
+/*
+Profile Controller
+*/
 
 export async function getUserProfile(req, res){
     const {username} = req.query;

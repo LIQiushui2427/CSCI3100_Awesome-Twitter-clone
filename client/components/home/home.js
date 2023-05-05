@@ -4,7 +4,14 @@ import { getUsername, checkLoginStatus, checkIsAdmin } from '../../helper/helper
 import Post from '../tweet/post.jsx';
 import TweetText from '../tweetContent/tweetText.jsx';
 import TweetList from '../tweetlist.jsx';
-
+/*
+this component is used to display the tweets of the users that the logged in user is following.
+It will invde the tweetlist component and the post component.
+It has a search bar that can be used to search for tweets.
+And it will display the tweets that match the search result.
+The post component will only be displayed if the user is logged in.
+If the user is logged in, the username will be displayed on the top of the page.
+*/
 function Home ()  {
   const [tweets, setTweets] = useState([]);
   const [tweetCount, setTweetCount] = useState(0);

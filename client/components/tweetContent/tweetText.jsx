@@ -6,7 +6,14 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { sendRetweet,getUsername,checkLoginStatus,likeTweet,unlikeTweet} from '@/helper/helper.js';
 import useFetch from '../../hooks/fetch.hook';
-
+/*
+this is the code for the tweetText component.
+It defines the layout of the tweet inside the tweet list.
+It will be used to display the tweet on the home page.
+It has a form that allows the user to reply to a tweet.
+Upon clicking the reply button, the reply will be posted to the database.
+And the reply will be displayed on the tweet page.
+*/
 const Avatar = ({ src, alt }) => (
   <img
     className="h-16 w-16 rounded-full"

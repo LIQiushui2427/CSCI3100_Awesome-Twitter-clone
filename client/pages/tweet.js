@@ -4,7 +4,12 @@ import { useRouter } from 'next/router';
 import LeftPane from '../components/leftPane/leftPane';
 import RightPane from '../components/rightPane/rightPane';
 import TweetContent from '../components/tweetContent/tweetContent';
-
+/*
+This component is used to display the tweet page.
+Given the tweetId, it will display the tweet content and the comments of the tweet.
+It will also render the left pane and the right pane.
+It import and use many components, including the left pane component, the right pane component and the tweet content component.
+*/
 function Tweets() {
   const router = useRouter();
   const { tweetId } = router.query;

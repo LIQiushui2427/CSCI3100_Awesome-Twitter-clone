@@ -2,7 +2,14 @@ import ENV from '../config.js'
 import TweetModel from '../model/Tweet.model.js';
 import UserModel from '../model/User.model.js';
 import CommentModel from '../model/Comment.model.js';
-
+/*
+This file contains the functions that are used to handle the requests related to comments.
+There are 4 functions in this file:
+1. createComment: create a new comment
+2. getCommentById: get a comment by its commentId
+3. loadTweetComments: load all the comments for a tweet
+4. deleteComment: delete a comment
+*/
 export async function getCommentById(req, res) {
   const { commentId } = req.query;
   try {

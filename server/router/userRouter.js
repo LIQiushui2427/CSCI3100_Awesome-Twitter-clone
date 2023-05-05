@@ -1,7 +1,9 @@
 import {Router} from "express";
 import * as userController from '../controllers/userController.js';
 import * as controller from '../controllers/appController.js';
-
+/*
+Profile Router will handle all the requests for /api/user
+*/
 const userRouter = Router();
 
 userRouter.route('/follow').post(controller.verifyUser, userController.follow);

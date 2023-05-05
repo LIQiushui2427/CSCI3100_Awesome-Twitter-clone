@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useFetch from '../../hooks/fetch.hook';
-
+/*
+This is the code for the comment box component.
+It will be used to display the comment box on the home page.
+It has a form that allows the user to post a comment.
+Upon clicking the post button, the comment will be posted to the database.
+And the comment will be displayed on the home page.
+*/
 const Avatar = ({ src, alt }) => (
   <img className="h-16 w-16 rounded-full" src={src} alt={alt} />
 );

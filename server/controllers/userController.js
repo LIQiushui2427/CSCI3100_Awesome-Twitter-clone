@@ -1,5 +1,7 @@
 import UserModel from '../model/User.model.js'
-
+/*
+User Controller includes the functions that are used to handle the requests related to users.
+*/
 export async function follow(req, res) {
     const { follower, followee } = req.body;
     console.log("Follower: ", follower, "Followee: ", followee);

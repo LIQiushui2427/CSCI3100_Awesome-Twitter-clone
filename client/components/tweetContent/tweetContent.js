@@ -5,6 +5,10 @@ import TweetText from './tweetText';
 import CommentBox from './commentBox';
 import CommentText from './commentText';
 import { getUsername } from '../../helper/helper';
+/*
+This component is used to display the tweet content.
+It will be used in the home page and the profile page and the profile page.
+*/
 
 function TweetContent({ tweetId }) {
   const [tweetData, setTweetData] = useState(null);

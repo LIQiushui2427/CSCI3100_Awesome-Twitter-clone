@@ -6,7 +6,10 @@ import LeftPane from '../components/leftPane/leftPane';
 import RightPane from '../components/rightPane/rightPane';
 import Home from '../components/home/home';
 import Following from '@/components/home/following';
-
+/*
+This component is used to display the home page.
+It will render the left pane, the right pane and the home component.
+*/
 function App() {
   const router = useRouter();
 

@@ -8,6 +8,12 @@ import adminRouter from './router/adminRouter.js';
 import userRouter from './router/userRouter.js';
 const app = express();
 import multer from 'multer';
+/*
+This is the main file for the server.
+It will handle all the requests and responses.
+It will invoke all the routers.
+And the routers will invoke the controllers.
+*/
 
 // Set up Multer storage engine
 const storage = multer.diskStorage({

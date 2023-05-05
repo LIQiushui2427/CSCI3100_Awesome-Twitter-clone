@@ -1,5 +1,8 @@
 import React from 'react';
-
+/*
+This is the code for the advertise component.
+It will be used to display the ads on the home page.
+*/
 function Advertise({ ads }) {
   return (
     <div className="bg-gray-800 p-4 rounded-md">

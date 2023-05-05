@@ -5,14 +5,17 @@ import toast, { Toaster } from 'react-hot-toast';
 import useFetch from '../../hooks/fetch.hook';
 import convertToBase64 from '../../helper/convert';
 import { getUsername, checkLoginStatus } from '../../helper/helper';
-
-import {
-    PhotographIcon,
-    XIcon,
-} from '@heroicons/react/outline';
+import {PhotographIcon,XIcon} from '@heroicons/react/outline';
 import { updateTweet } from '@/helper/helper.js';
 import { set } from 'local-storage';
 
+/*
+This is the code for the post component.
+It will be used to display the post box on the home page.
+If the user is logged in, the post box will be displayed.
+If the user is not logged in, the post box will not be displayed.
+Upon clicking the post button, the post will be posted to the database.
+*/
 const Post = ({ onTweet }) => {
     const [selectedFile, setSelectedFile] = useState("");
     const filePickerRef = useRef(null);

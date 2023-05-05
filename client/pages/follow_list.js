@@ -9,6 +9,11 @@ import { Router, useRouter } from 'next/router';
 
 
 import UserRow from "@/components/userRow";
+/*
+This component is used to display the user's profile page.
+It import and use many components, including the navigate component, the cover component, the avatar component,
+the left pane component, the right pane component, the userlist component and the tweetlist component.
+*/
 
 
 const followers_default = [{

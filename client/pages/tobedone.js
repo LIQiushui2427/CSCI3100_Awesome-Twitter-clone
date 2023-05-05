@@ -1,5 +1,7 @@
 // tobedone.js
-
+/*
+This page is used to display a message that the feature is yet to be implemented.
+*/
 import Router from "next/router";
 
 const Tobedone = () => {

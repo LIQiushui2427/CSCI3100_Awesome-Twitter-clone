@@ -1,7 +1,10 @@
 // DevelopersList.js
 
 import { useRouter } from 'next/router';
-
+/*
+This component is used to display the list of developers on the right side of the page.
+It will be used in the home page and the profile page.
+*/
 const DevelopersList = ({ developers }) => {
   const router = useRouter();
 

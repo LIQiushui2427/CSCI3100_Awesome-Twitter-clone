@@ -2,6 +2,19 @@ import ENV from "../config.js";
 import TweetModel from "../model/Tweet.model.js";
 import UserModel from "../model/User.model.js";
 
+/*
+This file contains the functions that are used to handle the requests related to tweets.
+There are many functions in this file:
+1. getTweetById: get a tweet by its tweetId
+2. loadTweets: load all the tweets for a user
+3. loadAllTweets: load all the tweets for all users
+4. createTweet: create a new tweet
+5. deleteTweet: delete a tweet
+6. likeTweet: like a tweet
+7. unlikeTweet: unlike a tweet
+8. retweet: retweet a tweet
+10. loadTweetLikes: load all the likes for a tweet
+*/
 export async function getTweetById(req, res) {
   const { tweetId } = req.query;
   //("req.query: ", req.query)

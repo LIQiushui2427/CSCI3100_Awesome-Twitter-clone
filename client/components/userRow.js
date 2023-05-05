@@ -1,7 +1,11 @@
 import React from "react";
 import Button from "@/components/follow_button";
 import { Router, useRouter } from 'next/router';
-
+/*
+This component is used to display the user information on the right side of the page.
+It will be used in the home page and the profile page.
+It will be invoked in admin page.
+*/
 
 const userDefault = {
   'avatar': 'https://inews.gtimg.com/newsapp_bt/0/12614599781/1000',

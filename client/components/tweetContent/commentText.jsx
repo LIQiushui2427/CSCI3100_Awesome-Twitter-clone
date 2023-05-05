@@ -4,7 +4,14 @@ import Image from 'next/image';
 import axios from 'axios';
 import { getUsername } from '../../helper/helper.js';
 import useFetch from '../../hooks/fetch.hook';
-
+/*
+This is the code for the commentText component.
+It will be included in the comment component.
+It will be used to display the comment text on the home page.
+It has a form that allows the user to reply to a comment.
+Upon clicking the reply button, the reply will be posted to the database.
+And the reply will be displayed on the tweet page.
+*/
 const Avatar = ({ src, alt }) => (
   <img
     className="h-16 w-16 rounded-full"

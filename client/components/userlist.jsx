@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import User from "../components/user/user";
 import { getUsername } from '../helper/helper'
-
+/*
+This is the code for the userlist component.
+It defines the layout of the userlist.
+It will invoke the user component to display the user.
+It will be used to display the userlist on the home page.
+If there is no user found, it will display a message.
+*/
 function UserList ({ searchKey, follower, following}) {
   const [users, setUsers] = useState([]);
   const [username, setUsername] = useState('');

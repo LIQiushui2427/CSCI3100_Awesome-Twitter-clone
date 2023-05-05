@@ -1,4 +1,8 @@
 import { useState } from 'react';
+/*
+This is the code for the useModal component.
+It will be used to display the modal on the home page.
+*/
 
 export function useModal() {
   const [open, setOpen] = useState(false);

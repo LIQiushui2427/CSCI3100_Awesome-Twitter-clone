@@ -12,7 +12,11 @@ import useFetch from '../../hooks/fetch.hook';
 import convertToBase64 from '../../helper/convert';
 import UserList from '../../components/userlist';
 import TweetList from '../../components/tweetlist';
-
+/*
+This component is used to display the user's profile page.
+It import and use many components, including the navigate component, the cover component, the avatar component,
+the left pane component, the right pane component, the userlist component and the tweetlist component.
+*/
 // Define the Profile component
 function Profile() {
   // Get the router object and the "username" parameter from the query
