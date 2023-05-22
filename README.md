@@ -31,6 +31,7 @@ Don't close these two terminals. Upon success, you can open [localhost](http://l
 * [x] High level documentation [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/CSCI3100_High_level_documentation.pdf)
 * [x] Data flow diagram [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/GroupC4_DFD_Specification_Document.pdf)
 * [x] UML specification and UI design ducument [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/GroupC4_UML_Specification_and_UI_Design_Document.pdf)
+* [x] Testing Document [Here](https://github.com/LIQiushui2427/CSCI3100_Awesome-Twitter-clone/blob/master/documents/GroupC4_Testing_Document.pdf)
 ## Contributors
 * [YI Jian 1155157207](https://github.com/LIQiushui2427)
 * [SHI Juluan 1155160208](https://github.com/CarlosCUHK)
